@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Laboratório de IA",
-  description: "Aprenda IA, Programação e Desenvolvimento de Aplicativos",
+  description:
+    "Aprenda Inteligência Artificial, Programação e Desenvolvimento de Aplicativos do zero.",
 };
 
 export default function RootLayout({
@@ -26,25 +27,38 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">
-        <header className="border-b bg-white">
-          <div className="max-w-5xl mx-auto px-6 py-4 flex gap-6 items-center">
-            <Link href="/" className="font-bold text-xl">
-              Laboratório de IA
-            </Link>
+      <body>
+        <header className="border-b bg-white sticky top-0 z-50">
+  <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
-            <nav className="flex gap-4">
-              <Link href="/">Início</Link>
-              <Link href="/about">Sobre</Link>
-            </nav>
+    <Link
+      href="/"
+      className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent"
+    >
+      Laboratório de IA
+    </Link>
+
+    <nav className="flex gap-6 text-sm font-medium">
+      <Link href="/">Início</Link>
+      <Link href="/ia">IA</Link>
+      <Link href="/programacao">Programação</Link>
+      <Link href="/aplicativos">Aplicativos</Link>
+      <Link href="/about">Sobre</Link>
+      <Link href="/contato">Contato</Link>
+    </nav>
+
+  </div>
+</header>
+
+        <main>{children}</main>
+
+        <footer className="border-t mt-20">
+          <div className="max-w-6xl mx-auto px-6 py-8 text-center">
+            © {new Date().getFullYear()} Laboratório de IA
           </div>
-        </header>
-
-        <main className="flex-1">
-          {children}
-        </main>
+        </footer>
       </body>
     </html>
   );

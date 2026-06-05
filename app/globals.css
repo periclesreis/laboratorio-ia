@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-slate-800;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-50 antialiased;
+    background-image: radial-gradient(
+      circle at top center,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 40%
+    );
+    min-height: 100vh;
+  }
+
+  a {
+    @apply transition-colors;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Tags */
+  .tag {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  .tag-ia {
+    @apply border-purple-500/30 bg-purple-500/10 text-purple-400;
+  }
+
+  .tag-dev {
+    @apply border-blue-500/30 bg-blue-500/10 text-blue-400;
+  }
+
+  .tag-apps {
+    @apply border-emerald-500/30 bg-emerald-500/10 text-emerald-400;
+  }
+
+  /* Cards */
+  .card-hover {
+    @apply rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300;
+  }
+
+  .card-hover:hover {
+    @apply border-white/20 bg-white/10;
+  }
+
+  .card-ia:hover {
+    @apply border-purple-500/50;
+    box-shadow: 0 0 30px -10px rgba(168, 85, 247, 0.3);
+  }
+
+  .card-dev:hover {
+    @apply border-blue-500/50;
+    box-shadow: 0 0 30px -10px rgba(59, 130, 246, 0.3);
+  }
+
+  .card-apps:hover {
+    @apply border-emerald-500/50;
+    box-shadow: 0 0 30px -10px rgba(16, 185, 129, 0.3);
+  }
 }

@@ -4,159 +4,235 @@ export default function ContatoPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="py-16 md:py-24 border-b border-white/10">
+      <section className="relative overflow-hidden py-16 md:py-24 border-b border-white/10">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl opacity-20" />
+        </div>
+
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Entre em Contato</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Entre em <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Contato</span>
+            </h1>
             <p className="text-slate-400 text-lg leading-relaxed">
-              Tem dúvidas, sugestões ou quer colaborar? Ficaremos felizes em ouvir você.
+              Tem dúvidas ou quer colaborar? Estamos aqui para ajudar!
             </p>
           </div>
         </div>
       </section>
 
-      {/* Content Section */}
+      {/* Contact Info Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {/* Email */}
-              <div className="card-hover card-ia">
-                <div className="text-3xl mb-4">📧</div>
-                <h3 className="text-lg font-bold mb-2">Email</h3>
-                <p className="text-slate-400 text-sm mb-4">
-                  Envie suas dúvidas e sugestões por email.
-                </p>
-                <a
-                  href="mailto:contato@laboratoriodia.com"
-                  className="text-purple-400 hover:text-purple-300 transition-colors font-medium text-sm"
-                >
-                  contato@laboratoriodia.com
-                </a>
+              {/* Contact Information */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold mb-6">Informações de Contato</h2>
+
+                {/* Email */}
+                <div className="card-hover card-ia">
+                  <div className="flex items-start gap-4">
+                    <div className="text-3xl">📧</div>
+                    <div>
+                      <h3 className="font-bold text-white mb-2">Email</h3>
+                      <a
+                        href="mailto:periclesreis@bol.com.br"
+                        className="text-purple-400 hover:text-purple-300 transition-colors break-all"
+                      >
+                        periclesreis@bol.com.br
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Telefone */}
+                <div className="card-hover card-ia">
+                  <div className="flex items-start gap-4">
+                    <div className="text-3xl">📱</div>
+                    <div>
+                      <h3 className="font-bold text-white mb-2">Telefone</h3>
+                      <a
+                        href="tel:+5577988122104"
+                        className="text-purple-400 hover:text-purple-300 transition-colors"
+                      >
+                        (77) 98812-2104
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Social Media */}
+                <div className="card-hover card-ia">
+                  <div>
+                    <h3 className="font-bold text-white mb-4">Redes Sociais</h3>
+                    <div className="space-y-3">
+                      <a
+                        href="https://www.instagram.com/pericles.silvareis?igsh=MTJqdTk1ZWY1N2VtNA=="
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 text-slate-400 hover:text-purple-400 transition-colors"
+                      >
+                        <span className="text-2xl">📷</span>
+                        <span>Instagram</span>
+                      </a>
+                      <a
+                        href="https://www.linkedin.com/in/pericles-silva-reis-0085b6387?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 text-slate-400 hover:text-blue-400 transition-colors"
+                      >
+                        <span className="text-2xl">💼</span>
+                        <span>LinkedIn</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Redes Sociais */}
-              <div className="card-hover card-dev">
-                <div className="text-3xl mb-4">🌐</div>
-                <h3 className="text-lg font-bold mb-2">Redes Sociais</h3>
-                <p className="text-slate-400 text-sm mb-4">
-                  Siga-nos nas redes sociais para atualizações.
-                </p>
-                <div className="flex gap-3">
-                  <a
-                    href="#"
-                    className="text-blue-400 hover:text-blue-300 transition-colors font-medium text-sm"
+              {/* Contact Form */}
+              <div>
+                <h2 className="text-2xl font-bold mb-6">Envie uma Mensagem</h2>
+                <form className="space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
+                      Nome
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      placeholder="Seu nome"
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      placeholder="seu@email.com"
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium text-slate-300 mb-2">
+                      Assunto
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      placeholder="Qual é o assunto?"
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">
+                      Mensagem
+                    </label>
+                    <textarea
+                      id="message"
+                      rows={5}
+                      placeholder="Sua mensagem aqui..."
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all resize-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full px-6 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50"
                   >
-                    Twitter
-                  </a>
-                  <span className="text-slate-600">•</span>
-                  <a
-                    href="#"
-                    className="text-blue-400 hover:text-blue-300 transition-colors font-medium text-sm"
-                  >
-                    LinkedIn
-                  </a>
-                </div>
+                    Enviar Mensagem
+                  </button>
+                </form>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Formulário de Contato */}
-            <div className="card-hover">
-              <h2 className="text-2xl font-bold mb-6">Envie uma Mensagem</h2>
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Nome
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Seu nome"
-                    className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white placeholder-slate-500 transition-colors focus:border-purple-500/50 focus:bg-white/10 focus:outline-none"
-                  />
-                </div>
+      {/* FAQ Section */}
+      <section className="py-16 md:py-24 border-t border-white/10">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold mb-8 text-center">Perguntas Frequentes</h2>
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="seu@email.com"
-                    className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white placeholder-slate-500 transition-colors focus:border-purple-500/50 focus:bg-white/10 focus:outline-none"
-                  />
-                </div>
+            <div className="space-y-4">
+              <details className="group card-hover card-ia cursor-pointer">
+                <summary className="flex items-center justify-between font-bold text-white">
+                  <span>Qual é o tempo de resposta?</span>
+                  <span className="transition-transform group-open:rotate-180">▼</span>
+                </summary>
+                <p className="text-slate-400 mt-4 text-sm leading-relaxed">
+                  Geralmente respondemos em até 24 horas. Para assuntos urgentes, entre em contato pelo telefone.
+                </p>
+              </details>
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Assunto
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Assunto da mensagem"
-                    className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white placeholder-slate-500 transition-colors focus:border-purple-500/50 focus:bg-white/10 focus:outline-none"
-                  />
-                </div>
+              <details className="group card-hover card-ia cursor-pointer">
+                <summary className="flex items-center justify-between font-bold text-white">
+                  <span>Vocês oferecem consultoria?</span>
+                  <span className="transition-transform group-open:rotate-180">▼</span>
+                </summary>
+                <p className="text-slate-400 mt-4 text-sm leading-relaxed">
+                  Sim! Oferecemos consultoria em IA, programação e desenvolvimento de soluções customizadas. Entre em contato para mais detalhes.
+                </p>
+              </details>
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Mensagem
-                  </label>
-                  <textarea
-                    placeholder="Sua mensagem aqui..."
-                    rows={5}
-                    className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white placeholder-slate-500 transition-colors focus:border-purple-500/50 focus:bg-white/10 focus:outline-none resize-none"
-                  />
-                </div>
+              <details className="group card-hover card-ia cursor-pointer">
+                <summary className="flex items-center justify-between font-bold text-white">
+                  <span>Como posso colaborar com o laboratório?</span>
+                  <span className="transition-transform group-open:rotate-180">▼</span>
+                </summary>
+                <p className="text-slate-400 mt-4 text-sm leading-relaxed">
+                  Adoraríamos contar com sua colaboração! Envie suas ideias, projetos ou sugestões através do formulário acima ou nos contate diretamente.
+                </p>
+              </details>
 
-                <button
-                  type="submit"
-                  className="w-full rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-3 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50"
-                >
-                  Enviar Mensagem
-                </button>
-              </form>
+              <details className="group card-hover card-ia cursor-pointer">
+                <summary className="flex items-center justify-between font-bold text-white">
+                  <span>Vocês têm API disponível?</span>
+                  <span className="transition-transform group-open:rotate-180">▼</span>
+                </summary>
+                <p className="text-slate-400 mt-4 text-sm leading-relaxed">
+                  Estamos desenvolvendo uma API pública. Fique atento às atualizações no blog e redes sociais!
+                </p>
+              </details>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* FAQ */}
-            <div className="mt-12 pt-12 border-t border-white/10">
-              <h2 className="text-2xl font-bold mb-6">Perguntas Frequentes</h2>
-              <div className="space-y-4">
-                <div className="card-hover">
-                  <h3 className="font-bold mb-2">Como posso aprender IA?</h3>
-                  <p className="text-slate-400 text-sm">
-                    Acesse a seção de IA no menu principal para encontrar tutoriais, artigos e recursos sobre Inteligência Artificial.
-                  </p>
-                </div>
-                <div className="card-hover">
-                  <h3 className="font-bold mb-2">Os conteúdos são gratuitos?</h3>
-                  <p className="text-slate-400 text-sm">
-                    Sim! Todo o conteúdo do Laboratório de IA é gratuito e acessível para todos.
-                  </p>
-                </div>
-                <div className="card-hover">
-                  <h3 className="font-bold mb-2">Posso usar os aplicativos?</h3>
-                  <p className="text-slate-400 text-sm">
-                    Claro! Todos os aplicativos desenvolvidos no laboratório estão disponíveis para uso. Acesse a seção de Aplicativos.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="mt-12 pt-12 border-t border-white/10 text-center">
-              <p className="text-slate-400 mb-6">
-                Não encontrou o que procura? Volte para a página inicial.
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 border-t border-white/10">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="card-hover card-ia text-center">
+              <h2 className="text-2xl font-bold mb-4">Pronto para começar?</h2>
+              <p className="text-slate-400 mb-6 leading-relaxed">
+                Explore nossos artigos, aplicativos e tutoriais sobre Inteligência Artificial.
               </p>
-              <Link
-                href="/"
-                className="inline-flex items-center justify-center rounded-lg bg-white/10 px-6 py-2 font-semibold text-white transition-all hover:bg-white/20"
-              >
-                ← Voltar para Home
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/ia"
+                  className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-2 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50"
+                >
+                  Explorar IA
+                </Link>
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/10 px-6 py-2 font-semibold text-purple-300 transition-all hover:bg-purple-500/20"
+                >
+                  Ver Blog
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
     </div>
-  );
+   );
 }

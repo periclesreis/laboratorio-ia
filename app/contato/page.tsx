@@ -1,6 +1,64 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+
+// Inicializar EmailJS com sua Public Key
+emailjs.init("DABwsM0S55r0Xfgq_");
 
 export default function ContatoPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus("idle");
+
+    try {
+      const response = await emailjs.send(
+        "email_do_bol", // Service ID
+        "template_uvyhmvc", // Template ID
+        {
+          to_email: "periclesreis@bol.com.br",
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }
+      );
+
+      if (response.status === 200) {
+        setStatus("success");
+        setStatusMessage("Mensagem enviada com sucesso! Obrigado pelo contato.");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      }
+    } catch (error) {
+      setStatus("error");
+      setStatusMessage("Erro ao enviar mensagem. Tente novamente mais tarde.");
+      console.error("Erro ao enviar email:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -93,7 +151,7 @@ export default function ContatoPage() {
               {/* Contact Form */}
               <div>
                 <h2 className="text-2xl font-bold mb-6">Envie uma Mensagem</h2>
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
                       Nome
@@ -102,6 +160,9 @@ export default function ContatoPage() {
                       type="text"
                       id="name"
                       placeholder="Seu nome"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
                       className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
                     />
                   </div>
@@ -114,6 +175,9 @@ export default function ContatoPage() {
                       type="email"
                       id="email"
                       placeholder="seu@email.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
                       className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
                     />
                   </div>
@@ -126,6 +190,9 @@ export default function ContatoPage() {
                       type="text"
                       id="subject"
                       placeholder="Qual é o assunto?"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
                       className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
                     />
                   </div>
@@ -138,15 +205,32 @@ export default function ContatoPage() {
                       id="message"
                       rows={5}
                       placeholder="Sua mensagem aqui..."
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
                       className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all resize-none"
                     />
                   </div>
 
+                  {/* Status Message */}
+                  {status === "success" && (
+                    <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-sm">
+                      ✅ {statusMessage}
+                    </div>
+                   )}
+
+                  {status === "error" && (
+                    <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                      ❌ {statusMessage}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full px-6 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50"
+                    disabled={loading}
+                    className="w-full px-6 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Enviar Mensagem
+                    {loading ? "Enviando..." : "Enviar Mensagem"}
                   </button>
                 </form>
               </div>
@@ -234,5 +318,5 @@ export default function ContatoPage() {
         </div>
       </section>
     </div>
-   );
+  );
 }

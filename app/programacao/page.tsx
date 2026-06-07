@@ -3,34 +3,52 @@ import Link from "next/link";
 export default function ProgramacaoPage() {
   const topics = [
     {
+      titulo: "Algoritmos e Lógica de Programação",
+      descricao: "Aprenda a pensar como um programador e resolver problemas usando lógica e algoritmos.",
+      icone: "🧠",
+      href: "/programacao/algoritmos-logica",
+    },
+    {
+      titulo: "Git & GitHub",
+      descricao: "Controle versões dos seus projetos e trabalhe em equipe usando Git e GitHub.",
+      icone: "🔧",
+      href: "/programacao/git-github",
+    },
+    {
       titulo: "JavaScript & TypeScript",
       descricao: "Fundamentos e avançado em JavaScript, TypeScript e desenvolvimento moderno.",
       icone: "⚡",
+      href: "/programacao/javascript-typescript",
     },
     {
       titulo: "React & Next.js",
       descricao: "Crie interfaces dinâmicas e aplicações web com React e Next.js.",
       icone: "⚛️",
-    },
-    {
-      titulo: "Python",
-      descricao: "Aprenda Python para web, data science, automação e muito mais.",
-      icone: "🐍",
+      href: "/programacao/react-nextjs",
     },
     {
       titulo: "Banco de Dados",
       descricao: "SQL, NoSQL e como estruturar dados para suas aplicações.",
       icone: "🗄️",
+      href: "/programacao/banco-dados",
     },
     {
       titulo: "APIs & Backend",
       descricao: "Crie APIs robustas e servidores backend com diferentes tecnologias.",
       icone: "🔌",
+      href: "/programacao/apis-backend",
+    },
+    {
+      titulo: "Python",
+      descricao: "Aprenda Python para web, data science, automação e muito mais.",
+      icone: "🐍",
+      href: "/programacao/python",
     },
     {
       titulo: "DevOps & Deploy",
       descricao: "Implante suas aplicações na nuvem e configure ambientes de produção.",
       icone: "🚀",
+      href: "/programacao/devops-deploy",
     },
   ];
 
@@ -49,7 +67,7 @@ export default function ProgramacaoPage() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Programação</span>
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed">
-              Aprenda programação do zero com tutoriais práticos e projetos reais.
+              Aprenda programação na prática, do zero, desde os fundamentos até a criação de aplicações modernas, usando as tecnologias mais utilizadas do mercado
             </p>
           </div>
         </div>
@@ -61,7 +79,7 @@ export default function ProgramacaoPage() {
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-6">
               {topics.map((topic, index) => (
-                <div key={index} className="group card-hover card-dev">
+                <Link href={topic.href} key={index} className="group card-hover card-dev">
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0 text-4xl">{topic.icone}</div>
                     <div className="flex-1 min-w-0">
@@ -73,7 +91,7 @@ export default function ProgramacaoPage() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -110,3 +128,4 @@ export default function ProgramacaoPage() {
     </div>
   );
 }
+  

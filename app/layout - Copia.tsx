@@ -31,15 +31,15 @@ export default function RootLayout({
         <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight">
-              <span className="text-purple-500">Início</span>
+              <span className="text-purple-500">Lab</span>
+              <span>IA</span>
             </Link>
             
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
               <Link href="/ia" className="hover:text-purple-400 transition-colors">IA</Link>
               <Link href="/programacao" className="hover:text-blue-400 transition-colors">Programação</Link>
               <Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">Aplicativos</Link>
-              <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">Projetos & Códigos</Link>
-              <Link href="/noticias" className="hover:text-white transition-colors">Notícias</Link>
+              <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
               <Link href="/about" className="hover:text-white transition-colors">Sobre</Link>
             </nav>
             
@@ -64,7 +64,8 @@ export default function RootLayout({
           <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight mb-4">
-                <span className="text-purple-500">Início</span>
+                <span className="text-purple-500">Lab</span>
+                <span>IA</span>
               </Link>
               <p className="text-slate-400 max-w-xs text-sm leading-relaxed">
                 Um espaço dedicado ao aprendizado prático de Inteligência Artificial, Programação e criação de Aplicativos.
@@ -77,8 +78,7 @@ export default function RootLayout({
                 <li><Link href="/ia" className="hover:text-purple-400 transition-colors">Inteligência Artificial</Link></li>
                 <li><Link href="/programacao" className="hover:text-blue-400 transition-colors">Programação</Link></li>
                 <li><Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">Aplicativos</Link></li>
-                <li><Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">Projetos & Códigos</Link></li>
-                <li><Link href="/noticias" className="hover:text-white transition-colors">Notícias</Link></li>
+                <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
               </ul>
             </div>
             

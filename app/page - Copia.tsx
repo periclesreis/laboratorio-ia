@@ -32,7 +32,23 @@ export default function Home() {
               Tutoriais práticos, projetos reais e experiências com Inteligência Artificial para acelerar seu desenvolvimento.
             </p>
 
-
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/ia"
+                className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 px-8 py-3 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50 hover:scale-105"
+              >
+                Explorar IA
+                <span className="ml-2">→</span>
+              </Link>
+              <Link
+                href="/programacao"
+                className="inline-flex items-center justify-center rounded-lg border border-white/20 bg-white/5 px-8 py-3 font-semibold text-white transition-all hover:bg-white/10 hover:border-white/40"
+              >
+                Aprender Programação
+                <span className="ml-2">→</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -45,7 +61,7 @@ export default function Home() {
             <p className="text-slate-400 text-lg">Explore os principais tópicos do laboratório</p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {/* IA Card */}
             <Link href="/ia" className="group card-hover card-ia">
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors mb-4">
@@ -84,20 +100,6 @@ export default function Home() {
                 Conheça e baixe aplicativos desenvolvidos no laboratório com tecnologias modernas.
               </p>
               <div className="mt-4 flex items-center text-emerald-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
-                Saiba mais <span className="ml-2">→</span>
-              </div>
-            </Link>
-
-            {/* Projetos & Códigos Card */}
-            <Link href="/projetos-codigos" className="group card-hover card-projects">
-              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-pink-500/20 group-hover:bg-pink-500/30 transition-colors mb-4">
-                <span className="text-2xl">🚀</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Projetos & Códigos</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Aprenda fazendo projetos reais com passo a passo completo para iniciantes.
-              </p>
-              <div className="mt-4 flex items-center text-pink-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
                 Saiba mais <span className="ml-2">→</span>
               </div>
             </Link>
@@ -159,19 +161,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Notícias CTA */}
+      {/* Blog CTA */}
       <section className="py-20 md:py-28 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Notícias do Laboratório</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Blog do Laboratório</h2>
             <p className="text-slate-400 text-lg mb-8 leading-relaxed">
               Artigos, tutoriais, experiências práticas e estudos sobre Inteligência Artificial, Programação e Desenvolvimento de Aplicativos.
             </p>
             <Link
-              href="/noticias"
+              href="/blog"
               className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-3 font-semibold text-white transition-all hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105"
             >
-              Acessar Notícias
+              Acessar Blog
               <span className="ml-2">→</span>
             </Link>
           </div>

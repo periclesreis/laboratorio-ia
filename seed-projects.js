@@ -1,12 +1,24 @@
-// seed-projects.js
+// seed-projects.js - VERSÃO CORRIGIDA
 // Execute este arquivo para adicionar os projetos ao banco de dados
-// Comando: node seed-projects.js
+// Comando: node seed-projects-CORRIGIDO.js
 
-const Database = require('better-sqlite3');
-const path = require('path');
+require('dotenv').config({ path: '.env.local' });
 
-const dbPath = path.join(__dirname, 'data.db');
-const db = new Database(dbPath);
+const { Pool } = require('pg');
+
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  console.error('❌ DATABASE_URL não está definida em .env.local');
+  process.exit(1);
+}
+
+const pool = new Pool({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 console.log('📚 Adicionando projetos ao banco de dados...');
 
@@ -23,7 +35,7 @@ int main() {
   printf("Olá, Mundo!\\n");
   return 0;
 }`,
-    published: 1
+    published: true
   },
   {
     title: "Calculadora Simples",
@@ -50,7 +62,7 @@ print(f"5 + 3 = {somar(5, 3)}")
 print(f"10 - 4 = {subtrair(10, 4)}")
 print(f"6 * 7 = {multiplicar(6, 7)}")
 print(f"20 / 4 = {dividir(20, 4)}")`,
-    published: 1
+    published: true
   },
   {
     title: "Seu Primeiro Site",
@@ -97,7 +109,7 @@ print(f"20 / 4 = {dividir(20, 4)}")`,
     </div>
 </body>
 </html>`,
-    published: 1
+    published: true
   },
   {
     title: "App Android",
@@ -124,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }`,
-    published: 1
+    published: true
   },
   {
     title: "App Desktop",
@@ -149,7 +161,7 @@ botao = tk.Button(janela, text="Clique aqui", command=clique_botao, bg="purple",
 botao.pack(pady=10)
 
 janela.mainloop()`,
-    published: 1
+    published: true
   },
   {
     title: "Jogo do Número Secreto",
@@ -177,37 +189,42 @@ while not acertou:
     else:
         print(f"Parabéns! Você acertou em {tentativas} tentativas!")
         acertou = True`,
-    published: 1
+    published: true
   }
 ];
 
-try {
-  projetos.forEach(projeto => {
-    db.prepare(`
-      INSERT INTO projects (title, icon, description, time, difficulty, code, published)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(
-      projeto.title,
-      projeto.icon,
-      projeto.description,
-      projeto.time,
-      projeto.difficulty,
-      projeto.code,
-      projeto.published
-    );
-  });
-  
-  console.log('✅ 6 projetos adicionados com sucesso!');
-  console.log('📊 Projetos adicionados:');
-  console.log('  1. Hello World em C');
-  console.log('  2. Calculadora Simples');
-  console.log('  3. Seu Primeiro Site');
-  console.log('  4. App Android');
-  console.log('  5. App Desktop');
-  console.log('  6. Jogo do Número Secreto');
-  console.log('\n🌐 Acesse http://localhost:3000/projetos-codigos para ver os projetos!');
-} catch (error) {
-  console.error('❌ Erro ao adicionar projetos:', error.message);
+async function seedProjects() {
+  try {
+    for (const projeto of projetos) {
+      await pool.query(
+        `INSERT INTO projects (title, icon, description, time, difficulty, code, published)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [
+          projeto.title,
+          projeto.icon,
+          projeto.description,
+          projeto.time,
+          projeto.difficulty,
+          projeto.code,
+          projeto.published
+        ]
+      );
+    }
+    
+    console.log('✅ 6 projetos adicionados com sucesso!');
+    console.log('📊 Projetos adicionados:');
+    console.log('  1. Hello World em C');
+    console.log('  2. Calculadora Simples');
+    console.log('  3. Seu Primeiro Site');
+    console.log('  4. App Android');
+    console.log('  5. App Desktop');
+    console.log('  6. Jogo do Número Secreto');
+    console.log('\n🌐 Acesse http://localhost:3000/projetos-codigos para ver os projetos!');
+  } catch (error) {
+    console.error('❌ Erro ao adicionar projetos:', error.message);
+  } finally {
+    await pool.end();
+  }
 }
 
-db.close();
+seedProjects();

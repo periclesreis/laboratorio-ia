@@ -1,47 +1,58 @@
-// update-admin-credentials.js
+// update-admin-credentials.js - VERSÃO CORRIGIDA
 // Execute este arquivo para atualizar as credenciais de admin
-// Comando: node update-admin-credentials.js
+// Comando: node update-admin-credentials-CORRIGIDO.js
 
-const Database = require('better-sqlite3');
+require('dotenv').config({ path: '.env.local' });
+
+const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
-const path = require('path');
 
-const dbPath = path.join(__dirname, 'data.db');
-const db = new Database(dbPath);
+const connectionString = process.env.DATABASE_URL;
 
-console.log('🔐 Atualizando credenciais de admin...');
-
-const novoEmail = 'periclesreis@bol.com.br';
-const novaSenha = 'Ericles1@';
-
-const senhaHash = bcrypt.hashSync(novaSenha, 10);
-
-try {
-  // Primeiro, tenta atualizar o usuário existente
-  const resultado = db.prepare(`
-    UPDATE users 
-    SET email = ?, password = ?
-    WHERE id = 1
-  `).run(novoEmail, senhaHash);
-
-  if (resultado.changes > 0) {
-    console.log('✅ Credenciais atualizadas com sucesso!');
-  } else {
-    // Se não existir, cria um novo
-    db.prepare(`
-      INSERT INTO users (email, password, name)
-      VALUES (?, ?, ?)
-    `).run(novoEmail, senhaHash, 'Admin');
-    console.log('✅ Novo usuário admin criado!');
-  }
-
-  console.log('');
-  console.log('📧 Email: ' + novoEmail);
-  console.log('🔐 Senha: ' + novaSenha);
-  console.log('');
-  console.log('🌐 Acesse http://localhost:3000/admin/login para fazer login');
-} catch (error) {
-  console.error('❌ Erro ao atualizar credenciais:', error.message);
+if (!connectionString) {
+  console.error('❌ DATABASE_URL não está definida em .env.local');
+  process.exit(1);
 }
 
-db.close();
+const pool = new Pool({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
+
+async function updateCredentials() {
+  try {
+    console.log('🔐 Atualizando credenciais de admin...');
+
+    const novoEmail = 'periclesreis@bol.com.br';
+    const novaSenha = 'Ericles1@';
+
+    const senhaHash = bcrypt.hashSync(novaSenha, 10);
+
+    // Atualizar o usuário existente (id = 1)
+    const resultado = await pool.query(
+      'UPDATE users SET email = $1, password = $2 WHERE id = 1',
+      [novoEmail, senhaHash]
+    );
+
+    if (resultado.rowCount > 0) {
+      console.log('✅ Credenciais atualizadas com sucesso!');
+    } else {
+      console.log('❌ Usuário admin não encontrado');
+    }
+
+    console.log('');
+    console.log('📧 Email: ' + novoEmail);
+    console.log('🔐 Senha: ' + novaSenha);
+    console.log('');
+    console.log('🌐 Acesse http://localhost:3000/admin/login para fazer login');
+
+  } catch (error) {
+    console.error('❌ Erro ao atualizar credenciais:', error.message);
+  } finally {
+    await pool.end();
+  }
+}
+
+updateCredentials();

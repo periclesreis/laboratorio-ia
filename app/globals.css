@@ -70,3 +70,27 @@
     box-shadow: 0 0 30px -10px rgba(16, 185, 129, 0.3);
   }
 }
+
+@layer utilities {
+  .header-safe {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    isolation: isolate;
+    pointer-events: auto;
+  }
+
+  .header-safe * {
+    pointer-events: auto;
+  }
+
+  .header-link-safe {
+    position: relative;
+    z-index: 10000;
+    pointer-events: auto;
+  }
+
+  .decorative-bg {
+    pointer-events: none;
+  }
+}

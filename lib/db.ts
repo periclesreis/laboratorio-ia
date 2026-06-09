@@ -1,202 +1,233 @@
-// lib/db.ts
-import Database from 'better-sqlite3';
-import path from 'path';
+// lib/db.ts - PostgreSQL Version
+import { Pool, QueryResult } from 'pg';
 
-let db: Database.Database | null = null;
+const connectionString = process.env.DATABASE_URL;
 
-export function getDb() {
-  if (!db) {
-    const dbPath = path.join(process.cwd(), 'data.db');
-    db = new Database(dbPath);
-    db.pragma('journal_mode = WAL');
+if (!connectionString) {
+  throw new Error('DATABASE_URL não está definida nas variáveis de ambiente');
+}
+
+const pool = new Pool({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
+
+export async function getDb() {
+  return pool;
+}
+
+// ==================== USERS ====================
+
+export async function getUserByEmail(email: string) {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    );
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Erro ao buscar usuário:', error);
+    return null;
   }
-  return db;
 }
 
-export interface News {
-  id: number;
-  title: string;
-  description: string;
-  link?: string;
-  image?: string;
-  date: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
+export async function createUser(email: string, password: string, name: string = 'Admin') {
+  try {
+    const result = await pool.query(
+      'INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *',
+      [email, password, name]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao criar usuário:', error);
+    return null;
+  }
 }
 
-export interface Code {
-  id: number;
-  title: string;
-  description: string;
-  language: string;
-  fileUrl: string;
-  fileName: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
+// ==================== NEWS ====================
+
+export async function getAllNews() {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM news WHERE published = true ORDER BY date DESC'
+    );
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar notícias:', error);
+    return [];
+  }
 }
 
-export interface Project {
-  id: number;
-  title: string;
-  icon: string;
-  description: string;
-  time: string;
-  difficulty: string;
-  code: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
+export async function getAllNewsAdmin() {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM news ORDER BY date DESC'
+    );
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar notícias (admin):', error);
+    return [];
+  }
 }
 
-// NEWS QUERIES
-// Para o site público (apenas publicados)
-export function getAllNews(): News[] {
-  const db = getDb();
-  return db.prepare('SELECT * FROM news WHERE published = 1 ORDER BY date DESC').all() as News[];
+export async function createNews(title: string, description: string, link: string = '', date: string, published: boolean = false) {
+  try {
+    const result = await pool.query(
+      'INSERT INTO news (title, description, link, date, published) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [title, description, link, date, published]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao criar notícia:', error);
+    return null;
+  }
 }
 
-// Para o painel admin (todos)
-export function getAllNewsAdmin(): News[] {
-  const db = getDb();
-  return db.prepare('SELECT * FROM news ORDER BY date DESC').all() as News[];
+export async function updateNews(id: number, title: string, description: string, link: string = '', date: string, published: boolean = false) {
+  try {
+    const result = await pool.query(
+      'UPDATE news SET title = $1, description = $2, link = $3, date = $4, published = $5 WHERE id = $6 RETURNING *',
+      [title, description, link, date, published, id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao atualizar notícia:', error);
+    return null;
+  }
 }
 
-export function getNewsById(id: number): News | undefined {
-  const db = getDb();
-  return db.prepare('SELECT * FROM news WHERE id = ?').get(id) as News | undefined;
+export async function deleteNews(id: number) {
+  try {
+    await pool.query('DELETE FROM news WHERE id = $1', [id]);
+    return true;
+  } catch (error) {
+    console.error('Erro ao deletar notícia:', error);
+    return false;
+  }
 }
 
-export function createNews(data: Omit<News, 'id' | 'createdAt' | 'updatedAt'>): News {
-  const db = getDb();
-  const result = db.prepare(`
-    INSERT INTO news (title, description, link, image, date, published)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `).run(data.title, data.description, data.link || null, data.image || null, data.date, data.published ? 1 : 0);
-  
-  return getNewsById(result.lastInsertRowid as number)!;
+// ==================== CODES ====================
+
+export async function getAllCodes() {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM codes WHERE published = true ORDER BY id DESC'
+    );
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar códigos:', error);
+    return [];
+  }
 }
 
-export function updateNews(id: number, data: Partial<News>): News {
-  const db = getDb();
-  db.prepare(`
-    UPDATE news 
-    SET title = COALESCE(?, title),
-        description = COALESCE(?, description),
-        link = COALESCE(?, link),
-        image = COALESCE(?, image),
-        date = COALESCE(?, date),
-        published = COALESCE(?, published),
-        updatedAt = CURRENT_TIMESTAMP
-    WHERE id = ?
-  `).run(data.title, data.description, data.link, data.image, data.date, data.published, id);
-  
-  return getNewsById(id)!;
+export async function getAllCodesAdmin() {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM codes ORDER BY id DESC'
+    );
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar códigos (admin):', error);
+    return [];
+  }
 }
 
-export function deleteNews(id: number): void {
-  const db = getDb();
-  db.prepare('DELETE FROM news WHERE id = ?').run(id);
+export async function createCode(title: string, description: string, language: string, fileUrl: string, fileName: string, published: boolean = false) {
+  try {
+    const result = await pool.query(
+      'INSERT INTO codes (title, description, language, fileUrl, fileName, published) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [title, description, language, fileUrl, fileName, published]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao criar código:', error);
+    return null;
+  }
 }
 
-// CODE QUERIES
-// Para o site público (apenas publicados)
-export function getAllCodes(): Code[] {
-  const db = getDb();
-  return db.prepare('SELECT * FROM codes WHERE published = 1 ORDER BY createdAt DESC').all() as Code[];
+export async function updateCode(id: number, title: string, description: string, language: string, fileUrl: string, fileName: string, published: boolean = false) {
+  try {
+    const result = await pool.query(
+      'UPDATE codes SET title = $1, description = $2, language = $3, fileUrl = $4, fileName = $5, published = $6 WHERE id = $7 RETURNING *',
+      [title, description, language, fileUrl, fileName, published, id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao atualizar código:', error);
+    return null;
+  }
 }
 
-// Para o painel admin (todos)
-export function getAllCodesAdmin(): Code[] {
-  const db = getDb();
-  return db.prepare('SELECT * FROM codes ORDER BY createdAt DESC').all() as Code[];
+export async function deleteCode(id: number) {
+  try {
+    await pool.query('DELETE FROM codes WHERE id = $1', [id]);
+    return true;
+  } catch (error) {
+    console.error('Erro ao deletar código:', error);
+    return false;
+  }
 }
 
-export function getCodeById(id: number): Code | undefined {
-  const db = getDb();
-  return db.prepare('SELECT * FROM codes WHERE id = ?').get(id) as Code | undefined;
+// ==================== PROJECTS ====================
+
+export async function getAllProjects() {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM projects WHERE published = true ORDER BY id DESC'
+    );
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar projetos:', error);
+    return [];
+  }
 }
 
-export function createCode(data: Omit<Code, 'id' | 'createdAt' | 'updatedAt'>): Code {
-  const db = getDb();
-  const result = db.prepare(`
-    INSERT INTO codes (title, description, language, fileUrl, fileName, published)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `).run(data.title, data.description, data.language, data.fileUrl, data.fileName, data.published ? 1 : 0);
-  
-  return getCodeById(result.lastInsertRowid as number)!;
+export async function getAllProjectsAdmin() {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM projects ORDER BY id DESC'
+    );
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar projetos (admin):', error);
+    return [];
+  }
 }
 
-export function updateCode(id: number, data: Partial<Code>): Code {
-  const db = getDb();
-  db.prepare(`
-    UPDATE codes 
-    SET title = COALESCE(?, title),
-        description = COALESCE(?, description),
-        language = COALESCE(?, language),
-        fileUrl = COALESCE(?, fileUrl),
-        fileName = COALESCE(?, fileName),
-        published = COALESCE(?, published),
-        updatedAt = CURRENT_TIMESTAMP
-    WHERE id = ?
-  `).run(data.title, data.description, data.language, data.fileUrl, data.fileName, data.published, id);
-  
-  return getCodeById(id)!;
+export async function createProject(title: string, icon: string, description: string, time: string, difficulty: string, code: string, published: boolean = false) {
+  try {
+    const result = await pool.query(
+      'INSERT INTO projects (title, icon, description, time, difficulty, code, published) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [title, icon, description, time, difficulty, code, published]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao criar projeto:', error);
+    return null;
+  }
 }
 
-export function deleteCode(id: number): void {
-  const db = getDb();
-  db.prepare('DELETE FROM codes WHERE id = ?').run(id);
+export async function updateProject(id: number, title: string, icon: string, description: string, time: string, difficulty: string, code: string, published: boolean = false) {
+  try {
+    const result = await pool.query(
+      'UPDATE projects SET title = $1, icon = $2, description = $3, time = $4, difficulty = $5, code = $6, published = $7 WHERE id = $8 RETURNING *',
+      [title, icon, description, time, difficulty, code, published, id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao atualizar projeto:', error);
+    return null;
+  }
 }
 
-// PROJECT QUERIES
-// Para o site público (apenas publicados)
-export function getAllProjects(): Project[] {
-  const db = getDb();
-  return db.prepare('SELECT * FROM projects WHERE published = 1 ORDER BY createdAt DESC').all() as Project[];
-}
-
-// Para o painel admin (todos)
-export function getAllProjectsAdmin(): Project[] {
-  const db = getDb();
-  return db.prepare('SELECT * FROM projects ORDER BY createdAt DESC').all() as Project[];
-}
-
-export function getProjectById(id: number): Project | undefined {
-  const db = getDb();
-  return db.prepare('SELECT * FROM projects WHERE id = ?').get(id) as Project | undefined;
-}
-
-export function createProject(data: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>): Project {
-  const db = getDb();
-  const result = db.prepare(`
-    INSERT INTO projects (title, icon, description, time, difficulty, code, published)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `).run(data.title, data.icon, data.description, data.time, data.difficulty, data.code, data.published ? 1 : 0);
-  
-  return getProjectById(result.lastInsertRowid as number)!;
-}
-
-export function updateProject(id: number, data: Partial<Project>): Project {
-  const db = getDb();
-  db.prepare(`
-    UPDATE projects 
-    SET title = COALESCE(?, title),
-        icon = COALESCE(?, icon),
-        description = COALESCE(?, description),
-        time = COALESCE(?, time),
-        difficulty = COALESCE(?, difficulty),
-        code = COALESCE(?, code),
-        published = COALESCE(?, published),
-        updatedAt = CURRENT_TIMESTAMP
-    WHERE id = ?
-  `).run(data.title, data.icon, data.description, data.time, data.difficulty, data.code, data.published, id);
-  
-  return getProjectById(id)!;
-}
-
-export function deleteProject(id: number): void {
-  const db = getDb();
-  db.prepare('DELETE FROM projects WHERE id = ?').run(id);
+export async function deleteProject(id: number) {
+  try {
+    await pool.query('DELETE FROM projects WHERE id = $1', [id]);
+    return true;
+  } catch (error) {
+    console.error('Erro ao deletar projeto:', error);
+    return false;
+  }
 }

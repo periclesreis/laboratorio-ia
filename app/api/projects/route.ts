@@ -1,35 +1,76 @@
-// app/api/projects/route.ts
+// app/api/projects/route.ts - PostgreSQL Version
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllProjectsAdmin, createProject } from '@/lib/db';
-import { getDb } from '@/lib/db';
+import { getAllProjectsAdmin, createProject, updateProject, deleteProject } from '@/lib/db';
+import { verifyToken } from '@/lib/auth';
 
-// GET - Listar todos os projetos (para o painel admin)
+// GET - Listar todos os projetos
 export async function GET(request: NextRequest) {
   try {
-    const projects = getAllProjectsAdmin();
-    return NextResponse.json(projects);
+    const { searchParams } = new URL(request.url);
+    const admin = searchParams.get('admin') === 'true';
+
+    if (admin) {
+      // Verificar autenticação
+      const token = request.cookies.get('auth-token')?.value;
+      if (!token) {
+        return NextResponse.json(
+          { error: 'Não autenticado' },
+          { status: 401 }
+        );
+      }
+
+      const payload = await verifyToken(token);
+      if (!payload) {
+        return NextResponse.json(
+          { error: 'Token inválido' },
+          { status: 401 }
+        );
+      }
+
+      const projects = await getAllProjectsAdmin();
+      return NextResponse.json(projects || []);
+    }
+
+    // Projetos públicos (apenas publicados)
+    const projects = await getAllProjectsAdmin();
+    const publicProjects = (projects || []).filter((item: any) => item.published === true);
+    return NextResponse.json(publicProjects);
   } catch (error) {
     console.error('Erro ao buscar projetos:', error);
-    return NextResponse.json(
-      { error: 'Erro ao buscar projetos' },
-      { status: 500 }
-    );
+    return NextResponse.json([], { status: 200 });
   }
 }
 
-// POST - Criar novo projeto
+// POST - Criar projeto
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
-    const project = createProject({
-      title: data.title,
-      icon: data.icon,
-      description: data.description,
-      time: data.time,
-      difficulty: data.difficulty,
-      code: data.code,
-      published: data.published !== false,
-    });
+    const token = request.cookies.get('auth-token')?.value;
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Não autenticado' },
+        { status: 401 }
+      );
+    }
+
+    const payload = await verifyToken(token);
+    if (!payload) {
+      return NextResponse.json(
+        { error: 'Token inválido' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { title, icon, description, time, difficulty, code, published } = body;
+
+    if (!title || !description) {
+      return NextResponse.json(
+        { error: 'Título e descrição são obrigatórios' },
+        { status: 400 }
+      );
+    }
+
+    const project = await createProject(title, icon || '🚀', description, time || '', difficulty || '', code || '', published || false);
 
     return NextResponse.json(project, { status: 201 });
   } catch (error) {
@@ -44,16 +85,35 @@ export async function POST(request: NextRequest) {
 // PUT - Atualizar projeto
 export async function PUT(request: NextRequest) {
   try {
-    const data = await request.json();
-    const db = getDb();
-    
-    db.prepare(`
-      UPDATE projects 
-      SET title = ?, icon = ?, description = ?, time = ?, difficulty = ?, code = ?, published = ?, updatedAt = CURRENT_TIMESTAMP
-      WHERE id = ?
-    `).run(data.title, data.icon, data.description, data.time, data.difficulty, data.code, data.published ? 1 : 0, data.id);
+    const token = request.cookies.get('auth-token')?.value;
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Não autenticado' },
+        { status: 401 }
+      );
+    }
 
-    return NextResponse.json({ success: true });
+    const payload = await verifyToken(token);
+    if (!payload) {
+      return NextResponse.json(
+        { error: 'Token inválido' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { id, title, icon, description, time, difficulty, code, published } = body;
+
+    if (!id || !title || !description) {
+      return NextResponse.json(
+        { error: 'ID, título e descrição são obrigatórios' },
+        { status: 400 }
+      );
+    }
+
+    const project = await updateProject(id, title, icon || '🚀', description, time || '', difficulty || '', code || '', published || false);
+
+    return NextResponse.json(project);
   } catch (error) {
     console.error('Erro ao atualizar projeto:', error);
     return NextResponse.json(
@@ -66,20 +126,42 @@ export async function PUT(request: NextRequest) {
 // DELETE - Deletar projeto
 export async function DELETE(request: NextRequest) {
   try {
+    const token = request.cookies.get('auth-token')?.value;
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Não autenticado' },
+        { status: 401 }
+      );
+    }
+
+    const payload = await verifyToken(token);
+    if (!payload) {
+      return NextResponse.json(
+        { error: 'Token inválido' },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
     if (!id) {
       return NextResponse.json(
-        { error: 'ID do projeto é obrigatório' },
+        { error: 'ID é obrigatório' },
         { status: 400 }
       );
     }
 
-    const db = getDb();
-    db.prepare('DELETE FROM projects WHERE id = ?').run(id);
+    const success = await deleteProject(parseInt(id));
 
-    return NextResponse.json({ success: true });
+    if (success) {
+      return NextResponse.json({ success: true });
+    } else {
+      return NextResponse.json(
+        { error: 'Erro ao deletar projeto' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Erro ao deletar projeto:', error);
     return NextResponse.json(

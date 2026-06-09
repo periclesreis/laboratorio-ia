@@ -1,7 +1,3 @@
-// update-admin-credentials.js - VERSÃO CORRIGIDA
-// Execute este arquivo para atualizar as credenciais de admin
-// Comando: node update-admin-credentials-CORRIGIDO.js
-
 require('dotenv').config({ path: '.env.local' });
 
 const { Pool } = require('pg');
@@ -23,33 +19,44 @@ const pool = new Pool({
 
 async function updateCredentials() {
   try {
-    console.log('🔐 Atualizando credenciais de admin...');
+    console.log('🔐 Criando/atualizando credenciais de admin...');
 
     const novoEmail = 'periclesreis@bol.com.br';
     const novaSenha = 'Ericles1@';
 
     const senhaHash = bcrypt.hashSync(novaSenha, 10);
 
-    // Atualizar o usuário existente (id = 1)
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        name TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     const resultado = await pool.query(
-      'UPDATE users SET email = $1, password = $2 WHERE id = 1',
-      [novoEmail, senhaHash]
+      `
+      INSERT INTO users (email, password, name)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (email)
+      DO UPDATE SET
+        password = EXCLUDED.password,
+        name = EXCLUDED.name
+      RETURNING id, email, name
+      `,
+      [novoEmail, senhaHash, 'Administrador']
     );
 
-    if (resultado.rowCount > 0) {
-      console.log('✅ Credenciais atualizadas com sucesso!');
-    } else {
-      console.log('❌ Usuário admin não encontrado');
-    }
-
+    console.log('✅ Admin criado/atualizado com sucesso!');
+    console.log('ID:', resultado.rows[0].id);
+    console.log('Email:', resultado.rows[0].email);
     console.log('');
-    console.log('📧 Email: ' + novoEmail);
-    console.log('🔐 Senha: ' + novaSenha);
-    console.log('');
-    console.log('🌐 Acesse http://localhost:3000/admin/login para fazer login');
-
+    console.log('Agora tente logar na Vercel usando esse email e a senha definida no script.');
   } catch (error) {
-    console.error('❌ Erro ao atualizar credenciais:', error.message);
+    console.error('❌ Erro ao atualizar credenciais:');
+    console.error(error);
   } finally {
     await pool.end();
   }

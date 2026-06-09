@@ -31,8 +31,6 @@ export default function Home() {
             <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
               Tutoriais práticos, projetos reais e experiências com Inteligência Artificial para acelerar seu desenvolvimento.
             </p>
-
-
           </div>
         </div>
       </section>

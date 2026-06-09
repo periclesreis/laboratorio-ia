@@ -50,6 +50,14 @@ export default function RootLayout({
               >
                 Contato
               </Link>
+              
+              <Link
+                href="/admin/login"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-medium"
+              >
+                <span>🔐</span>
+                <span>Área Logada</span>
+              </Link>
             </div>
           </div>
         </header>

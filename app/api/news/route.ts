@@ -1,12 +1,12 @@
 // app/api/news/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllNews, createNews } from '@/lib/db';
+import { getAllNewsAdmin, createNews } from '@/lib/db';
 import { getDb } from '@/lib/db';
 
-// GET - Listar todas as notícias
+// GET - Listar todas as notícias (para o painel admin)
 export async function GET(request: NextRequest) {
   try {
-    const news = getAllNews();
+    const news = getAllNewsAdmin();
     return NextResponse.json(news);
   } catch (error) {
     console.error('Erro ao buscar notícias:', error);
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Criar nova notícia (apenas admin)
+// POST - Criar nova notícia
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
@@ -50,7 +50,7 @@ export async function PUT(request: NextRequest) {
       UPDATE news 
       SET title = ?, description = ?, link = ?, image = ?, date = ?, published = ?, updatedAt = CURRENT_TIMESTAMP
       WHERE id = ?
-    `).run(data.title, data.description, data.link, data.image, data.date, data.published, data.id);
+    `).run(data.title, data.description, data.link, data.image, data.date, data.published ? 1 : 0, data.id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

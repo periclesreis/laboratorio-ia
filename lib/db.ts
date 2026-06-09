@@ -51,9 +51,16 @@ export interface Project {
 }
 
 // NEWS QUERIES
+// Para o site público (apenas publicados)
 export function getAllNews(): News[] {
   const db = getDb();
   return db.prepare('SELECT * FROM news WHERE published = 1 ORDER BY date DESC').all() as News[];
+}
+
+// Para o painel admin (todos)
+export function getAllNewsAdmin(): News[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM news ORDER BY date DESC').all() as News[];
 }
 
 export function getNewsById(id: number): News | undefined {
@@ -66,7 +73,7 @@ export function createNews(data: Omit<News, 'id' | 'createdAt' | 'updatedAt'>): 
   const result = db.prepare(`
     INSERT INTO news (title, description, link, image, date, published)
     VALUES (?, ?, ?, ?, ?, ?)
-  `).run(data.title, data.description, data.link || null, data.image || null, data.date, data.published);
+  `).run(data.title, data.description, data.link || null, data.image || null, data.date, data.published ? 1 : 0);
   
   return getNewsById(result.lastInsertRowid as number)!;
 }
@@ -94,9 +101,16 @@ export function deleteNews(id: number): void {
 }
 
 // CODE QUERIES
+// Para o site público (apenas publicados)
 export function getAllCodes(): Code[] {
   const db = getDb();
   return db.prepare('SELECT * FROM codes WHERE published = 1 ORDER BY createdAt DESC').all() as Code[];
+}
+
+// Para o painel admin (todos)
+export function getAllCodesAdmin(): Code[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM codes ORDER BY createdAt DESC').all() as Code[];
 }
 
 export function getCodeById(id: number): Code | undefined {
@@ -109,7 +123,7 @@ export function createCode(data: Omit<Code, 'id' | 'createdAt' | 'updatedAt'>): 
   const result = db.prepare(`
     INSERT INTO codes (title, description, language, fileUrl, fileName, published)
     VALUES (?, ?, ?, ?, ?, ?)
-  `).run(data.title, data.description, data.language, data.fileUrl, data.fileName, data.published);
+  `).run(data.title, data.description, data.language, data.fileUrl, data.fileName, data.published ? 1 : 0);
   
   return getCodeById(result.lastInsertRowid as number)!;
 }
@@ -137,9 +151,16 @@ export function deleteCode(id: number): void {
 }
 
 // PROJECT QUERIES
+// Para o site público (apenas publicados)
 export function getAllProjects(): Project[] {
   const db = getDb();
   return db.prepare('SELECT * FROM projects WHERE published = 1 ORDER BY createdAt DESC').all() as Project[];
+}
+
+// Para o painel admin (todos)
+export function getAllProjectsAdmin(): Project[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM projects ORDER BY createdAt DESC').all() as Project[];
 }
 
 export function getProjectById(id: number): Project | undefined {
@@ -152,7 +173,7 @@ export function createProject(data: Omit<Project, 'id' | 'createdAt' | 'updatedA
   const result = db.prepare(`
     INSERT INTO projects (title, icon, description, time, difficulty, code, published)
     VALUES (?, ?, ?, ?, ?, ?, ?)
-  `).run(data.title, data.icon, data.description, data.time, data.difficulty, data.code, data.published);
+  `).run(data.title, data.icon, data.description, data.time, data.difficulty, data.code, data.published ? 1 : 0);
   
   return getProjectById(result.lastInsertRowid as number)!;
 }

@@ -1,12 +1,12 @@
 // app/api/projects/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllProjects, createProject } from '@/lib/db';
+import { getAllProjectsAdmin, createProject } from '@/lib/db';
 import { getDb } from '@/lib/db';
 
-// GET - Listar todos os projetos
+// GET - Listar todos os projetos (para o painel admin)
 export async function GET(request: NextRequest) {
   try {
-    const projects = getAllProjects();
+    const projects = getAllProjectsAdmin();
     return NextResponse.json(projects);
   } catch (error) {
     console.error('Erro ao buscar projetos:', error);
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Criar novo projeto (apenas admin)
+// POST - Criar novo projeto
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
@@ -51,7 +51,7 @@ export async function PUT(request: NextRequest) {
       UPDATE projects 
       SET title = ?, icon = ?, description = ?, time = ?, difficulty = ?, code = ?, published = ?, updatedAt = CURRENT_TIMESTAMP
       WHERE id = ?
-    `).run(data.title, data.icon, data.description, data.time, data.difficulty, data.code, data.published, data.id);
+    `).run(data.title, data.icon, data.description, data.time, data.difficulty, data.code, data.published ? 1 : 0, data.id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

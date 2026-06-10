@@ -67,12 +67,12 @@ export default function ProjetosCodigosPage() {
             <span>Voltar</span>
           </Link>
           
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-            Projetos & Códigos
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.25] pb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+             Projetos & Códigos
           </h1>
           
-          <p className="text-lg text-slate-400">
-            Escolha entre baixar códigos prontos ou seguir projetos passo a passo para iniciantes
+          <p className="mt-4 text-lg text-slate-400 leading-relaxed">
+            Escolha entre baixar códigos prontos ou seguir projetos passo a passo para iniciantes.
           </p>
         </div>
       </section>

@@ -138,7 +138,7 @@ export default function AdminProjectsPage() {
       </header>
 
       {/* Conteúdo */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-6">
         {/* Botão Novo Projeto */}
         <button
           onClick={() => {
@@ -154,38 +154,38 @@ export default function AdminProjectsPage() {
               published: true,
             });
           }}
-          className="mb-8 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
+          className="mb-4 px-4 py-2 text-sm bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
         >
           {showForm ? '✕ Cancelar' : '+ Novo Projeto'}
         </button>
 
         {/* Formulário */}
         {showForm && (
-          <div className="bg-slate-800 border-4 border-purple-500 rounded-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold text-purple-400 mb-6">
+          <div className="bg-slate-800 border-4 border-purple-500 rounded-lg p-4 mb-5">
+            <h2 className="text-xl font-bold text-purple-400 mb-3 leading-tight">
               {editingId ? 'Editar Projeto' : 'Novo Projeto'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Título *</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Título *</label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                     placeholder="Ex: Hello World em Python"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Ícone</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Ícone</label>
                   <select
                     value={formData.icon}
                     onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   >
                     {emojis.map((emoji) => (
                       <option key={emoji} value={emoji}>{emoji}</option>
@@ -195,11 +195,11 @@ export default function AdminProjectsPage() {
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">Descrição *</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">Descrição *</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none h-20"
+                  className="w-full px-3 py-1.5 text-sm leading-tight bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none h-16"
                   placeholder="Descreva o projeto"
                   required
                 />
@@ -207,11 +207,11 @@ export default function AdminProjectsPage() {
 
               <div className="grid md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Tempo</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Tempo</label>
                   <select
                     value={formData.time}
                     onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   >
                     {times.map((time) => (
                       <option key={time} value={time}>{time}</option>
@@ -220,11 +220,11 @@ export default function AdminProjectsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Dificuldade</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Dificuldade</label>
                   <select
                     value={formData.difficulty}
                     onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   >
                     {difficulties.map((diff) => (
                       <option key={diff} value={diff}>{diff}</option>
@@ -233,21 +233,21 @@ export default function AdminProjectsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Linguagem</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Linguagem</label>
                   <input
                     type="text"
                     placeholder="Ex: Python"
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">Código *</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">Código *</label>
                 <textarea
                   value={formData.code}
                   onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none font-mono h-32"
+                  className="w-full px-3 py-1.5 text-sm leading-tight bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none font-mono h-24"
                   placeholder="Cole o código do projeto aqui"
                   required
                 />
@@ -266,7 +266,7 @@ export default function AdminProjectsPage() {
 
               <button
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
+                className="w-full py-2 text-sm bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
               >
                 {editingId ? 'Atualizar' : 'Criar'} Projeto
               </button>
@@ -275,37 +275,37 @@ export default function AdminProjectsPage() {
         )}
 
         {/* Lista de Projetos */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           {projects.length === 0 ? (
-            <div className="bg-slate-800 border-2 border-purple-500/30 rounded-lg p-8 text-center text-slate-400">
+            <div className="bg-slate-800 border-2 border-purple-500/30 rounded-lg p-4 text-center text-slate-400 text-sm">
               Nenhum projeto ainda. Crie um para começar!
             </div>
           ) : (
             projects.map((item) => (
-              <div key={item.id} className="bg-slate-800 border-4 border-purple-500 rounded-lg p-6">
-                <div className="flex items-start justify-between gap-4">
+              <div key={item.id} className="bg-slate-800 border-4 border-purple-500 rounded-lg p-3">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-3xl">{item.icon}</span>
-                      <h3 className="text-xl font-bold text-purple-400">{item.title}</h3>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-2xl">{item.icon}</span>
+                      <h3 className="text-lg font-bold text-purple-400 leading-tight">{item.title}</h3>
                     </div>
-                    <p className="text-slate-300 mb-2">{item.description}</p>
-                    <div className="flex gap-4 text-sm text-slate-400">
+                    <p className="text-slate-300 text-sm leading-tight mb-2 line-clamp-2">{item.description}</p>
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
                       <span>⏱️ {item.time}</span>
                       <span>📊 {item.difficulty}</span>
                       <span>{item.published ? '✅ Publicado' : '⏸️ Rascunho'}</span>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 shrink-0">
                     <button
                       onClick={() => handleEdit(item)}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg border-2 border-blue-500 transition"
+                      className="px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg border-2 border-blue-500 transition"
                     >
                       ✏️ Editar
                     </button>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg border-2 border-red-500 transition"
+                      className="px-3 py-1.5 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg border-2 border-red-500 transition"
                     >
                       🗑️ Deletar
                     </button>

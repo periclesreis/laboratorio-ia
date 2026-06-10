@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('admin@laboratoriodia.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -103,12 +103,7 @@ export default function AdminLoginPage() {
             </Link>
           </div>
         </div>
-
-        <div className="mt-6 bg-slate-800/50 border border-purple-500/30 rounded-lg p-4 text-slate-400 text-sm">
-          <p className="font-semibold text-slate-300 mb-2">📝 Credenciais Padrão:</p>
-          <p>Email: <code className="bg-slate-900 px-2 py-1 rounded">admin@laboratoriodia.com</code></p>
-          <p className="mt-2 text-yellow-400">⚠️ Mude a senha após o primeiro login!</p>
-        </div>
+        
       </div>
     </div>
   );

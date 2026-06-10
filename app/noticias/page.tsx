@@ -17,7 +17,6 @@ interface News {
 function formatDate(dateString: string) {
   if (!dateString) return "";
 
-  // Se vier no formato 2026-06-09 ou 2026-06-09T...
   const isoMatch = dateString.match(/^(\d{4})-(\d{2})-(\d{2})/);
 
   if (isoMatch) {
@@ -25,7 +24,6 @@ function formatDate(dateString: string) {
     return `${day}-${month}-${year}`;
   }
 
-  // Fallback para outros formatos
   const date = new Date(dateString);
 
   if (Number.isNaN(date.getTime())) {
@@ -46,11 +44,11 @@ export default function NoticiasPage() {
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
-        const response = await fetch('/api/news');
+        const response = await fetch("/api/news");
         const data = await response.json();
         setNoticias(data);
       } catch (error) {
-        console.error('Erro ao carregar notícias:', error);
+        console.error("Erro ao carregar notícias:", error);
       } finally {
         setLoading(false);
       }
@@ -93,35 +91,33 @@ export default function NoticiasPage() {
             Nenhuma notícia disponível no momento.
           </div>
         ) : (
-          <div className="grid gap-4">
+          <div className="grid gap-2">
             {noticias.map((noticia) => {
               const cardContent = (
-                <div className="bg-slate-800 border-2 border-purple-500 rounded-lg overflow-hidden hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 h-full">
+                <div className="bg-slate-800 border-2 border-purple-500 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300 h-full">
                   <div className="flex flex-col md:flex-row">
-                    {/* Imagem */}
                     {noticia.image && (
-                      <div className="md:w-56 md:shrink-0">
+                      <div className="md:w-40 md:shrink-0">
                         <img
                           src={noticia.image}
                           alt={noticia.title}
-                          className="w-full h-36 md:h-full object-cover"
+                          className="w-full h-20 md:h-full object-cover"
                         />
                       </div>
                     )}
 
-                    {/* Conteúdo */}
-                    <div className="p-4 flex flex-col justify-center w-full">
-                      <div className="mb-1">
-                        <span className="text-xs text-purple-400 font-semibold">
+                    <div className="px-3 py-1 flex flex-col justify-start w-full">
+                      <div className="mb-0">
+                        <span className="text-[12px] leading-none text-purple-400 font-semibold">
                           📅 {formatDate(noticia.date)}
                         </span>
                       </div>
 
-                      <h2 className="text-lg font-bold text-purple-400 mb-1 leading-tight line-clamp-2">
+                      <h2 className="text-lg font-bold text-purple-400 mb-0 leading-[1.05] line-clamp-1">
                         {noticia.title}
                       </h2>
 
-                      <p className="text-slate-300 text-sm leading-tight line-clamp-2">
+                      <p className="text-slate-300 text-[13px] leading-[1.05] line-clamp-2">
                         {noticia.description}
                       </p>
                     </div>

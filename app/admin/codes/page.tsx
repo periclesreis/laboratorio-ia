@@ -20,6 +20,7 @@ export default function AdminCodesPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<number, boolean>>({});
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -93,6 +94,13 @@ export default function AdminCodesPage() {
     }
   };
 
+  const toggleDescription = (id: number) => {
+    setExpandedDescriptions((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   const handleEdit = (item: Code) => {
     setFormData({
       title: item.title,
@@ -132,7 +140,7 @@ export default function AdminCodesPage() {
       </header>
 
       {/* Conteúdo */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-6">
         {/* Botão Novo Código */}
         <button
           onClick={() => {
@@ -147,37 +155,37 @@ export default function AdminCodesPage() {
               published: true,
             });
           }}
-          className="mb-8 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
+          className="mb-4 px-4 py-2 text-sm bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
         >
           {showForm ? '✕ Cancelar' : '+ Novo Código'}
         </button>
 
         {/* Formulário */}
         {showForm && (
-          <div className="bg-slate-800 border-4 border-purple-500 rounded-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold text-purple-400 mb-6">
+          <div className="bg-slate-800 border-4 border-purple-500 rounded-lg p-4 mb-5">
+            <h2 className="text-xl font-bold text-purple-400 mb-3 leading-tight">
               {editingId ? 'Editar Código' : 'Novo Código'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">Título *</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">Título *</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                  className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   placeholder="Ex: Calculadora em Python"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">Descrição *</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">Descrição *</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none h-20"
+                  className="w-full px-3 py-1.5 text-sm leading-tight bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none h-16"
                   placeholder="Descreva o que o código faz"
                   required
                 />
@@ -185,11 +193,11 @@ export default function AdminCodesPage() {
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Linguagem *</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Linguagem *</label>
                   <select
                     value={formData.language}
                     onChange={(e) => setFormData({ ...formData, language: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                     required
                   >
                     {languages.map((lang) => (
@@ -199,12 +207,12 @@ export default function AdminCodesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Nome do Arquivo *</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Nome do Arquivo *</label>
                   <input
                     type="text"
                     value={formData.fileName}
                     onChange={(e) => setFormData({ ...formData, fileName: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                     placeholder="Ex: calculadora.py"
                     required
                   />
@@ -212,12 +220,12 @@ export default function AdminCodesPage() {
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">URL do Arquivo *</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">URL do Arquivo *</label>
                 <input
                   type="url"
                   value={formData.fileUrl}
                   onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                  className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   placeholder="https://exemplo.com/arquivo.py"
                   required
                 />
@@ -236,7 +244,7 @@ export default function AdminCodesPage() {
 
               <button
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
+                className="w-full py-2 text-sm bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
               >
                 {editingId ? 'Atualizar' : 'Criar'} Código
               </button>
@@ -245,34 +253,51 @@ export default function AdminCodesPage() {
         )}
 
         {/* Lista de Códigos */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           {codes.length === 0 ? (
-            <div className="bg-slate-800 border-2 border-purple-500/30 rounded-lg p-8 text-center text-slate-400">
+            <div className="bg-slate-800 border-2 border-purple-500/30 rounded-lg p-4 text-center text-slate-400 text-sm">
               Nenhum código ainda. Crie um para começar!
             </div>
           ) : (
             codes.map((item) => (
-              <div key={item.id} className="bg-slate-800 border-4 border-purple-500 rounded-lg p-6">
-                <div className="flex items-start justify-between gap-4">
+              <div key={item.id} className="bg-slate-800 border-4 border-purple-500 rounded-lg p-3">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-purple-400 mb-2">{item.title}</h3>
-                    <p className="text-slate-300 mb-2">{item.description}</p>
-                    <div className="flex gap-4 text-sm text-slate-400">
+                    <h3 className="text-lg font-bold text-purple-400 mb-1 leading-tight">{item.title}</h3>
+                    <p
+                      className={`text-slate-300 text-sm leading-tight mb-1 ${
+                        expandedDescriptions[item.id] ? '' : 'line-clamp-2'
+                      }`}
+                    >
+                      {item.description}
+                    </p>
+
+                    {item.description.length > 120 && (
+                      <button
+                        type="button"
+                        onClick={() => toggleDescription(item.id)}
+                        className="text-purple-400 hover:text-purple-300 text-xs font-semibold mb-2"
+                      >
+                        {expandedDescriptions[item.id] ? 'Ver menos' : 'Veja mais...'}
+                      </button>
+                    )}
+
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
                       <span>📝 {item.language}</span>
                       <span>📄 {item.fileName}</span>
                       <span>{item.published ? '✅ Publicado' : '⏸️ Rascunho'}</span>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 shrink-0">
                     <button
                       onClick={() => handleEdit(item)}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg border-2 border-blue-500 transition"
+                      className="px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg border-2 border-blue-500 transition"
                     >
                       ✏️ Editar
                     </button>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg border-2 border-red-500 transition"
+                      className="px-3 py-1.5 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg border-2 border-red-500 transition"
                     >
                       🗑️ Deletar
                     </button>

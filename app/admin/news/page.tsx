@@ -130,7 +130,7 @@ export default function AdminNewsPage() {
       </header>
 
       {/* Conteúdo */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-6">
         {/* Botão Nova Notícia */}
         <button
           onClick={() => {
@@ -145,69 +145,69 @@ export default function AdminNewsPage() {
               published: true,
             });
           }}
-          className="mb-8 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
+          className="mb-4 px-4 py-2 text-sm bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
         >
           {showForm ? '✕ Cancelar' : '+ Nova Notícia'}
         </button>
 
         {/* Formulário */}
         {showForm && (
-          <div className="bg-slate-800 border-4 border-purple-500 rounded-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold text-purple-400 mb-6">
+          <div className="bg-slate-800 border-4 border-purple-500 rounded-lg p-4 mb-5">
+            <h2 className="text-xl font-bold text-purple-400 mb-3 leading-tight">
               {editingId ? 'Editar Notícia' : 'Nova Notícia'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">Título *</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">Título *</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                  className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">Descrição *</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">Descrição *</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none h-24"
+                  className="w-full px-3 py-1.5 text-sm leading-tight bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none h-16"
                   required
                 />
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Link</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Link</label>
                   <input
                     type="url"
                     value={formData.link}
                     onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-2">Data</label>
+                  <label className="block text-slate-300 text-sm font-semibold mb-1">Data</label>
                   <input
                     type="date"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                    className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-2">URL da Imagem</label>
+                <label className="block text-slate-300 text-sm font-semibold mb-1">URL da Imagem</label>
                 <input
                   type="url"
                   value={formData.image}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
+                  className="w-full px-3 py-1.5 text-sm bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
                   placeholder="https://exemplo.com/imagem.jpg"
                 />
               </div>
@@ -225,7 +225,7 @@ export default function AdminNewsPage() {
 
               <button
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
+                className="w-full py-2 text-sm bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold rounded-lg border-2 border-purple-500 transition"
               >
                 {editingId ? 'Atualizar' : 'Criar'} Notícia
               </button>
@@ -234,34 +234,34 @@ export default function AdminNewsPage() {
         )}
 
         {/* Lista de Notícias */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           {news.length === 0 ? (
-            <div className="bg-slate-800 border-2 border-purple-500/30 rounded-lg p-8 text-center text-slate-400">
+            <div className="bg-slate-800 border-2 border-purple-500/30 rounded-lg p-4 text-center text-slate-400 text-sm">
               Nenhuma notícia ainda. Crie uma para começar!
             </div>
           ) : (
             news.map((item) => (
-              <div key={item.id} className="bg-slate-800 border-4 border-purple-500 rounded-lg p-6">
-                <div className="flex items-start justify-between gap-4">
+              <div key={item.id} className="bg-slate-800 border-4 border-purple-500 rounded-lg p-3">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-purple-400 mb-2">{item.title}</h3>
-                    <p className="text-slate-300 mb-2">{item.description}</p>
-                    <div className="flex gap-4 text-sm text-slate-400">
+                    <h3 className="text-lg font-bold text-purple-400 mb-1 leading-tight">{item.title}</h3>
+                    <p className="text-slate-300 text-sm leading-tight mb-2 line-clamp-2">{item.description}</p>
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
                       <span>📅 {item.date}</span>
                       <span>{item.published ? '✅ Publicado' : '⏸️ Rascunho'}</span>
                       {item.link && <span>🔗 Com link</span>}
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 shrink-0">
                     <button
                       onClick={() => handleEdit(item)}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg border-2 border-blue-500 transition"
+                      className="px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg border-2 border-blue-500 transition"
                     >
                       ✏️ Editar
                     </button>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg border-2 border-red-500 transition"
+                      className="px-3 py-1.5 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg border-2 border-red-500 transition"
                     >
                       🗑️ Deletar
                     </button>

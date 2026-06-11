@@ -83,42 +83,67 @@ export default function ProjetosCodigosPage() {
         {/* Menu Principal */}
         {secao === "menu" && (
           <div>
-            <div className="grid md:grid-cols-2 gap-8 mb-12 mt-12">
-              {/* Download de Códigos */}
-              <button
-                onClick={() => setSecao("download")}
-                className="group bg-slate-900 hover:bg-slate-800/80 border-8 border-purple-500 rounded-lg p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50 text-left cursor-pointer"
-              >
-                <div className="text-6xl mb-4">📥</div>
-                <h2 className="text-3xl font-bold text-purple-400 mb-3 group-hover:text-purple-300 transition">
-                  Download de Códigos
-                </h2>
-                <p className="text-slate-300 text-lg mb-6">
-                  Baixe diversos códigos prontos para usar em seus projetos. Perfeito para quem quer estudar código profissional.
-                </p>
-                <div className="flex items-center text-purple-400 text-lg font-medium group-hover:translate-x-2 transition-transform">
-                  Acessar <span className="ml-2">→</span>
-                </div>
-              </button>
+            <div className="grid md:grid-cols-3 gap-6 mb-12 mt-12">
+  {/* Download de Códigos */}
+  <button
+    onClick={() => setSecao("download")}
+    className="group bg-slate-900 hover:bg-slate-800/80 border-8 border-purple-500 rounded-lg p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50 text-left cursor-pointer"
+  >
+    <div className="text-5xl mb-3">📥</div>
 
-              {/* Projetos para Iniciantes */}
-              <button
-                onClick={() => setSecao("projetos")}
-                className="group bg-slate-900 hover:bg-slate-800/80 border-8 border-purple-500 rounded-lg p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50 text-left cursor-pointer"
-              >
-                <div className="text-6xl mb-4">🚀</div>
-                <h2 className="text-3xl font-bold text-purple-300 mb-3 group-hover:text-purple-200 transition">
-                  Projetos para Iniciantes
-                </h2>
-                <p className="text-slate-300 text-lg mb-6">
-                  Siga passo a passo para criar seus primeiros programas. Cada projeto tem instruções detalhadas e código completo.
-                </p>
-                <div className="flex items-center text-purple-300 text-lg font-medium group-hover:translate-x-2 transition-transform">
-                  Começar <span className="ml-2">→</span>
-                </div>
-              </button>
-            </div>
+    <h2 className="text-2xl font-bold text-purple-400 mb-2 leading-tight group-hover:text-purple-300 transition">
+      Download de Códigos
+    </h2>
 
+    <p className="text-slate-300 text-sm leading-tight mb-4">
+      Baixe diversos códigos prontos para usar em seus projetos.
+    </p>
+
+    <div className="flex items-center text-purple-400 text-sm font-medium group-hover:translate-x-2 transition-transform">
+      Acessar <span className="ml-2">→</span>
+    </div>
+  </button>
+
+  {/* Projetos para Iniciantes */}
+  <button
+    onClick={() => setSecao("projetos")}
+    className="group bg-slate-900 hover:bg-slate-800/80 border-8 border-purple-500 rounded-lg p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50 text-left cursor-pointer"
+  >
+    <div className="text-5xl mb-3">🚀</div>
+
+    <h2 className="text-2xl font-bold text-purple-300 mb-2 leading-tight group-hover:text-purple-200 transition">
+      Projetos para Iniciantes
+    </h2>
+
+    <p className="text-slate-300 text-sm leading-tight mb-4">
+      Siga passo a passo para criar seus primeiros programas.
+    </p>
+
+    <div className="flex items-center text-purple-300 text-sm font-medium group-hover:translate-x-2 transition-transform">
+      Começar <span className="ml-2">→</span>
+    </div>
+  </button>
+
+  {/* Compartilhe seu Projeto */}
+  <Link
+    href="/compartilhe-seu-projeto"
+    className="group bg-slate-900 hover:bg-slate-800/80 border-8 border-purple-500 rounded-lg p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50 text-left cursor-pointer"
+  >
+    <div className="text-5xl mb-3">🤝</div>
+
+    <h2 className="text-2xl font-bold text-purple-400 mb-2 leading-tight group-hover:text-purple-300 transition">
+      Compartilhe seu Projeto
+    </h2>
+
+    <p className="text-slate-300 text-sm leading-tight mb-4">
+      Compartilhe aplicativos, códigos fonte, scripts, plugins e projetos com outros desenvolvedores.
+    </p>
+
+    <div className="flex items-center text-purple-400 text-sm font-medium group-hover:translate-x-2 transition-transform">
+      Enviar projeto <span className="ml-2">→</span>
+    </div>
+  </Link>
+</div>
             {/* Dicas */}
             <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-lg p-8">
               <h2 className="text-2xl font-bold text-purple-400 mb-6">💡 Como Usar Esta Seção</h2>

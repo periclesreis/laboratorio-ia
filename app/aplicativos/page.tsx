@@ -4,23 +4,32 @@ const apps = [
   {
     slug: "cronometro-flutuante",
     nome: "Cronômetro Flutuante",
-    descricao: "Ferramenta criada para auxiliar apresentações, discursos e treinamentos com precisão e facilidade.",
+    descricao:
+      "Ferramenta criada para auxiliar apresentações, discursos e treinamentos com precisão e facilidade.",
     categoria: "dev",
     icone: "⏱️",
+    tipo: "download",
+    href: "/downloads/cronometro-flutuante.apk",
   },
   {
     slug: "links-uteis",
     nome: "Links Úteis",
-    descricao: "Organizador inteligente de links e categorias para manter seus recursos sempre organizados.",
+    descricao:
+      "Organizador inteligente de links e categorias para manter seus recursos sempre organizados.",
     categoria: "dev",
     icone: "🔗",
+    tipo: "pagina",
+    href: "/aplicativos/links-uteis",
   },
   {
-    slug: "estudos-ia",
-    nome: "Estudos IA",
-    descricao: "Plataforma interativa para estudar conceitos de Inteligência Artificial com exercícios práticos.",
+    slug: "jogo-casamento",
+    nome: "Jogo Casamento",
+    descricao:
+      "Jogo interativo criado para celebrar casamento, memórias e momentos especiais.",
     categoria: "ia",
-    icone: "🧠",
+    icone: "💍",
+    tipo: "pagina",
+    href: "/aplicativos/jogo-casamento",
   },
 ];
 
@@ -31,7 +40,10 @@ export default function AplicativosPage() {
       <section className="py-16 md:py-24 border-b border-white/10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Aplicativos</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Aplicativos
+            </h1>
+
             <p className="text-slate-400 text-lg leading-relaxed">
               Conheça e explore os aplicativos desenvolvidos no Laboratório de IA.
             </p>
@@ -44,17 +56,14 @@ export default function AplicativosPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6">
-              {apps.map((app) => (
-                <Link
-                  key={app.slug}
-                  href={`/aplicativos/${app.slug}`}
-                  className={`group card-hover ${app.categoria === "ia" ? "card-ia" : "card-dev"} transition-all`}
-                >
+              {apps.map((app) => {
+                const cardContent = (
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       {/* Ícone e Categoria */}
                       <div className="flex items-center gap-3 mb-3">
                         <span className="text-3xl">{app.icone}</span>
+
                         <span className={`tag tag-${app.categoria}`}>
                           {app.categoria === "ia" ? "IA" : "Programação"}
                         </span>
@@ -73,20 +82,53 @@ export default function AplicativosPage() {
 
                     {/* Arrow */}
                     <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors">
-                      <span className="text-slate-400 group-hover:text-white transition-colors">→</span>
+                      <span className="text-slate-400 group-hover:text-white transition-colors">
+                        {app.tipo === "download" ? "↓" : "→"}
+                      </span>
                     </div>
                   </div>
-                </Link>
-              ))}
+                );
+
+                if (app.tipo === "download") {
+                  return (
+                    <a
+                      key={app.slug}
+                      href={app.href}
+                      download
+                      className={`group card-hover ${
+                        app.categoria === "ia" ? "card-ia" : "card-dev"
+                      } transition-all block`}
+                    >
+                      {cardContent}
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={app.slug}
+                    href={app.href}
+                    className={`group card-hover ${
+                      app.categoria === "ia" ? "card-ia" : "card-dev"
+                    } transition-all`}
+                  >
+                    {cardContent}
+                  </Link>
+                );
+              })}
             </div>
 
             {/* CTA Section */}
             <div className="mt-12 pt-12 border-t border-white/10">
               <div className="card-hover text-center">
-                <h3 className="text-xl font-bold mb-2">Quer criar um aplicativo?</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  Quer criar um aplicativo?
+                </h3>
+
                 <p className="text-slate-400 mb-4">
                   Aprenda a criar seus próprios aplicativos com IA e programação.
                 </p>
+
                 <Link
                   href="/programacao"
                   className="inline-flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors font-medium"

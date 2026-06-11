@@ -98,7 +98,7 @@ export default function ContatoPage() {
                         href="mailto:periclesreis@bol.com.br"
                         className="text-purple-400 hover:text-purple-300 transition-colors break-all"
                       >
-                        periclesreis@bol.com.br
+                        labdeapp@gmail.com
                       </a>
                     </div>
                   </div>

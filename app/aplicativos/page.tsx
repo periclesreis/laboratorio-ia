@@ -1,6 +1,7 @@
+// app/aplicativos/page.tsx
 import Link from "next/link";
 
-const apps = [
+const aplicativos = [
   {
     slug: "cronometro-flutuante",
     nome: "Cronômetro Flutuante",
@@ -8,138 +9,113 @@ const apps = [
       "Ferramenta criada para auxiliar apresentações, discursos e treinamentos com precisão e facilidade.",
     categoria: "dev",
     icone: "⏱️",
-    tipo: "download",
-    href: "/downloads/cronometro-flutuante.apk",
+    playStoreHref: "#",
+    downloadHref: "/downloads/cronometro-flutuante.apk",
+    politicaHref: "/politicas/cronometro-flutuante",
   },
   {
     slug: "links-uteis",
     nome: "Links Úteis",
     descricao:
-      "Organizador inteligente de links e categorias para manter seus recursos sempre organizados.",
+      "Aplicativo para organizar links importantes em um só lugar, com acesso rápido e prático.",
     categoria: "dev",
     icone: "🔗",
-    tipo: "pagina",
-    href: "/aplicativos/links-uteis",
+    playStoreHref: "#",
+    downloadHref: "/downloads/links-uteis.apk",
+    politicaHref: "/politicas/links-uteis",
   },
   {
     slug: "jogo-casamento",
     nome: "Jogo Casamento",
     descricao:
-      "Jogo interativo criado para celebrar casamento, memórias e momentos especiais.",
+      "Jogo personalizado criado para celebrar momentos especiais de forma interativa e divertida.",
     categoria: "ia",
     icone: "💍",
-    tipo: "pagina",
-    href: "/aplicativos/jogo-casamento",
+    playStoreHref: "#",
+    downloadHref: "/downloads/jogo-casamento.apk",
+    politicaHref: "/politicas/jogo-casamento",
   },
 ];
-
 export default function AplicativosPage() {
   return (
-    <div className="w-full">
-      {/* Hero Section */}
-      <section className="py-16 md:py-24 border-b border-white/10">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+    <div className="min-h-screen bg-slate-950 text-slate-50">
+      <section className="relative overflow-hidden border-b border-purple-500/20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <Link
+            href="/"
+            className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-purple-400 transition hover:text-purple-300"
+          >
+            <span>←</span>
+            <span>Voltar</span>
+          </Link>
+
+          <div className="max-w-3xl">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-purple-400">
               Aplicativos
+            </p>
+
+            <h1 className="mb-5 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl">
+              Apps criados para facilitar tarefas do dia a dia
             </h1>
 
-            <p className="text-slate-400 text-lg leading-relaxed">
-              Conheça e explore os aplicativos desenvolvidos no Laboratório de IA.
+            <p className="text-base leading-relaxed text-slate-300 sm:text-lg">
+              Baixe ferramentas, jogos e utilitários desenvolvidos para estudo,
+              produtividade e projetos personalizados.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Apps Grid */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-6">
-              {apps.map((app) => {
-                const cardContent = (
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      {/* Ícone e Categoria */}
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-3xl">{app.icone}</span>
+      <main className="mx-auto max-w-6xl px-4 py-12">
+        <div className="grid gap-6 md:grid-cols-3">
+          {aplicativos.map((app) => (
+            <div
+              key={app.slug}
+              className={`rounded-2xl border-2 bg-slate-900/80 p-6 shadow-lg transition-all duration-300 ${
+                app.categoria === "ia"
+                  ? "border-pink-500/70 shadow-pink-500/10"
+                  : "border-purple-500/70 shadow-purple-500/10"
+              }`}
+            >
+              <div className="mb-4 text-5xl">{app.icone}</div>
 
-                        <span className={`tag tag-${app.categoria}`}>
-                          {app.categoria === "ia" ? "IA" : "Programação"}
-                        </span>
-                      </div>
+              <h2 className="mb-3 text-2xl font-bold text-purple-400">
+                {app.nome}
+              </h2>
 
-                      {/* Nome */}
-                      <h2 className="text-2xl font-bold mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-blue-400 transition-all">
-                        {app.nome}
-                      </h2>
+              <p className="mb-6 text-sm leading-relaxed text-slate-300">
+                {app.descricao}
+              </p>
 
-                      {/* Descrição */}
-                      <p className="text-slate-400 leading-relaxed">
-                        {app.descricao}
-                      </p>
-                    </div>
+              <div className="mt-auto flex flex-col gap-3">
+  <a
+    href={app.playStoreHref}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex items-center justify-center rounded-lg border-2 border-green-500 bg-green-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-500"
+  >
+    ▶️ Download na Play Store
+  </a>
 
-                    {/* Arrow */}
-                    <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors">
-                      <span className="text-slate-400 group-hover:text-white transition-colors">
-                        {app.tipo === "download" ? "↓" : "→"}
-                      </span>
-                    </div>
-                  </div>
-                );
+  <a
+    href={app.downloadHref}
+    download
+    className="inline-flex items-center justify-center rounded-lg border-2 border-purple-500 bg-purple-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-purple-500"
+  >
+    ⬇️ Download do APK
+  </a>
 
-                if (app.tipo === "download") {
-                  return (
-                    <a
-                      key={app.slug}
-                      href={app.href}
-                      download
-                      className={`group card-hover ${
-                        app.categoria === "ia" ? "card-ia" : "card-dev"
-                      } transition-all block`}
-                    >
-                      {cardContent}
-                    </a>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={app.slug}
-                    href={app.href}
-                    className={`group card-hover ${
-                      app.categoria === "ia" ? "card-ia" : "card-dev"
-                    } transition-all`}
-                  >
-                    {cardContent}
-                  </Link>
-                );
-              })}
+  <Link
+    href={app.politicaHref}
+    className="inline-flex items-center justify-center rounded-lg border-2 border-slate-500 bg-slate-800 px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-purple-400 hover:text-purple-300"
+  >
+    🔒 Políticas de Privacidade
+  </Link>
+</div>
             </div>
-
-            {/* CTA Section */}
-            <div className="mt-12 pt-12 border-t border-white/10">
-              <div className="card-hover text-center">
-                <h3 className="text-xl font-bold mb-2">
-                  Quer criar um aplicativo?
-                </h3>
-
-                <p className="text-slate-400 mb-4">
-                  Aprenda a criar seus próprios aplicativos com IA e programação.
-                </p>
-
-                <Link
-                  href="/programacao"
-                  className="inline-flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors font-medium"
-                >
-                  Começar a aprender →
-                </Link>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </main>
     </div>
   );
 }

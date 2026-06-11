@@ -9,6 +9,7 @@ interface News {
   title: string;
   description: string;
   link?: string;
+  content?: string;
   image?: string;
   date: string;
   published: boolean;
@@ -93,6 +94,9 @@ export default function NoticiasPage() {
         ) : (
           <div className="grid gap-2">
             {noticias.map((noticia) => {
+              const hasInternalContent =
+                Boolean(noticia.content && noticia.content.trim().length > 0);
+
               const cardContent = (
                 <div className="bg-slate-800 border-2 border-purple-500 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300 h-full">
                   <div className="flex flex-col md:flex-row">
@@ -125,7 +129,7 @@ export default function NoticiasPage() {
                 </div>
               );
 
-              if (noticia.link) {
+              if (noticia.link && !hasInternalContent) {
                 return (
                   <a
                     key={noticia.id}
@@ -140,9 +144,13 @@ export default function NoticiasPage() {
               }
 
               return (
-                <div key={noticia.id} className="block">
+                <Link
+                  key={noticia.id}
+                  href={`/noticias/${noticia.id}`}
+                  className="block cursor-pointer"
+                >
                   {cardContent}
-                </div>
+                </Link>
               );
             })}
           </div>

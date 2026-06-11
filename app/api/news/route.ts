@@ -3,15 +3,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAllNewsAdmin, createNews, updateNews, deleteNews } from '@/lib/db';
 import { verifyToken } from '@/lib/auth';
 
-// GET - Listar todas as notícias (públicas)
+// GET - Listar todas as notícias
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const admin = searchParams.get('admin') === 'true';
 
     if (admin) {
-      // Verificar autenticação
       const token = request.cookies.get('auth-token')?.value;
+
       if (!token) {
         return NextResponse.json(
           { error: 'Não autenticado' },
@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
       }
 
       const payload = await verifyToken(token);
+
       if (!payload) {
         return NextResponse.json(
           { error: 'Token inválido' },
@@ -31,9 +32,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(news || []);
     }
 
-    // Notícias públicas (apenas publicadas)
+    // Notícias públicas: apenas publicadas
     const news = await getAllNewsAdmin();
-    const publicNews = (news || []).filter((item: any) => item.published === true);
+
+    const publicNews = (news || []).filter(
+      (item: {
+        published?: boolean;
+      }) => item.published === true
+    );
+
     return NextResponse.json(publicNews);
   } catch (error) {
     console.error('Erro ao buscar notícias:', error);
@@ -45,6 +52,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get('auth-token')?.value;
+
     if (!token) {
       return NextResponse.json(
         { error: 'Não autenticado' },
@@ -53,6 +61,7 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await verifyToken(token);
+
     if (!payload) {
       return NextResponse.json(
         { error: 'Token inválido' },
@@ -61,7 +70,15 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, description, link, date, published } = body;
+
+    const {
+      title,
+      description,
+      link,
+      content,
+      date,
+      published,
+    } = body;
 
     if (!title || !description) {
       return NextResponse.json(
@@ -70,11 +87,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const news = await createNews(title, description, link || '', date || new Date().toLocaleDateString('pt-BR'), published || false);
+    const finalLink = link || '';
+    const finalContent = content || '';
+
+    if (!finalLink && !finalContent) {
+      return NextResponse.json(
+        { error: 'Informe um link externo ou o texto completo da notícia.' },
+        { status: 400 }
+      );
+    }
+
+    const news = await createNews(
+      title,
+      description,
+      finalLink,
+      date || new Date().toISOString().split('T')[0],
+      published ?? false,
+      finalContent
+    );
 
     return NextResponse.json(news, { status: 201 });
   } catch (error) {
     console.error('Erro ao criar notícia:', error);
+
     return NextResponse.json(
       { error: 'Erro ao criar notícia' },
       { status: 500 }
@@ -86,6 +121,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const token = request.cookies.get('auth-token')?.value;
+
     if (!token) {
       return NextResponse.json(
         { error: 'Não autenticado' },
@@ -94,6 +130,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const payload = await verifyToken(token);
+
     if (!payload) {
       return NextResponse.json(
         { error: 'Token inválido' },
@@ -102,7 +139,16 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, title, description, link, date, published } = body;
+
+    const {
+      id,
+      title,
+      description,
+      link,
+      content,
+      date,
+      published,
+    } = body;
 
     if (!id || !title || !description) {
       return NextResponse.json(
@@ -111,11 +157,30 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const news = await updateNews(id, title, description, link || '', date || new Date().toLocaleDateString('pt-BR'), published || false);
+    const finalLink = link || '';
+    const finalContent = content || '';
+
+    if (!finalLink && !finalContent) {
+      return NextResponse.json(
+        { error: 'Informe um link externo ou o texto completo da notícia.' },
+        { status: 400 }
+      );
+    }
+
+    const news = await updateNews(
+      id,
+      title,
+      description,
+      finalLink,
+      date || new Date().toISOString().split('T')[0],
+      published ?? false,
+      finalContent
+    );
 
     return NextResponse.json(news);
   } catch (error) {
     console.error('Erro ao atualizar notícia:', error);
+
     return NextResponse.json(
       { error: 'Erro ao atualizar notícia' },
       { status: 500 }
@@ -127,6 +192,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const token = request.cookies.get('auth-token')?.value;
+
     if (!token) {
       return NextResponse.json(
         { error: 'Não autenticado' },
@@ -135,6 +201,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const payload = await verifyToken(token);
+
     if (!payload) {
       return NextResponse.json(
         { error: 'Token inválido' },
@@ -156,14 +223,15 @@ export async function DELETE(request: NextRequest) {
 
     if (success) {
       return NextResponse.json({ success: true });
-    } else {
-      return NextResponse.json(
-        { error: 'Erro ao deletar notícia' },
-        { status: 500 }
-      );
     }
+
+    return NextResponse.json(
+      { error: 'Erro ao deletar notícia' },
+      { status: 500 }
+    );
   } catch (error) {
     console.error('Erro ao deletar notícia:', error);
+
     return NextResponse.json(
       { error: 'Erro ao deletar notícia' },
       { status: 500 }

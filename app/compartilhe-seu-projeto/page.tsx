@@ -8,6 +8,8 @@ export default function CompartilheSeuProjetoPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const [fileName, setFileName] = useState('');
+  const [fileAlert, setFileAlert] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,9 +17,24 @@ export default function CompartilheSeuProjetoPage() {
     setLoading(true);
     setSuccess('');
     setError('');
+    setFileAlert('');
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+
+    const arquivo = formData.get('arquivo') as File | null;
+
+    if (!arquivo || arquivo.size === 0) {
+      setFileAlert('Selecione um arquivo para enviar.');
+      setLoading(false);
+      return;
+    }
+
+    if (arquivo.size > 10 * 1024 * 1024) {
+      setFileAlert('O arquivo é muito grande. Envie um arquivo de até 10 MB.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch('/api/compartilhe-projeto', {
@@ -33,6 +50,7 @@ export default function CompartilheSeuProjetoPage() {
       }
 
       setSuccess('Projeto enviado com sucesso!');
+      setFileName('');
       form.reset();
     } catch (err) {
       console.error(err);
@@ -83,6 +101,7 @@ export default function CompartilheSeuProjetoPage() {
               <label className="block text-slate-300 font-semibold mb-1">
                 Seu nome *
               </label>
+
               <input
                 type="text"
                 name="nome"
@@ -96,6 +115,7 @@ export default function CompartilheSeuProjetoPage() {
               <label className="block text-slate-300 font-semibold mb-1">
                 Seu email
               </label>
+
               <input
                 type="email"
                 name="email"
@@ -108,6 +128,7 @@ export default function CompartilheSeuProjetoPage() {
               <label className="block text-slate-300 font-semibold mb-1">
                 Nome do projeto *
               </label>
+
               <input
                 type="text"
                 name="nomeProjeto"
@@ -121,6 +142,7 @@ export default function CompartilheSeuProjetoPage() {
               <label className="block text-slate-300 font-semibold mb-1">
                 Linguagem / tecnologia *
               </label>
+
               <input
                 type="text"
                 name="linguagem"
@@ -134,6 +156,7 @@ export default function CompartilheSeuProjetoPage() {
               <label className="block text-slate-300 font-semibold mb-1">
                 Descrição *
               </label>
+
               <textarea
                 name="descricao"
                 required
@@ -142,33 +165,75 @@ export default function CompartilheSeuProjetoPage() {
               />
             </div>
 
-           <div>
-  <label className="block text-slate-300 font-semibold mb-1">
-    Arquivo do projeto *
-  </label>
+            <div>
+              <label className="block text-slate-300 font-semibold mb-1">
+                Arquivo do projeto *
+              </label>
 
-  <input
-    type="file"
-    name="arquivo"
-    required
-    className="w-full px-3 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white focus:outline-none"
-  />
+              <label className="block w-full px-3 py-3 bg-slate-700 border-2 border-purple-500 rounded-lg text-slate-300 cursor-pointer hover:bg-slate-600 transition">
+                <span>
+                  {fileName || 'Clique aqui para fazer o upload do arquivo/projeto'}
+                </span>
 
-  <div className="text-slate-400 text-xs mt-2 leading-relaxed">
-    <p>
-      Envie ZIP, APK, TXT, JS, PY, HTML, CSS ou outro arquivo do projeto.
-    </p>
+                <input
+                  type="file"
+                  name="arquivo"
+                  required
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
 
-    <p>
-      Limite de 10 MB por arquivo.
-    </p>
+                    if (!file) {
+                      setFileName('');
+                      return;
+                    }
 
-    <p>
-      Para projetos maiores, envie um link do Google Drive, GitHub ou OneDrive,
-      em vez de anexar o arquivo direto.
-    </p>
-  </div>
-</div>
+                    if (file.size > 10 * 1024 * 1024) {
+                      e.target.value = '';
+                      setFileName('');
+                      setFileAlert(
+                        'O arquivo é muito grande. Envie um arquivo de até 10 MB.'
+                      );
+                      return;
+                    }
+
+                    setFileAlert('');
+                    setFileName(file.name);
+                  }}
+                />
+              </label>
+
+              <div className="text-slate-400 text-xs mt-2 leading-relaxed">
+                <p>
+                  Envie ZIP, APK, TXT, JS, PY, HTML, CSS ou outro arquivo do projeto.
+                </p>
+
+                <p>
+                  Limite de 10 MB por arquivo.
+                </p>
+
+                <p>
+                  Para projetos maiores, envie um link do Google Drive, GitHub ou OneDrive,
+                  em vez de anexar o arquivo direto.
+                </p>
+              </div>
+            </div>
+
+            {fileAlert && (
+              <div className="mb-3 bg-red-500/20 border-2 border-red-500 text-red-300 px-4 py-3 rounded-lg text-center">
+                <p className="font-semibold mb-3">
+                  {fileAlert}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setFileAlert('')}
+                  className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg border border-red-400 transition"
+                >
+                  OK
+                </button>
+              </div>
+            )}
 
             <button
               type="submit"

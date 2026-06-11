@@ -373,7 +373,42 @@ export default function PoliticaPrivacidadeJogoCasamentoPage() {
               foi desenvolvido para funcionar com o mínimo de dados possível.
             </p>
           </section>
+          <section className="rounded-lg border border-purple-500/30 bg-slate-900/60 p-4 text-sm text-slate-400 space-y-1">
+  <p>
+    <strong className="text-purple-300">Desenvolvedor:</strong>{" "}
+    Daniel Ferraz
+  </p>
 
+  <p>
+    <strong className="text-purple-300">Aplicativo:</strong>{" "}
+    Jogo Casamento
+  </p>
+
+  <p>
+    <strong className="text-purple-300">Contato:</strong>{" "}
+    <a
+      href="mailto:labdeapp@gmail.com"
+      className="text-purple-300 hover:text-purple-200"
+    >
+      labdeapp@gmail.com
+    </a>
+  </p>
+
+  <p>
+    <strong className="text-purple-300">Plataforma:</strong>{" "}
+    Android
+  </p>
+
+  <p>
+    <strong className="text-purple-300">Versão da Política:</strong>{" "}
+    1.0
+  </p>
+
+  <p>
+    <strong className="text-purple-300">Última atualização:</strong>{" "}
+    11 de junho de 2026
+  </p>
+</section>
           <div className="pt-6 border-t border-purple-500/30">
             <Link
               href="/aplicativos"

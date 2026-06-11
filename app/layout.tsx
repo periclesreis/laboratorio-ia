@@ -95,7 +95,11 @@ export default function RootLayout({
               <ul className="space-y-2 text-sm text-slate-400">
                 <li><Link href="/about" className="hover:text-white transition-colors">Sobre o Projeto</Link></li>
                 <li><Link href="/contato" className="hover:text-white transition-colors">Contato</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Política de Privacidade</Link></li>
+                <li>
+                 <Link href="/politicas/site" className="hover:text-white transition-colors">
+                   Política de Privacidade
+                </Link>
+</li>
               </ul>
             </div>
           </div>

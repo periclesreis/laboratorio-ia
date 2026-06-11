@@ -85,30 +85,38 @@ ${descricao}
       success: true,
       message: 'Projeto enviado com sucesso.',
     });
-  } catch (error: any) {
+ } catch (error: unknown) {
+  const err = error as {
+    message?: string;
+    code?: string;
+    command?: string;
+    response?: string;
+    responseCode?: number;
+  };
+
   console.error('Erro detalhado ao enviar projeto:', {
-    message: error?.message,
-    code: error?.code,
-    command: error?.command,
-    response: error?.response,
-    responseCode: error?.responseCode,
+    message: err.message,
+    code: err.code,
+    command: err.command,
+    response: err.response,
+    responseCode: err.responseCode,
   });
 
   let mensagem = 'Erro ao enviar projeto.';
 
-  if (error?.code === 'EAUTH' || error?.responseCode === 535) {
+  if (err.code === 'EAUTH' || err.responseCode === 535) {
     mensagem =
       'Falha na autenticação do Gmail. Confira se SMTP_USER é o Gmail correto e se SMTP_PASS é a senha de app, sem espaços.';
-  } else if (error?.responseCode === 534) {
+  } else if (err.responseCode === 534) {
     mensagem =
       'O Gmail bloqueou o envio. Confirme se a verificação em duas etapas está ativa e gere uma nova senha de app.';
-  } else if (error?.code === 'ECONNECTION') {
+  } else if (err.code === 'ECONNECTION') {
     mensagem =
       'Erro de conexão com o servidor de email. Confira SMTP_HOST e SMTP_PORT.';
-  } else if (error?.code === 'ETIMEDOUT') {
+  } else if (err.code === 'ETIMEDOUT') {
     mensagem =
-      'Tempo esgotado ao conectar ao Gmail. Tente usar SMTP_PORT=465 com secure=true, ou considere usar um serviço de email por API.';
-  } else if (error?.code === 'EMESSAGE') {
+      'Tempo esgotado ao conectar ao Gmail. Tente usar SMTP_PORT=465 com secure=true.';
+  } else if (err.code === 'EMESSAGE') {
     mensagem =
       'Erro na montagem da mensagem. Tente enviar um arquivo menor ou com outro nome.';
   }

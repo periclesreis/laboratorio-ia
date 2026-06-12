@@ -38,8 +38,17 @@ export default function RootLayout({
               <Link href="/ia" className="hover:text-purple-400 transition-colors">IA</Link>
               <Link href="/programacao" className="hover:text-blue-400 transition-colors">Programação</Link>
               <Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">Aplicativos</Link>
-              <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">Projetos & Códigos</Link>
-              <Link href="/noticias" className="hover:text-white transition-colors">Notícias</Link>
+              <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">
+                Projetos & Códigos
+              </Link>
+
+              <Link href="/comunidade" className="hover:text-purple-400 transition-colors">
+              Comunidade
+              </Link>
+
+              <Link href="/noticias" className="hover:text-white transition-colors">
+              Notícias
+              </Link>
               <Link href="/about" className="hover:text-white transition-colors">Sobre</Link>
             </nav>
             
@@ -81,14 +90,43 @@ export default function RootLayout({
             
             <div>
               <h3 className="font-semibold mb-4 text-slate-200">Conteúdo</h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li><Link href="/ia" className="hover:text-purple-400 transition-colors">Inteligência Artificial</Link></li>
-                <li><Link href="/programacao" className="hover:text-blue-400 transition-colors">Programação</Link></li>
-                <li><Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">Aplicativos</Link></li>
-                <li><Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">Projetos & Códigos</Link></li>
-                <li><Link href="/noticias" className="hover:text-white transition-colors">Notícias</Link></li>
-              </ul>
-            </div>
+               <ul className="space-y-2 text-sm text-slate-400">
+  <li>
+    <Link href="/ia" className="hover:text-purple-400 transition-colors">
+      Inteligência Artificial
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/programacao" className="hover:text-blue-400 transition-colors">
+      Programação
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">
+      Aplicativos
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">
+      Projetos & Códigos
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/comunidade" className="hover:text-purple-400 transition-colors">
+      Comunidade
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/noticias" className="hover:text-white transition-colors">
+      Notícias
+    </Link>
+  </li>
+</ul>            </div>
             
             <div>
               <h3 className="font-semibold mb-4 text-slate-200">Laboratório</h3>

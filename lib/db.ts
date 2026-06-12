@@ -327,3 +327,211 @@ export async function deleteProject(id: number) {
     return false;
   }
 }
+// ==================== COMMUNITY ====================
+
+export async function getPublishedCommunityPosts() {
+  try {
+    const result = await pool.query(
+      `
+      SELECT
+        p.*,
+        COUNT(r.id) FILTER (WHERE r.published = true) AS replies_count
+      FROM community_posts p
+      LEFT JOIN community_replies r ON r.post_id = p.id
+      WHERE p.published = true
+      GROUP BY p.id
+      ORDER BY p.created_at DESC
+      `
+    );
+
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar publicações da comunidade:', error);
+    return [];
+  }
+}
+
+export async function getCommunityPostById(id: number) {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM community_posts WHERE id = $1 AND published = true',
+      [id]
+    );
+
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Erro ao buscar publicação da comunidade:', error);
+    return null;
+  }
+}
+
+export async function getPublishedCommunityReplies(postId: number) {
+  try {
+    const result = await pool.query(
+      `
+      SELECT *
+      FROM community_replies
+      WHERE post_id = $1 AND published = true
+      ORDER BY created_at ASC
+      `,
+      [postId]
+    );
+
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar respostas da comunidade:', error);
+    return [];
+  }
+}
+
+export async function createCommunityPost(
+  name: string,
+  email: string,
+  title: string,
+  content: string,
+  published: boolean = false
+) {
+  try {
+    const result = await pool.query(
+      `
+      INSERT INTO community_posts (name, email, title, content, published)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+      `,
+      [name, email, title, content, published]
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao criar publicação da comunidade:', error);
+    return null;
+  }
+}
+
+export async function createCommunityReply(
+  postId: number,
+  name: string,
+  email: string,
+  content: string,
+  published: boolean = false
+) {
+  try {
+    const result = await pool.query(
+      `
+      INSERT INTO community_replies (post_id, name, email, content, published)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+      `,
+      [postId, name, email, content, published]
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error('Erro ao criar resposta da comunidade:', error);
+    return null;
+  }
+}
+
+export async function getAllCommunityPostsAdmin() {
+  try {
+    const result = await pool.query(
+      `
+      SELECT
+        p.*,
+        COUNT(r.id) AS replies_count
+      FROM community_posts p
+      LEFT JOIN community_replies r ON r.post_id = p.id
+      GROUP BY p.id
+      ORDER BY p.created_at DESC
+      `
+    );
+
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar publicações admin:', error);
+    return [];
+  }
+}
+
+export async function getAllCommunityRepliesAdmin(postId: number) {
+  try {
+    const result = await pool.query(
+      `
+      SELECT *
+      FROM community_replies
+      WHERE post_id = $1
+      ORDER BY created_at ASC
+      `,
+      [postId]
+    );
+
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar respostas admin:', error);
+    return [];
+  }
+}
+
+export async function updateCommunityPostPublished(
+  id: number,
+  published: boolean
+) {
+  try {
+    const result = await pool.query(
+      `
+      UPDATE community_posts
+      SET published = $1
+      WHERE id = $2
+      RETURNING *
+      `,
+      [published, id]
+    );
+
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Erro ao atualizar publicação da comunidade:', error);
+    return null;
+  }
+}
+
+export async function updateCommunityReplyPublished(
+  id: number,
+  published: boolean
+) {
+  try {
+    const result = await pool.query(
+      `
+      UPDATE community_replies
+      SET published = $1
+      WHERE id = $2
+      RETURNING *
+      `,
+      [published, id]
+    );
+
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Erro ao atualizar resposta da comunidade:', error);
+    return null;
+  }
+}
+
+export async function deleteCommunityPost(id: number) {
+  try {
+    await pool.query('DELETE FROM community_posts WHERE id = $1', [id]);
+    return true;
+  } catch (error) {
+    console.error('Erro ao deletar publicação da comunidade:', error);
+    return false;
+  }
+}
+
+export async function deleteCommunityReply(id: number) {
+  try {
+    await pool.query('DELETE FROM community_replies WHERE id = $1', [id]);
+    return true;
+  } catch (error) {
+    console.error('Erro ao deletar resposta da comunidade:', error);
+    return false;
+  }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
+import MobileMenu from "@/components/MobileMenu";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -118,69 +119,7 @@ export default function RootLayout({
             </div>
 
             {/* Menu mobile */}
-            <details className="md:hidden group">
-              <summary className="flex cursor-pointer list-none items-center justify-center rounded-lg bg-purple-950/50 px-4 py-3 text-base font-bold text-purple-300 shadow-lg shadow-purple-500/10">
-                ☰ Menu
-              </summary>
-
-              <nav className="mt-3 grid gap-2 rounded-lg bg-slate-900/95 p-3 shadow-xl shadow-black/40">
-                <Link
-                  href="/ia"
-                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
-                >
-                  IA
-                </Link>
-
-                <Link
-                  href="/programacao"
-                  className="rounded-md px-4 py-3 text-blue-300 hover:bg-blue-500/10"
-                >
-                  Programação
-                </Link>
-
-                <Link
-                  href="/aplicativos"
-                  className="rounded-md px-4 py-3 text-emerald-300 hover:bg-emerald-500/10"
-                >
-                  Aplicativos
-                </Link>
-
-                <Link
-                  href="/projetos-codigos"
-                  className="rounded-md px-4 py-3 text-pink-300 hover:bg-pink-500/10"
-                >
-                  Projetos & Códigos
-                </Link>
-
-                <Link
-                  href="/comunidade"
-                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
-                >
-                  Comunidade
-                </Link>
-
-                <Link
-                  href="/noticias"
-                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
-                >
-                  Notícias
-                </Link>
-
-                <Link
-                  href="/about"
-                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
-                >
-                  Sobre
-                </Link>
-
-                <Link
-                  href="/contato"
-                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
-                >
-                  Contato
-                </Link>
-              </nav>
-            </details>
+            <MobileMenu />
           </div>
         </header>
 

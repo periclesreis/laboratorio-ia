@@ -26,40 +26,88 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col bg-slate-950 text-slate-50 selection:bg-purple-500/30`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col bg-slate-950 text-slate-50 selection:bg-purple-500/30`}
+      >
         {/* Header Global */}
-        <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
-          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight">
-              <span className="text-purple-500">Início</span>
-            </Link>
-            
+        <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur-md">
+          <div className="container mx-auto px-4 py-3 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            {/* Topo mobile e logo desktop */}
+            <div className="flex items-center justify-between gap-3">
+              <Link
+                href="/"
+                className="flex items-center gap-2 font-bold text-2xl md:text-xl tracking-tight"
+              >
+                <span className="text-purple-500">Início</span>
+              </Link>
+
+              <Link
+                href="/admin/login"
+                className="md:hidden inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-bold"
+              >
+                <span>🔐</span>
+                <span>Área Logada</span>
+              </Link>
+            </div>
+
+            {/* Menu desktop */}
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-              <Link href="/ia" className="hover:text-purple-400 transition-colors">IA</Link>
-              <Link href="/programacao" className="hover:text-blue-400 transition-colors">Programação</Link>
-              <Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">Aplicativos</Link>
-              <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">
+              <Link
+                href="/ia"
+                className="hover:text-purple-400 transition-colors"
+              >
+                IA
+              </Link>
+
+              <Link
+                href="/programacao"
+                className="hover:text-blue-400 transition-colors"
+              >
+                Programação
+              </Link>
+
+              <Link
+                href="/aplicativos"
+                className="hover:text-emerald-400 transition-colors"
+              >
+                Aplicativos
+              </Link>
+
+              <Link
+                href="/projetos-codigos"
+                className="hover:text-pink-400 transition-colors"
+              >
                 Projetos & Códigos
               </Link>
 
-              <Link href="/comunidade" className="hover:text-purple-400 transition-colors">
-              Comunidade
+              <Link
+                href="/comunidade"
+                className="hover:text-purple-400 transition-colors"
+              >
+                Comunidade
               </Link>
 
-              <Link href="/noticias" className="hover:text-white transition-colors">
-              Notícias
+              <Link
+                href="/noticias"
+                className="hover:text-white transition-colors"
+              >
+                Notícias
               </Link>
-              <Link href="/about" className="hover:text-white transition-colors">Sobre</Link>
+
+              <Link href="/about" className="hover:text-white transition-colors">
+                Sobre
+              </Link>
             </nav>
-            
-            <div className="flex items-center gap-4">
-              <Link 
-                href="/contato" 
-                className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white/10 text-white hover:bg-white/20 h-9 px-4 py-2"
+
+            {/* Botões desktop */}
+            <div className="hidden md:flex items-center gap-4">
+              <Link
+                href="/contato"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-white/10 text-white hover:bg-white/20 h-9 px-4 py-2"
               >
                 Contato
               </Link>
-              
+
               <Link
                 href="/admin/login"
                 className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-medium"
@@ -68,81 +116,191 @@ export default function RootLayout({
                 <span>Área Logada</span>
               </Link>
             </div>
+
+            {/* Menu mobile */}
+            <details className="md:hidden group">
+              <summary className="flex cursor-pointer list-none items-center justify-center rounded-lg bg-purple-950/50 px-4 py-3 text-base font-bold text-purple-300 shadow-lg shadow-purple-500/10">
+                ☰ Menu
+              </summary>
+
+              <nav className="mt-3 grid gap-2 rounded-lg bg-slate-900/95 p-3 shadow-xl shadow-black/40">
+                <Link
+                  href="/ia"
+                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
+                >
+                  IA
+                </Link>
+
+                <Link
+                  href="/programacao"
+                  className="rounded-md px-4 py-3 text-blue-300 hover:bg-blue-500/10"
+                >
+                  Programação
+                </Link>
+
+                <Link
+                  href="/aplicativos"
+                  className="rounded-md px-4 py-3 text-emerald-300 hover:bg-emerald-500/10"
+                >
+                  Aplicativos
+                </Link>
+
+                <Link
+                  href="/projetos-codigos"
+                  className="rounded-md px-4 py-3 text-pink-300 hover:bg-pink-500/10"
+                >
+                  Projetos & Códigos
+                </Link>
+
+                <Link
+                  href="/comunidade"
+                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
+                >
+                  Comunidade
+                </Link>
+
+                <Link
+                  href="/noticias"
+                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
+                >
+                  Notícias
+                </Link>
+
+                <Link
+                  href="/about"
+                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
+                >
+                  Sobre
+                </Link>
+
+                <Link
+                  href="/contato"
+                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
+                >
+                  Contato
+                </Link>
+              </nav>
+            </details>
           </div>
         </header>
 
         {/* Conteúdo Principal */}
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
 
         {/* Footer Global */}
         <footer className="border-t border-white/10 bg-slate-950 py-12 mt-20">
           <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight mb-4">
+              <Link
+                href="/"
+                className="flex items-center gap-2 font-bold text-xl tracking-tight mb-4"
+              >
                 <span className="text-purple-500">Início</span>
               </Link>
+
               <p className="text-slate-400 max-w-xs text-sm leading-relaxed">
-                Um espaço dedicado ao aprendizado prático de Inteligência Artificial, Programação e criação de Aplicativos.
+                Um espaço dedicado ao aprendizado prático de Inteligência
+                Artificial, Programação e criação de Aplicativos.
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-semibold mb-4 text-slate-200">Conteúdo</h3>
-               <ul className="space-y-2 text-sm text-slate-400">
-  <li>
-    <Link href="/ia" className="hover:text-purple-400 transition-colors">
-      Inteligência Artificial
-    </Link>
-  </li>
 
-  <li>
-    <Link href="/programacao" className="hover:text-blue-400 transition-colors">
-      Programação
-    </Link>
-  </li>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>
+                  <Link
+                    href="/ia"
+                    className="hover:text-purple-400 transition-colors"
+                  >
+                    Inteligência Artificial
+                  </Link>
+                </li>
 
-  <li>
-    <Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">
-      Aplicativos
-    </Link>
-  </li>
+                <li>
+                  <Link
+                    href="/programacao"
+                    className="hover:text-blue-400 transition-colors"
+                  >
+                    Programação
+                  </Link>
+                </li>
 
-  <li>
-    <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">
-      Projetos & Códigos
-    </Link>
-  </li>
+                <li>
+                  <Link
+                    href="/aplicativos"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
+                    Aplicativos
+                  </Link>
+                </li>
 
-  <li>
-    <Link href="/comunidade" className="hover:text-purple-400 transition-colors">
-      Comunidade
-    </Link>
-  </li>
+                <li>
+                  <Link
+                    href="/projetos-codigos"
+                    className="hover:text-pink-400 transition-colors"
+                  >
+                    Projetos & Códigos
+                  </Link>
+                </li>
 
-  <li>
-    <Link href="/noticias" className="hover:text-white transition-colors">
-      Notícias
-    </Link>
-  </li>
-</ul>            </div>
-            
+                <li>
+                  <Link
+                    href="/comunidade"
+                    className="hover:text-purple-400 transition-colors"
+                  >
+                    Comunidade
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/noticias"
+                    className="hover:text-white transition-colors"
+                  >
+                    Notícias
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
             <div>
               <h3 className="font-semibold mb-4 text-slate-200">Laboratório</h3>
+
               <ul className="space-y-2 text-sm text-slate-400">
-                <li><Link href="/about" className="hover:text-white transition-colors">Sobre o Projeto</Link></li>
-                <li><Link href="/contato" className="hover:text-white transition-colors">Contato</Link></li>
                 <li>
-                 <Link href="/politicas/site" className="hover:text-white transition-colors">
-                   Política de Privacidade
-                </Link>
-</li>
+                  <Link
+                    href="/about"
+                    className="hover:text-white transition-colors"
+                  >
+                    Sobre o Projeto
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/contato"
+                    className="hover:text-white transition-colors"
+                  >
+                    Contato
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/politicas/site"
+                    className="hover:text-white transition-colors"
+                  >
+                    Política de Privacidade
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
+
           <div className="container mx-auto px-4 mt-12 pt-8 border-t border-white/10 text-center text-sm text-slate-500">
-            © {new Date().getFullYear()} Laboratório de IA. Todos os direitos reservados.
+            © {new Date().getFullYear()} Laboratório de IA. Todos os direitos
+            reservados.
           </div>
         </footer>
       </body>

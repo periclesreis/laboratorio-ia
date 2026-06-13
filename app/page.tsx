@@ -19,17 +19,25 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500" />
               </span>
-              <span className="text-sm font-medium text-slate-300">Bem-vindo ao Laboratório de IA</span>
+
+              <span className="text-sm font-medium text-slate-300">
+                Bem-vindo ao Laboratório de IA
+              </span>
             </div>
 
             {/* Headline */}
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-tight">
-              Aprenda <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-emerald-400">IA, Programação</span> e crie <span className="text-white">Aplicativos</span>
+              Aprenda{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-emerald-400">
+                IA, Programação
+              </span>{" "}
+              e crie <span className="text-white">Aplicativos</span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Tutoriais práticos, projetos reais e experiências com Inteligência Artificial para acelerar seu desenvolvimento.
+              Tutoriais práticos, projetos reais e experiências com Inteligência
+              Artificial para acelerar seu desenvolvimento.
             </p>
           </div>
         </div>
@@ -39,8 +47,13 @@ export default function Home() {
       <section className="py-20 md:py-28 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Áreas de Conhecimento</h2>
-            <p className="text-slate-400 text-lg">Explore os principais tópicos do laboratório</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Áreas de Conhecimento
+            </h2>
+
+            <p className="text-slate-400 text-lg">
+              Explore os principais tópicos do laboratório
+            </p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6">
@@ -49,10 +62,16 @@ export default function Home() {
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors mb-4">
                 <span className="text-2xl">🧠</span>
               </div>
-              <h3 className="text-xl font-bold mb-2">Inteligência Artificial</h3>
+
+              <h3 className="text-xl font-bold mb-2">
+                Inteligência Artificial
+              </h3>
+
               <p className="text-slate-400 text-sm leading-relaxed">
-                Prompts, agentes, automações e ferramentas modernas de IA para resolver problemas reais.
+                Prompts, agentes, automações e ferramentas modernas de IA para
+                resolver problemas reais.
               </p>
+
               <div className="mt-4 flex items-center text-purple-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
                 Saiba mais <span className="ml-2">→</span>
               </div>
@@ -63,10 +82,14 @@ export default function Home() {
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors mb-4">
                 <span className="text-2xl">💻</span>
               </div>
+
               <h3 className="text-xl font-bold mb-2">Programação</h3>
+
               <p className="text-slate-400 text-sm leading-relaxed">
-                React, Next.js, JavaScript, Python e projetos práticos para iniciantes e avançados.
+                React, Next.js, JavaScript, Python e projetos práticos para
+                iniciantes e avançados.
               </p>
+
               <div className="mt-4 flex items-center text-blue-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
                 Saiba mais <span className="ml-2">→</span>
               </div>
@@ -77,82 +100,78 @@ export default function Home() {
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/20 group-hover:bg-emerald-500/30 transition-colors mb-4">
                 <span className="text-2xl">📱</span>
               </div>
+
               <h3 className="text-xl font-bold mb-2">Aplicativos</h3>
+
               <p className="text-slate-400 text-sm leading-relaxed">
-                Conheça e baixe aplicativos desenvolvidos no laboratório com tecnologias modernas.
+                Conheça e baixe aplicativos desenvolvidos no laboratório com
+                tecnologias modernas.
               </p>
+
               <div className="mt-4 flex items-center text-emerald-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
                 Saiba mais <span className="ml-2">→</span>
               </div>
             </Link>
 
             {/* Projetos & Códigos Card */}
-            <Link href="/projetos-codigos" className="group card-hover card-projects">
+            <Link
+              href="/projetos-codigos"
+              className="group card-hover card-projects"
+            >
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-pink-500/20 group-hover:bg-pink-500/30 transition-colors mb-4">
                 <span className="text-2xl">🚀</span>
               </div>
+
               <h3 className="text-xl font-bold mb-2">Projetos & Códigos</h3>
+
               <p className="text-slate-400 text-sm leading-relaxed">
-                Aprenda fazendo projetos reais com passo a passo completo para iniciantes.
+                Aprenda fazendo projetos reais com passo a passo completo para
+                iniciantes.
               </p>
+
               <div className="mt-4 flex items-center text-pink-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
                 Saiba mais <span className="ml-2">→</span>
               </div>
             </Link>
           </div>
-        </div>
-      </section>
 
-      {/* Projetos em Destaque */}
-      <section className="py-20 md:py-28 border-t border-white/10">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Projetos em Destaque</h2>
-            <p className="text-slate-400 text-lg">Aplicativos e ferramentas criadas no laboratório</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Projeto 1 */}
-            <div className="card-hover">
-              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/20 mb-4">
-                <span className="text-2xl">⏱️</span>
+          {/* Cards adicionais */}
+          <div className="grid md:grid-cols-2 gap-6 mt-6 max-w-3xl mx-auto">
+            {/* Comunidade Card */}
+            <Link href="/comunidade" className="group card-hover card-ia">
+              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors mb-4">
+                <span className="text-2xl">💬</span>
               </div>
-              <h3 className="text-lg font-bold mb-2">Cronômetro Flutuante</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                Ferramenta criada para auxiliar apresentações, discursos e treinamentos com precisão.
+
+              <h3 className="text-xl font-bold mb-2">Comunidade</h3>
+
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Compartilhe dúvidas, ideias, sugestões e experiências com
+                outros visitantes do laboratório.
               </p>
-              <Link href="/aplicativos/cronometro-flutuante" className="text-purple-400 text-sm font-medium hover:text-purple-300 transition-colors">
-                Acessar →
-              </Link>
-            </div>
 
-            {/* Projeto 2 */}
-            <div className="card-hover">
-              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/20 mb-4">
-                <span className="text-2xl">🔗</span>
+              <div className="mt-4 flex items-center text-purple-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
+                Participar <span className="ml-2">→</span>
               </div>
-              <h3 className="text-lg font-bold mb-2">Links Úteis</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                Organizador inteligente de links e categorias para manter seus recursos organizados.
-              </p>
-              <Link href="/aplicativos/links-uteis" className="text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors">
-                Acessar →
-              </Link>
-            </div>
+            </Link>
 
-            {/* Projeto 3 */}
-            <div className="card-hover">
-              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/20 mb-4">
-                <span className="text-2xl">🚀</span>
+            {/* Notícias Card */}
+            <Link href="/noticias" className="group card-hover card-dev">
+              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors mb-4">
+                <span className="text-2xl">📰</span>
               </div>
-              <h3 className="text-lg font-bold mb-2">Próximos Projetos</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                Novos aplicativos e experiências utilizando IA e tecnologias modernas em desenvolvimento.
+
+              <h3 className="text-xl font-bold mb-2">Notícias</h3>
+
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Acompanhe novidades, atualizações, artigos e conteúdos sobre IA,
+                programação e tecnologia.
               </p>
-              <div className="text-slate-500 text-sm font-medium">
-                Em breve →
+
+              <div className="mt-4 flex items-center text-blue-400 text-sm font-medium group-hover:translate-x-1 transition-transform">
+                Ler notícias <span className="ml-2">→</span>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -161,10 +180,16 @@ export default function Home() {
       <section className="py-20 md:py-28 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Notícias do Laboratório</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Notícias do Laboratório
+            </h2>
+
             <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-              Artigos, tutoriais, experiências práticas e estudos sobre Inteligência Artificial, Programação e Desenvolvimento de Aplicativos.
+              Artigos, tutoriais, experiências práticas e estudos sobre
+              Inteligência Artificial, Programação e Desenvolvimento de
+              Aplicativos.
             </p>
+
             <Link
               href="/noticias"
               className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-3 font-semibold text-white transition-all hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105"

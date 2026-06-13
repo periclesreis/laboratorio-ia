@@ -161,7 +161,7 @@ export default function SiteHeader() {
 
         <nav className="flex items-center gap-6 text-sm font-medium text-slate-300">
           <Link href="/ia" className="hover:text-purple-400 transition-colors">
-            IA
+            Inteligência Artificial
           </Link>
 
           <Link

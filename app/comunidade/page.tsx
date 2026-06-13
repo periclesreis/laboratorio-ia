@@ -97,7 +97,7 @@ export default function ComunidadePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100">
       <section className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/30 py-16 px-4">
-        <div className="max-w-[1500px] mx-auto">
+        <div className="max-w-6xl mx-auto">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition mb-6"

@@ -7,6 +7,21 @@ export default function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
+  const mobileMenuItemBase =
+    "w-[250px] rounded-lg border px-4 py-0.5 text-[22px] font-bold leading-tight transition-colors";
+
+  const mobileMenuItemInicio =
+    `${mobileMenuItemBase} border-emerald-500/60 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-500/10`;
+
+  const mobileMenuItemPrincipal =
+    `${mobileMenuItemBase} border-purple-500/60 bg-purple-950/30 text-purple-300 hover:bg-purple-500/10`;
+
+  const mobileMenuItemWhite =
+    `${mobileMenuItemBase} border-slate-500/60 bg-slate-800/50 text-slate-100 hover:bg-white/10`;
+
+  const mobileMenuItemAdmin =
+    `${mobileMenuItemBase} border-purple-500/70 bg-purple-600/20 text-purple-300 hover:bg-purple-600/30`;
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | TouchEvent) {
       if (
@@ -34,19 +49,16 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur-md">
       {/* Mobile */}
-      <div
-        ref={menuRef}
-        className="md:hidden w-full"
-      >
-        <div className="flex items-center justify-between bg-purple-950/50 px-4 py-4 shadow-lg shadow-purple-500/10">
-          <div className="text-2xl font-bold text-purple-300 leading-tight">
+      <div ref={menuRef} className="md:hidden w-full">
+        <div className="bg-purple-950/50 px-3 py-3 shadow-lg shadow-purple-500/10">
+          <div className="text-center text-3xl font-bold leading-tight bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
             Laboratório de IA
           </div>
 
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-xl font-bold text-purple-300 shadow-md shadow-black/30"
+            className="mt-2 inline-flex items-center justify-center rounded-lg bg-slate-800 px-3 py- text-lg font-bold text-purple-200 shadow-md shadow-black/30 transition hover:bg-slate-700"
             aria-label="Abrir menu"
           >
             ☰ Menu
@@ -54,11 +66,11 @@ export default function SiteHeader() {
         </div>
 
         {mobileMenuOpen && (
-          <nav className="grid gap-2 bg-slate-900/98 px-4 py-4 shadow-2xl shadow-black/50">
+          <nav className="grid gap-2 bg-slate-900/98 px-3 py-3 shadow-2xl shadow-black/50">
             <Link
               href="/"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-purple-300 hover:bg-purple-500/10"
+              className={mobileMenuItemInicio}
             >
               Início
             </Link>
@@ -66,7 +78,7 @@ export default function SiteHeader() {
             <Link
               href="/ia"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-purple-300 hover:bg-purple-500/10"
+              className={mobileMenuItemPrincipal}
             >
               Inteligência Artificial
             </Link>
@@ -74,7 +86,7 @@ export default function SiteHeader() {
             <Link
               href="/programacao"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-blue-300 hover:bg-blue-500/10"
+              className={mobileMenuItemPrincipal}
             >
               Programação
             </Link>
@@ -82,7 +94,7 @@ export default function SiteHeader() {
             <Link
               href="/aplicativos"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-emerald-300 hover:bg-emerald-500/10"
+              className={mobileMenuItemPrincipal}
             >
               Aplicativos
             </Link>
@@ -90,7 +102,7 @@ export default function SiteHeader() {
             <Link
               href="/projetos-codigos"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-pink-300 hover:bg-pink-500/10"
+              className={mobileMenuItemPrincipal}
             >
               Projetos & Códigos
             </Link>
@@ -98,7 +110,7 @@ export default function SiteHeader() {
             <Link
               href="/comunidade"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-purple-300 hover:bg-purple-500/10"
+              className={mobileMenuItemPrincipal}
             >
               Comunidade
             </Link>
@@ -106,7 +118,7 @@ export default function SiteHeader() {
             <Link
               href="/noticias"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-slate-100 hover:bg-white/10"
+              className={mobileMenuItemPrincipal}
             >
               Notícias
             </Link>
@@ -114,7 +126,7 @@ export default function SiteHeader() {
             <Link
               href="/about"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-slate-100 hover:bg-white/10"
+              className={mobileMenuItemWhite}
             >
               Sobre
             </Link>
@@ -122,7 +134,7 @@ export default function SiteHeader() {
             <Link
               href="/contato"
               onClick={closeMobileMenu}
-              className="rounded-lg px-4 py-4 text-[27px] font-bold leading-tight text-slate-100 hover:bg-white/10"
+              className={mobileMenuItemWhite}
             >
               Contato
             </Link>
@@ -130,7 +142,7 @@ export default function SiteHeader() {
             <Link
               href="/admin/login"
               onClick={closeMobileMenu}
-              className="rounded-lg border border-purple-500/50 bg-purple-600/20 px-4 py-4 text-[27px] font-bold leading-tight text-purple-300 hover:bg-purple-600/30"
+              className={mobileMenuItemAdmin}
             >
               🔐 Área Logada
             </Link>

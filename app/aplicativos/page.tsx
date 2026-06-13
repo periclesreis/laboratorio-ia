@@ -53,19 +53,15 @@ export default function AplicativosPage() {
           </Link>
 
           <div className="max-w-3xl">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-purple-400">
-              Aplicativos
-            </p>
+  <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-[1.15] pb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+    Aplicativos
+  </h1>
 
-            <h1 className="mb-5 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl">
-              Apps criados para facilitar tarefas do dia a dia
-            </h1>
-
-            <p className="text-base leading-relaxed text-slate-300 sm:text-lg">
-              Baixe ferramentas, jogos e utilitários desenvolvidos para estudo,
-              produtividade e projetos personalizados.
-            </p>
-          </div>
+  <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
+    Baixe ferramentas, jogos e utilitários desenvolvidos para estudo,
+    produtividade e projetos personalizados.
+  </p>
+</div>
         </div>
       </section>
 

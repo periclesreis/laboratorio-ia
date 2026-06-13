@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import MobileMenu from "@/components/MobileMenu";
+import SiteHeader from "@/components/SiteHeader";
 import "./globals.css";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,98 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col bg-slate-950 text-slate-50 selection:bg-purple-500/30`}
       >
         {/* Header Global */}
-        <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur-md">
-          <div className="container mx-auto px-4 py-3 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            {/* Topo mobile e logo desktop */}
-            <div className="flex items-center justify-between gap-3">
-              <Link
-                href="/"
-                className="flex items-center gap-2 font-bold text-2xl md:text-xl tracking-tight"
-              >
-                <span className="text-purple-500">Início</span>
-              </Link>
-
-              <Link
-                href="/admin/login"
-                className="md:hidden inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-bold"
-              >
-                <span>🔐</span>
-                <span>Área Logada</span>
-              </Link>
-            </div>
-
-            {/* Menu desktop */}
-            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-              <Link
-                href="/ia"
-                className="hover:text-purple-400 transition-colors"
-              >
-                IA
-              </Link>
-
-              <Link
-                href="/programacao"
-                className="hover:text-blue-400 transition-colors"
-              >
-                Programação
-              </Link>
-
-              <Link
-                href="/aplicativos"
-                className="hover:text-emerald-400 transition-colors"
-              >
-                Aplicativos
-              </Link>
-
-              <Link
-                href="/projetos-codigos"
-                className="hover:text-pink-400 transition-colors"
-              >
-                Projetos & Códigos
-              </Link>
-
-              <Link
-                href="/comunidade"
-                className="hover:text-purple-400 transition-colors"
-              >
-                Comunidade
-              </Link>
-
-              <Link
-                href="/noticias"
-                className="hover:text-white transition-colors"
-              >
-                Notícias
-              </Link>
-
-              <Link href="/about" className="hover:text-white transition-colors">
-                Sobre
-              </Link>
-            </nav>
-
-            {/* Botões desktop */}
-            <div className="hidden md:flex items-center gap-4">
-              <Link
-                href="/contato"
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-white/10 text-white hover:bg-white/20 h-9 px-4 py-2"
-              >
-                Contato
-              </Link>
-
-              <Link
-                href="/admin/login"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-medium"
-              >
-                <span>🔐</span>
-                <span>Área Logada</span>
-              </Link>
-            </div>
-
-            {/* Menu mobile */}
-            <MobileMenu />
-          </div>
-        </header>
-
+         <SiteHeader />
         {/* Conteúdo Principal */}
         <main className="flex-1">{children}</main>
 

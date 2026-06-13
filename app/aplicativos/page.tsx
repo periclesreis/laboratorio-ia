@@ -1,7 +1,7 @@
-// app/aplicativos/page.tsx
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const aplicativos = [
@@ -11,7 +11,7 @@ const aplicativos = [
     descricao:
       "Ferramenta criada para auxiliar apresentações, discursos e treinamentos com precisão e facilidade.",
     categoria: "dev",
-    icone: "⏱️",
+    iconSrc: "/icones/cronometro.png",
     downloadHref: "/downloads/cronometro-flutuante.apk",
     politicaHref: "/politicas/cronometro-flutuante",
   },
@@ -21,7 +21,7 @@ const aplicativos = [
     descricao:
       "Aplicativo para organizar links importantes em um só lugar, com acesso rápido e prático.",
     categoria: "dev",
-    icone: "🔗",
+    iconSrc: "/icones/links-uteis.png",
     downloadHref: "/downloads/links-uteis.apk",
     politicaHref: "/politicas/links-uteis",
   },
@@ -31,7 +31,7 @@ const aplicativos = [
     descricao:
       "Jogo personalizado criado para celebrar momentos especiais de forma interativa e divertida.",
     categoria: "ia",
-    icone: "💍",
+    iconSrc: "/icones/jogo-casamento.png",
     downloadHref: "/downloads/jogo-casamento.apk",
     politicaHref: "/politicas/jogo-casamento",
   },
@@ -41,8 +41,7 @@ export default function AplicativosPage() {
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100">
-      {/* Hero */}
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-50">
       <section className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/30 py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <Link
@@ -53,32 +52,45 @@ export default function AplicativosPage() {
             <span>Voltar</span>
           </Link>
 
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-            Aplicativos
-          </h1>
+          <div className="max-w-3xl">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-purple-400">
+              Aplicativos
+            </p>
 
-          <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
-            Baixe ferramentas, jogos e utilitários desenvolvidos para estudo,
-            produtividade e projetos personalizados.
-          </p>
+            <h1 className="mb-5 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl">
+              Apps criados para facilitar tarefas do dia a dia
+            </h1>
+
+            <p className="text-base leading-relaxed text-slate-300 sm:text-lg">
+              Baixe ferramentas, jogos e utilitários desenvolvidos para estudo,
+              produtividade e projetos personalizados.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Cards */}
-      <main className="max-w-6xl mx-auto px-4 py-14">
+      <main className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-6 md:grid-cols-3">
           {aplicativos.map((app) => (
             <div
               key={app.slug}
-              className="relative flex h-full flex-col rounded-lg border-2 border-purple-500 bg-slate-800 p-6 shadow-lg shadow-purple-500/10 transition-all duration-300 hover:shadow-purple-500/40"
+              className="relative flex h-full flex-col rounded-2xl border-2 border-purple-500/70 bg-slate-900/80 p-6 shadow-lg shadow-purple-500/10 transition-all duration-300"
             >
-              <div className="mb-4 text-5xl">{app.icone}</div>
+              <div className="mb-4 flex justify-center">
+                <Image
+                  src={app.iconSrc}
+                  alt={app.nome}
+                  width={110}
+                  height={110}
+                  className="h-[110px] w-[110px] rounded-2xl object-cover"
+                />
+              </div>
 
-              <h2 className="mb-3 text-2xl font-bold text-purple-400">
+              <h2 className="mb-3 text-2xl font-bold text-purple-400 text-center">
                 {app.nome}
               </h2>
 
-              <p className="mb-6 text-sm leading-relaxed text-slate-300">
+              <p className="mb-6 text-sm leading-relaxed text-slate-300 text-center">
                 {app.descricao}
               </p>
 
@@ -103,10 +115,9 @@ export default function AplicativosPage() {
                     </button>
 
                     <p className="mb-3 pr-6 leading-relaxed">
-                      Por enquanto, este aplicativo está disponível apenas para
-                      testadores. Envie seu e-mail pelo formulário de contato e
-                      teremos o maior prazer em inscrever você no nosso seleto
-                      grupo de testadores.
+                      Por enquanto, este aplicativo está disponível apenas para testadores.
+                      Envie seu e-mail pelo formulário de contato e teremos o maior prazer em
+                      inscrever você no nosso seleto grupo de testadores.
                     </p>
 
                     <div className="flex flex-col gap-2 sm:flex-row">

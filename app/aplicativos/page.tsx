@@ -17,9 +17,9 @@ const aplicativos = [
   },
   {
     slug: "links-uteis",
-    nome: "Links Úteis",
+    nome: "Links & Notas",
     descricao:
-      "Aplicativo para organizar links importantes em um só lugar, com acesso rápido e prático.",
+       "Aplicativo para organizar links, anotações e conteúdos importantes em um só lugar, com acesso rápido e prático.",
     categoria: "dev",
     iconSrc: "/icones/links-uteis.png",
     downloadHref: "/downloads/links-uteis.apk",
@@ -53,15 +53,15 @@ export default function AplicativosPage() {
           </Link>
 
           <div className="max-w-3xl">
-  <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-[1.15] pb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-    Aplicativos
-  </h1>
+            <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-[1.15] pb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+              Aplicativos
+            </h1>
 
-  <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
-    Baixe ferramentas, jogos e utilitários desenvolvidos para estudo,
-    produtividade e projetos personalizados.
-  </p>
-</div>
+            <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
+              Baixe ferramentas, jogos e utilitários desenvolvidos para estudo,
+              produtividade e projetos personalizados.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -91,6 +91,14 @@ export default function AplicativosPage() {
               </p>
 
               <div className="mt-auto flex flex-col gap-3 pt-4">
+                <a
+                  href={app.downloadHref}
+                  download
+                  className="inline-flex items-center justify-center rounded-lg border-2 border-purple-500 bg-purple-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-purple-500"
+                >
+                  ⬇️ Download do APK
+                </a>
+
                 <button
                   type="button"
                   onClick={() => setNoticeApp(app.slug)}
@@ -111,9 +119,10 @@ export default function AplicativosPage() {
                     </button>
 
                     <p className="mb-3 pr-6 leading-relaxed">
-                      Por enquanto, este aplicativo está disponível apenas para testadores.
-                      Envie seu e-mail pelo formulário de contato e teremos o maior prazer em
-                      inscrever você no nosso seleto grupo de testadores.
+                      Por enquanto, este aplicativo está disponível apenas para
+                      testadores. Envie seu e-mail pelo formulário de contato e
+                      teremos o maior prazer em inscrever você no nosso seleto
+                      grupo de testadores.
                     </p>
 
                     <div className="flex flex-col gap-2 sm:flex-row">
@@ -134,14 +143,6 @@ export default function AplicativosPage() {
                     </div>
                   </div>
                 )}
-
-                <a
-                  href={app.downloadHref}
-                  download
-                  className="inline-flex items-center justify-center rounded-lg border-2 border-purple-500 bg-purple-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-purple-500"
-                >
-                  ⬇️ Download do APK
-                </a>
 
                 <Link
                   href={app.politicaHref}

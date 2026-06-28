@@ -4,7 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
-const aplicativos = [
+type Aplicativo = {
+  slug: string;
+  nome: string;
+  descricao: string;
+  categoria: string;
+  iconSrc: string;
+  downloadHref: string;
+  politicaHref: string;
+};
+
+const aplicativos: Aplicativo[] = [
   {
     slug: "cronometro-flutuante",
     nome: "Cronômetro Flutuante",
@@ -19,7 +29,7 @@ const aplicativos = [
     slug: "links-uteis",
     nome: "Links & Notas",
     descricao:
-       "Aplicativo para organizar links, anotações e conteúdos importantes em um só lugar, com acesso rápido e prático.",
+      "Aplicativo para organizar links, anotações e conteúdos importantes em um só lugar, com acesso rápido e prático.",
     categoria: "dev",
     iconSrc: "/icones/links-uteis.png",
     downloadHref: "/downloads/links-uteis.apk",
@@ -34,6 +44,16 @@ const aplicativos = [
     iconSrc: "/icones/jogo-casamento.png",
     downloadHref: "/downloads/jogo-casamento.apk",
     politicaHref: "/politicas/jogo-casamento",
+  },
+  {
+    slug: "controle-genealogico-aves",
+    nome: "Controle Genealógico de Aves",
+    descricao:
+      "Aplicativo para cadastro, consulta, organização e controle genealógico de aves, com registros locais e Cadastro Nacional online.",
+    categoria: "dev",
+    iconSrc: "/icones/controle-genealogico-aves.png",
+    downloadHref: "/downloads/controle-genealogico-aves.apk",
+    politicaHref: "/politicas/controle-genealogico-aves",
   },
 ];
 
@@ -66,7 +86,7 @@ export default function AplicativosPage() {
       </section>
 
       <main className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {aplicativos.map((app) => (
             <div
               key={app.slug}
@@ -74,12 +94,12 @@ export default function AplicativosPage() {
             >
               <div className="mb-4 flex justify-center">
                 <Image
-                  src={app.iconSrc}
-                  alt={app.nome}
-                  width={110}
-                  height={110}
-                  className="h-[110px] w-[110px] rounded-2xl object-cover"
-                />
+  src={app.iconSrc}
+  alt={app.nome}
+  width={110}
+  height={110}
+  className="h-[110px] w-[110px] rounded-2xl object-cover"
+/>
               </div>
 
               <h2 className="mb-3 text-2xl font-bold text-purple-400 text-center">

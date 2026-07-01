@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getNewsById } from "@/lib/db";
+import ShareNoticiaButton from "@/components/ShareNoticiaButton";
 
 type NoticiaPageProps = {
   params: Promise<{
@@ -121,6 +122,9 @@ export default async function NoticiaDetalhePage({
     notFound();
   }
 
+  const slug = criarSlug(noticia.title);
+  const noticiaPath = `/noticias/${noticia.id}/${slug}`;
+
   const conteudo =
     noticia.content && noticia.content.trim().length > 0
       ? noticia.content
@@ -142,9 +146,17 @@ export default async function NoticiaDetalhePage({
             {noticia.title}
           </h1>
 
-          <p className="text-sm text-purple-300 font-semibold">
-            📅 {formatDate(noticia.date)}
-          </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-purple-300 font-semibold">
+              📅 {formatDate(noticia.date)}
+            </p>
+
+            <ShareNoticiaButton
+              title={noticia.title}
+              description={noticia.description}
+              path={noticiaPath}
+            />
+          </div>
         </div>
       </section>
 
@@ -170,8 +182,14 @@ export default async function NoticiaDetalhePage({
             {conteudo}
           </div>
 
-          {noticia.link && (
-            <div className="mt-10 border-t border-white/10 pt-6">
+          <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row">
+            <ShareNoticiaButton
+              title={noticia.title}
+              description={noticia.description}
+              path={noticiaPath}
+            />
+
+            {noticia.link && (
               <a
                 href={noticia.link}
                 target="_blank"
@@ -180,8 +198,8 @@ export default async function NoticiaDetalhePage({
               >
                 Acessar fonte externa →
               </a>
-            </div>
-          )}
+            )}
+          </div>
         </article>
       </main>
     </div>

@@ -1,4 +1,3 @@
-// app/noticias/page.tsx
 'use client';
 
 import Link from "next/link";
@@ -39,14 +38,16 @@ function formatDate(dateString: string) {
 }
 
 function criarSlug(texto: string) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/&/g, "e")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 120) || "noticia";
+  return (
+    texto
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/&/g, "e")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 120) || "noticia"
+  );
 }
 
 export default function NoticiasPage() {
@@ -71,7 +72,6 @@ export default function NoticiasPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      {/* Hero */}
       <section className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/30 py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <Link
@@ -82,17 +82,17 @@ export default function NoticiasPage() {
             <span>Voltar</span>
           </Link>
 
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-[1.15] pb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
             Notícias
           </h1>
 
           <p className="text-lg text-slate-400">
-            Fique atualizado com as últimas novidades sobre IA, programação e tecnologia
+            Fique atualizado com as últimas novidades sobre IA, programação e
+            tecnologia
           </p>
         </div>
       </section>
 
-      {/* Conteúdo */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         {loading ? (
           <div className="text-center text-purple-400 text-xl">
@@ -105,8 +105,9 @@ export default function NoticiasPage() {
         ) : (
           <div className="grid gap-2">
             {noticias.map((noticia) => {
-              const hasInternalContent =
-                Boolean(noticia.content && noticia.content.trim().length > 0);
+              const hasInternalContent = Boolean(
+                noticia.content && noticia.content.trim().length > 0
+              );
 
               const cardContent = (
                 <div className="bg-slate-800 border-2 border-purple-500 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300 h-full">

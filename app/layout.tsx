@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
-import MobileMenu from "@/components/MobileMenu";
 import SiteHeader from "@/components/SiteHeader";
 import "./globals.css";
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,9 +15,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Laboratório de IA",
+  metadataBase: new URL("https://www.laboratoriodeapp.com"),
+  title: {
+    default: "Laboratório de IA",
+    template: "%s | Laboratório de IA",
+  },
   description:
     "Aprenda Inteligência Artificial, Programação e Desenvolvimento de Aplicativos do zero.",
+  openGraph: {
+    siteName: "Laboratório de IA",
+    type: "website",
+    locale: "pt_BR",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
@@ -32,12 +42,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col bg-slate-950 text-slate-50 selection:bg-purple-500/30`}
       >
-        {/* Header Global */}
-         <SiteHeader />
-        {/* Conteúdo Principal */}
+        <SiteHeader />
+
         <main className="flex-1">{children}</main>
 
-        {/* Footer Global */}
         <footer className="border-t border-white/10 bg-slate-950 py-12 mt-20">
           <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">

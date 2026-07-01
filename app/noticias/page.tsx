@@ -38,6 +38,17 @@ function formatDate(dateString: string) {
   return `${day}-${month}-${year}`;
 }
 
+function criarSlug(texto: string) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, "e")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 120) || "noticia";
+}
+
 export default function NoticiasPage() {
   const [noticias, setNoticias] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
@@ -146,7 +157,7 @@ export default function NoticiasPage() {
               return (
                 <Link
                   key={noticia.id}
-                  href={`/noticias/${noticia.id}`}
+                  href={`/noticias/${noticia.id}/${criarSlug(noticia.title)}`}
                   className="block cursor-pointer"
                 >
                   {cardContent}

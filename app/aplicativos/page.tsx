@@ -10,7 +10,6 @@ type Aplicativo = {
   descricao: string;
   categoria: string;
   iconSrc: string;
-  downloadHref: string;
   politicaHref: string;
 };
 
@@ -22,7 +21,6 @@ const aplicativos: Aplicativo[] = [
       "Ferramenta criada para auxiliar apresentações, discursos e treinamentos com precisão e facilidade.",
     categoria: "dev",
     iconSrc: "/icones/cronometro.png",
-    downloadHref: "/downloads/cronometro-flutuante.apk",
     politicaHref: "/politicas/cronometro-flutuante",
   },
   {
@@ -32,7 +30,6 @@ const aplicativos: Aplicativo[] = [
       "Aplicativo para organizar links, anotações e conteúdos importantes em um só lugar, com acesso rápido e prático.",
     categoria: "dev",
     iconSrc: "/icones/links-uteis.png",
-    downloadHref: "/downloads/links-uteis.apk",
     politicaHref: "/politicas/links-uteis",
   },
   {
@@ -42,7 +39,6 @@ const aplicativos: Aplicativo[] = [
       "Jogo personalizado criado para celebrar momentos especiais de forma interativa e divertida.",
     categoria: "ia",
     iconSrc: "/icones/jogo-casamento.png",
-    downloadHref: "/downloads/jogo-casamento.apk",
     politicaHref: "/politicas/jogo-casamento",
   },
   {
@@ -52,7 +48,6 @@ const aplicativos: Aplicativo[] = [
       "Aplicativo para cadastro, consulta, organização e controle genealógico de aves, com registros locais e Cadastro Nacional online.",
     categoria: "dev",
     iconSrc: "/icones/controle-genealogico-aves.png",
-    downloadHref: "/downloads/controle-genealogico-aves.apk",
     politicaHref: "/politicas/controle-genealogico-aves",
   },
 ];
@@ -94,12 +89,12 @@ export default function AplicativosPage() {
             >
               <div className="mb-4 flex justify-center">
                 <Image
-  src={app.iconSrc}
-  alt={app.nome}
-  width={110}
-  height={110}
-  className="h-[110px] w-[110px] rounded-2xl object-cover"
-/>
+                  src={app.iconSrc}
+                  alt={app.nome}
+                  width={110}
+                  height={110}
+                  className="h-[110px] w-[110px] rounded-2xl object-cover"
+                />
               </div>
 
               <h2 className="mb-3 text-2xl font-bold text-purple-400 text-center">
@@ -111,14 +106,6 @@ export default function AplicativosPage() {
               </p>
 
               <div className="mt-auto flex flex-col gap-3 pt-4">
-                <a
-                  href={app.downloadHref}
-                  download
-                  className="inline-flex items-center justify-center rounded-lg border-2 border-purple-500 bg-purple-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-purple-500"
-                >
-                  ⬇️ Download do APK
-                </a>
-
                 <button
                   type="button"
                   onClick={() => setNoticeApp(app.slug)}

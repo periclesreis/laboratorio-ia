@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getNewsById } from "@/lib/db";
 import ShareNoticiaButton from "@/components/ShareNoticiaButton";
+import NewsComments from "@/components/NewsComments";
 
 type NoticiaPageProps = {
   params: Promise<{
@@ -200,6 +201,8 @@ export default async function NoticiaDetalhePage({
               </a>
             )}
           </div>
+
+          <NewsComments newsId={noticia.id} />
         </article>
       </main>
     </div>

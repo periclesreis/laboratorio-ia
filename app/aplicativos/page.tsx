@@ -11,6 +11,7 @@ type Aplicativo = {
   categoria: string;
   iconSrc: string;
   politicaHref: string;
+  exclusaoHref?: string;
 };
 
 const aplicativos: Aplicativo[] = [
@@ -49,6 +50,7 @@ const aplicativos: Aplicativo[] = [
     categoria: "dev",
     iconSrc: "/icones/controle-genealogico-aves.png",
     politicaHref: "/politicas/controle-genealogico-aves",
+    exclusaoHref: "/exclusao-de-conta/controle-genealogico-aves",
   },
 ];
 
@@ -157,6 +159,15 @@ export default function AplicativosPage() {
                 >
                   🔒 Políticas de Privacidade
                 </Link>
+
+                {app.exclusaoHref && (
+                  <Link
+                    href={app.exclusaoHref}
+                    className="inline-flex items-center justify-center rounded-lg border-2 border-red-500/70 bg-red-950/40 px-4 py-2 text-center text-sm font-bold text-red-100 transition hover:bg-red-900/60 hover:text-white"
+                  >
+                    🗑️ Exclusão de contas e dados
+                  </Link>
+                )}
               </div>
             </div>
           ))}

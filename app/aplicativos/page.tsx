@@ -54,6 +54,9 @@ const aplicativos: Aplicativo[] = [
   },
 ];
 
+const botaoCard =
+  "inline-flex w-[250px] max-w-full items-center justify-center rounded-lg px-3 py-2 text-center text-sm font-bold transition";
+
 export default function AplicativosPage() {
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
 
@@ -82,12 +85,12 @@ export default function AplicativosPage() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-6 md:grid-cols-2">
+      <main className="mx-auto max-w-[720px] px-4 py-12">
+        <div className="grid justify-items-center gap-6 md:grid-cols-2">
           {aplicativos.map((app) => (
             <div
               key={app.slug}
-              className="relative flex h-full flex-col rounded-2xl border-2 border-purple-500/70 bg-slate-900/80 p-6 shadow-lg shadow-purple-500/10 transition-all duration-300"
+              className="relative flex h-full w-full max-w-[330px] flex-col rounded-2xl border-2 border-purple-500/70 bg-slate-900/80 p-6 shadow-lg shadow-purple-500/10 transition-all duration-300"
             >
               <div className="mb-4 flex justify-center">
                 <Image
@@ -99,19 +102,19 @@ export default function AplicativosPage() {
                 />
               </div>
 
-              <h2 className="mb-3 text-2xl font-bold text-purple-400 text-center">
+              <h2 className="mb-3 text-center text-2xl font-bold text-purple-400">
                 {app.nome}
               </h2>
 
-              <p className="mb-6 text-sm leading-relaxed text-slate-300 text-center">
+              <p className="mb-6 text-center text-sm leading-relaxed text-slate-300">
                 {app.descricao}
               </p>
 
-              <div className="mt-auto flex flex-col gap-3 pt-4">
+              <div className="mt-auto flex flex-col items-center gap-3 pt-4">
                 <button
                   type="button"
                   onClick={() => setNoticeApp(app.slug)}
-                  className="inline-flex items-center justify-center rounded-lg border-2 border-green-500 bg-green-600 px-4 py-2 text-center text-sm font-bold text-white transition hover:bg-green-500"
+                  className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
                 >
                   ▶️ Download na Play Store
                 </button>
@@ -155,7 +158,7 @@ export default function AplicativosPage() {
 
                 <Link
                   href={app.politicaHref}
-                  className="inline-flex items-center justify-center rounded-lg border-2 border-slate-500 bg-slate-800 px-4 py-2 text-center text-sm font-bold text-slate-200 transition hover:border-purple-400 hover:text-purple-300"
+                  className={`${botaoCard} border-2 border-slate-500 bg-slate-800 text-slate-200 hover:border-purple-400 hover:text-purple-300`}
                 >
                   🔒 Políticas de Privacidade
                 </Link>
@@ -163,7 +166,7 @@ export default function AplicativosPage() {
                 {app.exclusaoHref && (
                   <Link
                     href={app.exclusaoHref}
-                    className="inline-flex items-center justify-center rounded-lg border-2 border-red-500/70 bg-red-950/40 px-4 py-2 text-center text-sm font-bold text-red-100 transition hover:bg-red-900/60 hover:text-white"
+                    className={`${botaoCard} border-2 border-red-500/70 bg-red-950/40 text-red-100 hover:bg-red-900/60 hover:text-white`}
                   >
                     🗑️ Exclusão de contas e dados
                   </Link>

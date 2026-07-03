@@ -83,7 +83,7 @@ export default function AplicativosPage() {
       </section>
 
       <main className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2">
           {aplicativos.map((app) => (
             <div
               key={app.slug}
@@ -111,7 +111,7 @@ export default function AplicativosPage() {
                 <button
                   type="button"
                   onClick={() => setNoticeApp(app.slug)}
-                  className="inline-flex items-center justify-center rounded-lg border-2 border-green-500 bg-green-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-500"
+                  className="inline-flex items-center justify-center rounded-lg border-2 border-green-500 bg-green-600 px-4 py-2 text-center text-sm font-bold text-white transition hover:bg-green-500"
                 >
                   ▶️ Download na Play Store
                 </button>
@@ -155,7 +155,7 @@ export default function AplicativosPage() {
 
                 <Link
                   href={app.politicaHref}
-                  className="inline-flex items-center justify-center rounded-lg border-2 border-slate-500 bg-slate-800 px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-purple-400 hover:text-purple-300"
+                  className="inline-flex items-center justify-center rounded-lg border-2 border-slate-500 bg-slate-800 px-4 py-2 text-center text-sm font-bold text-slate-200 transition hover:border-purple-400 hover:text-purple-300"
                 >
                   🔒 Políticas de Privacidade
                 </Link>

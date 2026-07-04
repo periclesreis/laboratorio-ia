@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('admin@laboratoriodia.com');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -33,8 +34,10 @@ export default function AdminLoginPage() {
         return;
       }
 
-      // Redirecionar após sucesso
-      router.push('/admin/dashboard');
+      // Aguardar um pouco antes de redirecionar
+      setTimeout(() => {
+        router.push('/admin/dashboard');
+      }, 500);
     } catch (err) {
       console.error('Erro:', err);
       setError('Erro ao conectar ao servidor');
@@ -78,14 +81,27 @@ export default function AdminLoginPage() {
               <label className="block text-slate-300 font-semibold mb-2">
                 Senha
               </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-purple-400"
-                placeholder="••••••••"
-                required
-              />
+
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-lg border-2 border-purple-500 bg-slate-700 px-4 py-2 pr-12 text-white placeholder-slate-400 focus:border-purple-400 focus:outline-none"
+                  placeholder="••••••••"
+                  required
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((valorAtual) => !valorAtual)}
+                  className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-xl text-slate-300 transition hover:text-white focus:outline-none"
+                  aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                  title={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
             </div>
 
             <button
@@ -103,7 +119,13 @@ export default function AdminLoginPage() {
             </Link>
           </div>
         </div>
-        
+
+        <div className="mt-6 bg-slate-800/50 border border-purple-500/30 rounded-lg p-4 text-slate-400 text-sm">
+          <p className="font-semibold text-slate-300 mb-2">📝 Credenciais Padrão:</p>
+          <p>Email: <code className="bg-slate-900 px-2 py-1 rounded">admin@laboratoriodia.com</code></p>
+          <p>Senha: <code className="bg-slate-900 px-2 py-1 rounded">admin123</code></p>
+          <p className="mt-2 text-yellow-400">⚠️ Mude a senha após o primeiro login!</p>
+        </div>
       </div>
     </div>
   );

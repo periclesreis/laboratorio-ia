@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('admin@laboratoriodia.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -65,14 +65,14 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-slate-300 font-semibold mb-2">
-                Email
+                Usuário
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 bg-slate-700 border-2 border-purple-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-purple-400"
-                placeholder="seu@email.com"
+                placeholder="exemplo@email.com"
                 required
               />
             </div>
@@ -118,13 +118,6 @@ export default function AdminLoginPage() {
               ← Voltar ao site
             </Link>
           </div>
-        </div>
-
-        <div className="mt-6 bg-slate-800/50 border border-purple-500/30 rounded-lg p-4 text-slate-400 text-sm">
-          <p className="font-semibold text-slate-300 mb-2">📝 Credenciais Padrão:</p>
-          <p>Email: <code className="bg-slate-900 px-2 py-1 rounded">admin@laboratoriodia.com</code></p>
-          <p>Senha: <code className="bg-slate-900 px-2 py-1 rounded">admin123</code></p>
-          <p className="mt-2 text-yellow-400">⚠️ Mude a senha após o primeiro login!</p>
         </div>
       </div>
     </div>

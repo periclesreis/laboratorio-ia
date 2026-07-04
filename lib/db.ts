@@ -57,7 +57,7 @@ export async function createUser(
 export async function getAllNews() {
   try {
     const result = await pool.query(
-      'SELECT * FROM news WHERE published = true ORDER BY date DESC'
+      'SELECT * FROM news WHERE published = true ORDER BY id DESC'
     );
 
     return result.rows;
@@ -70,7 +70,7 @@ export async function getAllNews() {
 export async function getAllNewsAdmin() {
   try {
     const result = await pool.query(
-      'SELECT * FROM news ORDER BY date DESC'
+      'SELECT * FROM news ORDER BY id DESC'
     );
 
     return result.rows;

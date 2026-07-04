@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { getNewsById } from "@/lib/db";
 import ShareNoticiaButton from "@/components/ShareNoticiaButton";
 import NewsComments from "@/components/NewsComments";
@@ -38,7 +40,11 @@ function formatDate(dateString: string) {
 function resumirTexto(texto?: string | null, limite = 160) {
   if (!texto) return "Leia esta notícia no Laboratório de IA.";
 
-  const limpo = texto.replace(/\s+/g, " ").trim();
+  const limpo = texto
+    .replace(/[#*_>`~-]/g, "")
+    .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
 
   if (limpo.length <= limite) {
     return limpo;
@@ -179,8 +185,74 @@ export default async function NoticiaDetalhePage({
             </p>
           )}
 
-          <div className="whitespace-pre-wrap text-slate-200 leading-relaxed text-base sm:text-lg">
-            {conteudo}
+          <div className="text-base leading-relaxed text-slate-200 sm:text-lg">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ children }) => (
+                  <h1 className="mb-5 mt-8 text-4xl font-bold leading-tight text-purple-300">
+                    {children}
+                  </h1>
+                ),
+                h2: ({ children }) => (
+                  <h2 className="mb-4 mt-8 text-3xl font-bold leading-tight text-purple-300">
+                    {children}
+                  </h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 className="mb-3 mt-6 text-2xl font-bold leading-tight text-purple-300">
+                    {children}
+                  </h3>
+                ),
+                h4: ({ children }) => (
+                  <h4 className="mb-3 mt-5 text-xl font-bold leading-tight text-purple-200">
+                    {children}
+                  </h4>
+                ),
+                p: ({ children }) => (
+                  <p className="mb-5 leading-relaxed text-slate-200">
+                    {children}
+                  </p>
+                ),
+                strong: ({ children }) => (
+                  <strong className="font-bold text-slate-50">
+                    {children}
+                  </strong>
+                ),
+                em: ({ children }) => (
+                  <em className="italic text-slate-100">{children}</em>
+                ),
+                ul: ({ children }) => (
+                  <ul className="mb-5 list-disc space-y-2 pl-6 text-slate-200">
+                    {children}
+                  </ul>
+                ),
+                ol: ({ children }) => (
+                  <ol className="mb-5 list-decimal space-y-2 pl-6 text-slate-200">
+                    {children}
+                  </ol>
+                ),
+                li: ({ children }) => <li className="pl-1">{children}</li>,
+                blockquote: ({ children }) => (
+                  <blockquote className="mb-5 border-l-4 border-purple-500 bg-purple-950/20 py-3 pl-4 text-slate-200">
+                    {children}
+                  </blockquote>
+                ),
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-300 underline decoration-purple-400/60 underline-offset-4 transition hover:text-purple-200"
+                  >
+                    {children}
+                  </a>
+                ),
+                hr: () => <hr className="my-8 border-white/10" />,
+              }}
+            >
+              {conteudo}
+            </ReactMarkdown>
           </div>
 
           <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row">

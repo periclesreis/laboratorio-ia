@@ -2968,7 +2968,7 @@ function BackButton({
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex shrink-0 items-center gap-2 rounded-[26px] border-[3px] bg-white px-5 py-2.5 text-[20px] font-black active:opacity-75"
+      className="inline-flex shrink-0 items-center gap-1.5 rounded-[18px] border-[2px] bg-white px-3 py-1.5 text-[14px] font-black active:opacity-75"
       style={{
         borderColor: "#6366F1",
         color: "#166534",
@@ -2977,7 +2977,7 @@ function BackButton({
       aria-label={label}
       title={label}
     >
-      <span className="text-[28px] leading-none">←</span>
+      <span className="text-[18px] leading-none">←</span>
       <span>{label}</span>
     </button>
   );

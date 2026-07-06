@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Aplicativo = {
@@ -58,7 +59,14 @@ const botaoCard =
   "inline-flex w-[250px] max-w-full items-center justify-center rounded-lg px-3 py-2 text-center text-sm font-bold transition";
 
 export default function AplicativosPage() {
+  const router = useRouter();
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
+  const [webNoticeApp, setWebNoticeApp] = useState<string | null>(null);
+
+  function abrirVersaoWeb() {
+    setWebNoticeApp(null);
+    router.push("/links-notas");
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-50">
@@ -113,11 +121,27 @@ export default function AplicativosPage() {
               <div className="mt-auto flex flex-col items-center gap-3 pt-4">
                 <button
                   type="button"
-                  onClick={() => setNoticeApp(app.slug)}
+                  onClick={() => {
+                    setWebNoticeApp(null);
+                    setNoticeApp(app.slug);
+                  }}
                   className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
                 >
                   ▶️ Download na Play Store
                 </button>
+
+                {app.slug === "links-uteis" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNoticeApp(null);
+                      setWebNoticeApp(app.slug);
+                    }}
+                    className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
+                  >
+                    🌐 Versão Web
+                  </button>
+                )}
 
                 {noticeApp === app.slug && (
                   <div className="absolute left-4 right-4 top-4 z-20 rounded-lg border-2 border-red-500 bg-red-950/95 p-3 text-sm text-red-100 shadow-2xl shadow-red-950/60">
@@ -153,6 +177,47 @@ export default function AplicativosPage() {
                         OK, entendi
                       </button>
                     </div>
+                  </div>
+                )}
+
+                {webNoticeApp === app.slug && (
+                  <div className="absolute left-4 right-4 top-4 z-30 rounded-lg border-2 border-sky-400 bg-slate-950/95 p-4 text-sm text-slate-100 shadow-2xl shadow-sky-950/60">
+                    <button
+                      type="button"
+                      onClick={() => setWebNoticeApp(null)}
+                      className="absolute right-2 top-1 text-lg font-bold text-sky-200 transition hover:text-white"
+                      aria-label="Fechar aviso da versão web"
+                    >
+                      ×
+                    </button>
+
+                    <h3 className="mb-2 pr-6 text-base font-black text-sky-200">
+                      Atenção sobre a Versão Web
+                    </h3>
+
+                    <p className="mb-3 leading-relaxed">
+                      Os dados salvos nesta versão ficam gravados localmente neste navegador e neste dispositivo.
+                      Eles não migram automaticamente para o aplicativo mobile.
+                    </p>
+
+                    <p className="mb-3 leading-relaxed">
+                      Para levar seus links, pastas e anotações para outro navegador, computador ou para a versão
+                      mobile, use a opção <strong>Backup</strong> dentro do aplicativo web e depois restaure o arquivo
+                      <strong> .lu</strong> no destino.
+                    </p>
+
+                    <p className="mb-4 leading-relaxed text-slate-300">
+                      Se você limpar os dados do navegador, trocar de aparelho ou usar uma aba anônima, os dados locais
+                      podem não estar disponíveis. Faça backup periodicamente.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={abrirVersaoWeb}
+                      className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500"
+                    >
+                      OK, abrir Versão Web
+                    </button>
                   </div>
                 )}
 

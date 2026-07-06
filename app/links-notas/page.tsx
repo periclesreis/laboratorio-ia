@@ -424,18 +424,24 @@ function getHost(url: string) {
   }
 }
 
+function getDateTime(value?: DateValue | null) {
+  if (value === null || value === undefined || value === "") {
+    return 0;
+  }
+
+  const date = new Date(value);
+
+  return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+}
+
 function formatDate(dateString?: DateValue | null) {
-  if (!dateString) {
+  const timestamp = getDateTime(dateString);
+
+  if (!timestamp) {
     return "";
   }
 
-  const date = new Date(dateString);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return date.toLocaleDateString("pt-BR", {
+  return new Date(timestamp).toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "short",
   });
@@ -531,7 +537,7 @@ export default function LinksNotasWebPage() {
     () =>
       data.notes
         .slice()
-        .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()),
+        .sort((a, b) => getDateTime(b.updatedAt) - getDateTime(a.updatedAt)),
     [data.notes],
   );
 
@@ -539,7 +545,7 @@ export default function LinksNotasWebPage() {
     () =>
       data.structuredNotes
         .slice()
-        .sort((a, b) => new Date(b.updatedAt ?? 0).getTime() - new Date(a.updatedAt ?? 0).getTime()),
+        .sort((a, b) => getDateTime(b.updatedAt) - getDateTime(a.updatedAt)),
     [data.structuredNotes],
   );
 
@@ -1371,48 +1377,57 @@ export default function LinksNotasWebPage() {
                     <div className="grid gap-2">
                       <p className="text-xs font-semibold uppercase text-slate-500">Meus Links</p>
                       {homeResults
-                        .filter((item) => item.kind === "link")
+                        .filter((item): item is { kind: "link"; item: CustomLink } => item.kind === "link")
                         .map((result) => (
                           <button
                             key={`home-link-${result.item.id}`}
                             type="button"
-                            onClick={() => {
-                              if (result.kind === "structuredNote") {
-                                openStructuredNote(result.item as StructuredNote);
-                                return;
-                              }
-
-                              openTargetItem(result as Target);
-                            }}
+                            onClick={() => openTargetItem({ kind: "link", item: result.item })}
                             className="rounded-[18px] border-[1.5px] bg-white p-3 text-left active:opacity-75"
                             style={{ borderColor: COLORS.purple }}
                           >
-                            <p className="truncate font-extrabold text-slate-950">🔗 {(result.item as CustomLink).title}</p>
-                            <p className="mt-1 truncate text-sm text-slate-500">{getHost((result.item as CustomLink).url)}</p>
+                            <p className="truncate font-extrabold text-slate-950">🔗 {result.item.title}</p>
+                            <p className="mt-1 truncate text-sm text-slate-500">{getHost(result.item.url)}</p>
                           </button>
                         ))}
                     </div>
                   )}
 
-                  {homeResults.some((item) => item.kind === "note") && (
+                  {homeResults.some((item) => item.kind === "structuredNote" || item.kind === "note") && (
                     <div className="grid gap-2">
                       <p className="text-xs font-semibold uppercase text-slate-500">Anotações</p>
+
                       {homeResults
-                        .filter((item) => item.kind === "note")
+                        .filter((item): item is { kind: "structuredNote"; item: StructuredNote } => item.kind === "structuredNote")
+                        .map((result) => (
+                          <button
+                            key={`home-structured-note-${result.item.id}`}
+                            type="button"
+                            onClick={() => openStructuredNote(result.item)}
+                            className="rounded-[18px] border-[1.5px] p-3 text-left active:opacity-75"
+                            style={{
+                              backgroundColor: result.item.color ?? "#FFFFFF",
+                              borderColor: COLORS.purple,
+                            }}
+                          >
+                            <p className={`truncate font-extrabold ${result.item.color ? "text-white" : "text-slate-950"}`}>
+                              📖 {result.item.title?.trim() || "Nota estruturada"}
+                            </p>
+                            <p className={`mt-1 truncate text-sm ${result.item.color ? "text-white/80" : "text-slate-500"}`}>
+                              Nota estruturada
+                            </p>
+                          </button>
+                        ))}
+
+                      {homeResults
+                        .filter((item): item is { kind: "note"; item: NoteItem } => item.kind === "note")
                         .map((result) => {
-                          const note = result.item as NoteItem;
+                          const note = result.item;
                           return (
                             <button
                               key={`home-note-${note.id}`}
                               type="button"
-                              onClick={() => {
-                              if (result.kind === "structuredNote") {
-                                openStructuredNote(result.item as StructuredNote);
-                                return;
-                              }
-
-                              openTargetItem(result as Target);
-                            }}
+                              onClick={() => openTargetItem({ kind: "note", item: note })}
                               className="rounded-[18px] border-[1.5px] p-3 text-left active:opacity-75"
                               style={{
                                 backgroundColor: note.color ?? "#FFFFFF",
@@ -1423,7 +1438,7 @@ export default function LinksNotasWebPage() {
                                 📝 {note.title?.trim() || "Sem título"}
                               </p>
                               {note.content?.trim() && (
-                                <p className={`mt-1 line-clamp-2 text-sm ${note.color ? "text-white/80" : "text-slate-500"}`}>
+                                <p className={`mt-1 truncate text-sm ${note.color ? "text-white/80" : "text-slate-500"}`}>
                                   {note.content}
                                 </p>
                               )}
@@ -1437,26 +1452,25 @@ export default function LinksNotasWebPage() {
                     <div className="grid gap-2">
                       <p className="text-xs font-semibold uppercase text-slate-500">Pastas</p>
                       {homeResults
-                        .filter((item) => item.kind === "linkFolder" || item.kind === "noteFolder")
+                        .filter((item): item is { kind: "linkFolder"; item: LinkFolder } | { kind: "noteFolder"; item: NoteFolder } => item.kind === "linkFolder" || item.kind === "noteFolder")
                         .map((result) => {
                           const isLinkFolder = result.kind === "linkFolder";
-                          const folder: any = result.item;
+                          const folder = result.item;
                           return (
                             <button
                               key={`home-folder-${result.kind}-${folder.id}`}
                               type="button"
-                              onClick={() => {
-                              if (result.kind === "structuredNote") {
-                                openStructuredNote(result.item as StructuredNote);
-                                return;
+                              onClick={() =>
+                                isLinkFolder
+                                  ? openTargetItem({ kind: "linkFolder", item: folder as LinkFolder })
+                                  : openTargetItem({ kind: "noteFolder", item: folder as NoteFolder })
                               }
-
-                              openTargetItem(result as Target);
-                            }}
                               className="rounded-[18px] border-[1.5px] p-3 text-left active:opacity-75"
                               style={{ backgroundColor: COLORS.folderBackground, borderColor: COLORS.folderBorder }}
                             >
-                              <p className="truncate font-extrabold text-slate-950">{folder.icon || "📁"} {folder.title || folder.name}</p>
+                              <p className="truncate font-extrabold text-slate-950">
+                                {"icon" in folder ? folder.icon || "📁" : "📁"} {"title" in folder ? folder.title : folder.name}
+                              </p>
                               <p className="mt-1 text-sm text-slate-500">{isLinkFolder ? "Pasta de Meus Links" : "Pasta de Anotações"}</p>
                             </button>
                           );
@@ -2710,7 +2724,7 @@ function StructuredNoteCard({
   onOpen: () => void;
 }) {
   const sections = Array.isArray(note.sections) ? note.sections : [];
-  const questionCount = sections.reduce((total, rawSection) => {
+  const questionCount = sections.reduce<number>((total, rawSection) => {
     const section = asRecord(rawSection);
     const items = Array.isArray(section.items) ? section.items : [];
 

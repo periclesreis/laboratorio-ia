@@ -58,6 +58,12 @@ const aplicativos: Aplicativo[] = [
 const botaoCard =
   "inline-flex w-[250px] max-w-full items-center justify-center rounded-lg px-3 py-2 text-center text-sm font-bold transition";
 
+const janelaMensagem =
+  "absolute left-1/2 top-[58%] z-40 w-[min(92vw,620px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border-2 p-5 text-sm shadow-2xl backdrop-blur-md";
+
+const botaoFecharMensagem =
+  "absolute right-3 top-2 text-2xl font-black transition hover:text-white";
+
 export default function AplicativosPage() {
   const router = useRouter();
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
@@ -100,7 +106,7 @@ export default function AplicativosPage() {
           {aplicativos.map((app) => (
             <div
               key={app.slug}
-              className="relative flex h-full w-full max-w-[330px] flex-col rounded-2xl border-2 border-purple-500/70 bg-slate-900/80 p-6 shadow-lg shadow-purple-500/10 transition-all duration-300"
+              className="relative flex h-full w-full max-w-[330px] flex-col overflow-visible rounded-2xl border-2 border-purple-500/70 bg-slate-900/80 p-6 shadow-lg shadow-purple-500/10 transition-all duration-300"
             >
               <div className="mb-4 flex justify-center">
                 <Image
@@ -162,27 +168,31 @@ export default function AplicativosPage() {
                 )}
 
                 {noticeApp === app.slug && (
-                  <div className="absolute left-4 right-4 top-4 z-20 rounded-lg border-2 border-red-500 bg-red-950/95 p-3 text-sm text-red-100 shadow-2xl shadow-red-950/60">
+                  <div className={`${janelaMensagem} border-red-400 bg-red-950/95 text-red-50 shadow-red-950/80`}>
                     <button
                       type="button"
                       onClick={() => setNoticeApp(null)}
-                      className="absolute right-2 top-1 text-lg font-bold text-red-200 transition hover:text-white"
+                      className={`${botaoFecharMensagem} text-red-200`}
                       aria-label="Fechar aviso"
                     >
                       ×
                     </button>
 
-                    <p className="mb-3 pr-6 leading-relaxed">
+                    <h3 className="mb-2 pr-8 text-base font-black text-red-100">
+                      Download na Play Store
+                    </h3>
+
+                    <p className="mb-4 pr-8 leading-relaxed">
                       Por enquanto, este aplicativo está disponível apenas para
                       testadores. Envie seu e-mail pelo formulário de contato e
                       teremos o maior prazer em inscrever você no nosso seleto
                       grupo de testadores.
                     </p>
 
-                    <div className="flex flex-col gap-2 sm:flex-row">
+                    <div className="flex flex-col gap-3 sm:flex-row">
                       <Link
                         href="/contato"
-                        className="inline-flex items-center justify-center rounded-md bg-green-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-green-500"
+                        className="inline-flex flex-1 items-center justify-center rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-500"
                       >
                         Enviar e-mail
                       </Link>
@@ -190,7 +200,7 @@ export default function AplicativosPage() {
                       <button
                         type="button"
                         onClick={() => setNoticeApp(null)}
-                        className="inline-flex items-center justify-center rounded-md border border-green-400/60 px-3 py-1.5 text-xs font-bold text-green-100 transition hover:bg-green-900/60"
+                        className="inline-flex flex-1 items-center justify-center rounded-lg border border-green-400/70 px-4 py-2 text-sm font-bold text-green-100 transition hover:bg-green-900/60"
                       >
                         OK, entendi
                       </button>
@@ -199,17 +209,17 @@ export default function AplicativosPage() {
                 )}
 
                 {windowsNoticeApp === app.slug && (
-                  <div className="absolute left-4 right-4 top-4 z-30 rounded-lg border-2 border-sky-400 bg-slate-950/95 p-4 text-sm text-slate-100 shadow-2xl shadow-sky-950/60">
+                  <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-slate-50 shadow-sky-950/80`}>
                     <button
                       type="button"
                       onClick={() => setWindowsNoticeApp(null)}
-                      className="absolute right-2 top-1 text-lg font-bold text-sky-200 transition hover:text-white"
+                      className={`${botaoFecharMensagem} text-sky-200`}
                       aria-label="Fechar aviso da versão Windows"
                     >
                       ×
                     </button>
 
-                    <h3 className="mb-2 pr-6 text-base font-black text-sky-200">
+                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">
                       Baixar versão Windows
                     </h3>
 
@@ -242,17 +252,17 @@ export default function AplicativosPage() {
                 )}
 
                 {webNoticeApp === app.slug && (
-                  <div className="absolute left-4 right-4 top-4 z-30 rounded-lg border-2 border-sky-400 bg-slate-950/95 p-4 text-sm text-slate-100 shadow-2xl shadow-sky-950/60">
+                  <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-slate-50 shadow-sky-950/80`}>
                     <button
                       type="button"
                       onClick={() => setWebNoticeApp(null)}
-                      className="absolute right-2 top-1 text-lg font-bold text-sky-200 transition hover:text-white"
+                      className={`${botaoFecharMensagem} text-sky-200`}
                       aria-label="Fechar aviso da versão web"
                     >
                       ×
                     </button>
 
-                    <h3 className="mb-2 pr-6 text-base font-black text-sky-200">
+                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">
                       Atenção sobre a Versão Web
                     </h3>
 

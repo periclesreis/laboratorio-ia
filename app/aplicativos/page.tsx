@@ -62,9 +62,11 @@ export default function AplicativosPage() {
   const router = useRouter();
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
   const [webNoticeApp, setWebNoticeApp] = useState<string | null>(null);
+  const [windowsNoticeApp, setWindowsNoticeApp] = useState<string | null>(null);
 
   function abrirVersaoWeb() {
     setWebNoticeApp(null);
+    setWindowsNoticeApp(null);
     router.push("/links-notas");
   }
 
@@ -123,6 +125,7 @@ export default function AplicativosPage() {
                   type="button"
                   onClick={() => {
                     setWebNoticeApp(null);
+                    setWindowsNoticeApp(null);
                     setNoticeApp(app.slug);
                   }}
                   className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
@@ -130,16 +133,31 @@ export default function AplicativosPage() {
                   ▶️ Download na Play Store
                 </button>
 
+                {app.slug === "cronometro-flutuante" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNoticeApp(null);
+                      setWebNoticeApp(null);
+                      setWindowsNoticeApp(app.slug);
+                    }}
+                    className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
+                  >
+                    💻 Baixar versão Windows
+                  </button>
+                )}
+
                 {app.slug === "links-uteis" && (
                   <button
                     type="button"
                     onClick={() => {
                       setNoticeApp(null);
+                      setWindowsNoticeApp(null);
                       setWebNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
                   >
-                    🌐 Versão Web
+                    🌐 Usar Versão Web
                   </button>
                 )}
 
@@ -177,6 +195,49 @@ export default function AplicativosPage() {
                         OK, entendi
                       </button>
                     </div>
+                  </div>
+                )}
+
+                {windowsNoticeApp === app.slug && (
+                  <div className="absolute left-4 right-4 top-4 z-30 rounded-lg border-2 border-sky-400 bg-slate-950/95 p-4 text-sm text-slate-100 shadow-2xl shadow-sky-950/60">
+                    <button
+                      type="button"
+                      onClick={() => setWindowsNoticeApp(null)}
+                      className="absolute right-2 top-1 text-lg font-bold text-sky-200 transition hover:text-white"
+                      aria-label="Fechar aviso da versão Windows"
+                    >
+                      ×
+                    </button>
+
+                    <h3 className="mb-2 pr-6 text-base font-black text-sky-200">
+                      Baixar versão Windows
+                    </h3>
+
+                    <p className="mb-4 leading-relaxed">
+                      Escolha a versão compatível com o seu computador:
+                    </p>
+
+                    <div className="grid gap-3">
+                      <a
+                        href="/downloads/Cronometro-Flutuante-Setup-x64.exe"
+                        download
+                        className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500"
+                      >
+                        💻 Baixar versão 64 bits
+                      </a>
+
+                      <a
+                        href="/downloads/Cronometro-Flutuante-Setup-x86.exe"
+                        download
+                        className="inline-flex w-full items-center justify-center rounded-md border border-sky-400/70 bg-slate-900 px-3 py-2 text-sm font-bold text-sky-100 transition hover:bg-sky-950"
+                      >
+                        💻 Baixar versão 32 bits
+                      </a>
+                    </div>
+
+                    <p className="mt-4 text-xs leading-relaxed text-slate-400">
+                      Na maioria dos computadores atuais, a versão recomendada é a de 64 bits.
+                    </p>
                   </div>
                 )}
 

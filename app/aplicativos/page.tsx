@@ -64,8 +64,11 @@ const janelaMensagem =
 const botaoFecharMensagem =
   "absolute right-3 top-2 text-2xl font-black transition hover:text-white";
 
-const CONTROLE_AVES_WEB_URL =
-  "COLOCAR_AQUI_A_URL_FINAL_DA_VERSAO_WEB";
+// Coloque a versão compilada do projeto D:\DEV\aves-web em:
+ // D:\DEV\site\public\controle-aves-web\
+ // Assim, o arquivo final ficará em:
+ // D:\DEV\site\public\controle-aves-web\index.html
+const CONTROLE_AVES_WEB_URL = "/controle-aves-web/index.html";
 
 export default function AplicativosPage() {
   const router = useRouter();
@@ -87,7 +90,7 @@ export default function AplicativosPage() {
     setNoticeApp(null);
     setWebNoticeApp(null);
     setWindowsNoticeApp(null);
-    window.location.href = CONTROLE_AVES_WEB_URL;
+    window.location.assign(CONTROLE_AVES_WEB_URL);
   }
 
   return (

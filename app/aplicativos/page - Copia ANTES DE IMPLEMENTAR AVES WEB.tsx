@@ -64,30 +64,16 @@ const janelaMensagem =
 const botaoFecharMensagem =
   "absolute right-3 top-2 text-2xl font-black transition hover:text-white";
 
-const CONTROLE_AVES_WEB_URL =
-  "COLOCAR_AQUI_A_URL_FINAL_DA_VERSAO_WEB";
-
 export default function AplicativosPage() {
   const router = useRouter();
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
   const [webNoticeApp, setWebNoticeApp] = useState<string | null>(null);
   const [windowsNoticeApp, setWindowsNoticeApp] = useState<string | null>(null);
-  const [controleAvesWebNoticeApp, setControleAvesWebNoticeApp] =
-    useState<string | null>(null);
 
   function abrirVersaoWeb() {
     setWebNoticeApp(null);
     setWindowsNoticeApp(null);
-    setControleAvesWebNoticeApp(null);
     router.push("/links-notas");
-  }
-
-  function abrirControleAvesWeb() {
-    setControleAvesWebNoticeApp(null);
-    setNoticeApp(null);
-    setWebNoticeApp(null);
-    setWindowsNoticeApp(null);
-    window.location.href = CONTROLE_AVES_WEB_URL;
   }
 
   return (
@@ -146,7 +132,6 @@ export default function AplicativosPage() {
                   onClick={() => {
                     setWebNoticeApp(null);
                     setWindowsNoticeApp(null);
-                    setControleAvesWebNoticeApp(null);
                     setNoticeApp(app.slug);
                   }}
                   className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
@@ -160,7 +145,6 @@ export default function AplicativosPage() {
                     onClick={() => {
                       setNoticeApp(null);
                       setWebNoticeApp(null);
-                      setControleAvesWebNoticeApp(null);
                       setWindowsNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
@@ -175,61 +159,12 @@ export default function AplicativosPage() {
                     onClick={() => {
                       setNoticeApp(null);
                       setWindowsNoticeApp(null);
-                      setControleAvesWebNoticeApp(null);
                       setWebNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
                   >
                     🌐 Usar Versão Web
                   </button>
-                )}
-
-                {app.slug === "controle-genealogico-aves" && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setNoticeApp(null);
-                      setWebNoticeApp(null);
-                      setWindowsNoticeApp(null);
-                      setControleAvesWebNoticeApp(app.slug);
-                    }}
-                    className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
-                  >
-                    🌐 USAR VERSÃO WEB
-                  </button>
-                )}
-
-                {controleAvesWebNoticeApp === app.slug && (
-                  <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-center text-slate-50 shadow-sky-950/80`}>
-                    <button
-                      type="button"
-                      onClick={() => setControleAvesWebNoticeApp(null)}
-                      className={`${botaoFecharMensagem} text-sky-200`}
-                      aria-label="Fechar aviso da versão web do Controle Genealógico de Aves"
-                    >
-                      ×
-                    </button>
-
-                    <h3 className="mb-4 pr-8 text-xl font-black text-sky-100">
-                      Aviso importante da versão Web
-                    </h3>
-
-                    <p className="mx-auto mb-4 max-w-[520px] text-base leading-relaxed text-slate-100">
-                      Cadastros e alterações feitos na versão Web ficam salvos neste navegador e não aparecem automaticamente no aplicativo mobile.
-                    </p>
-
-                    <p className="mx-auto mb-6 max-w-[520px] text-base leading-relaxed text-slate-100">
-                      Para visualizar no mobile ou em outro dispositivo, envie ao Cadastro Nacional online ou gere/restaure um backup compatível em <strong>Configurações &gt; Backup dos dados locais</strong>.
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={abrirControleAvesWeb}
-                      className="mx-auto inline-flex min-w-[180px] items-center justify-center rounded-lg bg-sky-600 px-8 py-3 text-sm font-black text-white transition hover:bg-sky-500"
-                    >
-                      OK
-                    </button>
-                  </div>
                 )}
 
                 {noticeApp === app.slug && (
@@ -292,29 +227,7 @@ export default function AplicativosPage() {
                       Escolha a versão compatível com o seu computador:
                     </p>
 
-                    <div className="mb-4 rounded-xl border border-yellow-400/70 bg-yellow-950/40 p-4 text-yellow-50">
-                      <h4 className="mb-2 text-sm font-black text-yellow-200">
-                        ⚠️ Aviso de instalação no Windows
-                      </h4>
-
-                      <p className="mb-3 leading-relaxed">
-                        Como o Cronômetro Flutuante é um aplicativo novo e independente,
-                        o Windows pode exibir a mensagem <strong>“O Windows protegeu o computador”</strong>.
-                      </p>
-
-                      <p className="mb-2 font-bold">Para instalar:</p>
-
-                      <ol className="mb-3 list-decimal space-y-1 pl-5">
-                        <li>Clique em <strong>“Mais informações”</strong>.</li>
-                        <li>Clique em <strong>“Executar assim mesmo”</strong>.</li>
-                      </ol>
-
-                      <p className="text-sm leading-relaxed text-yellow-100/90">
-                        O aplicativo não coleta dados pessoais, não possui anúncios e funciona localmente no computador.
-                      </p>
-                    </div>
-
-                    <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="grid gap-3">
                       <a
                         href="/downloads/Cronometro-Flutuante-Setup-x64.exe"
                         download

@@ -539,6 +539,41 @@ export default function LinksNotasWebPage() {
     window.localStorage.setItem(`${STORAGE_KEY}:history`, JSON.stringify(history));
   }, [history]);
 
+  useEffect(() => {
+    function handleEscapeKey(event: KeyboardEvent) {
+      if (event.key !== "Escape") {
+        return;
+      }
+
+      if (selectedVerse) {
+        event.preventDefault();
+        setSelectedVerse(null);
+        return;
+      }
+
+      if (confirmClearHistoryOpen) {
+        event.preventDefault();
+        setConfirmClearHistoryOpen(false);
+        return;
+      }
+
+      if (modal) {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+
+      if (fabOpen) {
+        event.preventDefault();
+        setFabOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleEscapeKey);
+
+    return () => window.removeEventListener("keydown", handleEscapeKey);
+  }, [confirmClearHistoryOpen, fabOpen, modal, selectedVerse]);
+
   const linkFolders = useMemo(
     () => data.customFolders.slice().sort((a, b) => a.title.localeCompare(b.title)),
     [data.customFolders],
@@ -1646,6 +1681,23 @@ export default function LinksNotasWebPage() {
     const notesToRender = visibleNotes;
     const structuredNotesToRender = visibleStructuredNotes;
 
+    const noteItemsToRender: Array<
+      | { kind: "structuredNote"; item: StructuredNote }
+      | { kind: "note"; item: NoteItem }
+    > = [
+      ...structuredNotesToRender.map((item) => ({ kind: "structuredNote" as const, item })),
+      ...notesToRender.map((item) => ({ kind: "note" as const, item })),
+    ].sort((a, b) => {
+      const aIsPreaching = a.kind === "structuredNote" && isPreachingStructuredNote(a.item);
+      const bIsPreaching = b.kind === "structuredNote" && isPreachingStructuredNote(b.item);
+
+      if (aIsPreaching !== bIsPreaching) {
+        return aIsPreaching ? -1 : 1;
+      }
+
+      return getDateTime(b.item.updatedAt) - getDateTime(a.item.updatedAt);
+    });
+
     return (
       <>
         {renderHeader(activeNoteFolder?.name ?? "Anotações", activeNoteFolder ? "Pasta de anotações" : "Notas, pastas e tudo")}
@@ -1677,42 +1729,34 @@ export default function LinksNotasWebPage() {
             </>
           )}
 
-          {notesToRender.length > 0 && (
+          {noteItemsToRender.length > 0 && (
             <>
               {!noteFolderId && noteMode === "all" && (
                 <p className="mb-2 text-sm font-black text-slate-500">Notas</p>
               )}
 
               <div className="grid w-full max-w-full gap-3">
-                {notesToRender.map((note) => (
-                  <NoteCard
-                    key={note.id}
-                    note={note}
-                    onOpen={() => openTargetItem({ kind: "note", item: note })}
-                    onOptions={() => setTarget({ kind: "note", item: note })}
-                  />
-                ))}
+                {noteItemsToRender.map((entry) =>
+                  entry.kind === "structuredNote" ? (
+                    <StructuredNoteCard
+                      key={`structured-${entry.item.id}`}
+                      note={entry.item}
+                      onOpen={() => openStructuredNote(entry.item)}
+                    />
+                  ) : (
+                    <NoteCard
+                      key={`note-${entry.item.id}`}
+                      note={entry.item}
+                      onOpen={() => openTargetItem({ kind: "note", item: entry.item })}
+                      onOptions={() => setTarget({ kind: "note", item: entry.item })}
+                    />
+                  ),
+                )}
               </div>
             </>
           )}
 
-          {structuredNotesToRender.length > 0 && (
-            <>
-              <p className="mb-2 mt-4 text-sm font-black text-slate-500">Notas estruturadas</p>
-
-              <div className="grid w-full max-w-full gap-3">
-                {structuredNotesToRender.map((note) => (
-                  <StructuredNoteCard
-                    key={note.id}
-                    note={note}
-                    onOpen={() => openStructuredNote(note)}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-
-          {foldersToRender.length === 0 && notesToRender.length === 0 && structuredNotesToRender.length === 0 && (
+          {foldersToRender.length === 0 && noteItemsToRender.length === 0 && (
             <EmptyState
               message={
                 noteFolderId
@@ -1731,7 +1775,6 @@ export default function LinksNotasWebPage() {
       </>
     );
   }
-
 
   function openHistoryEntry(entry: HistoryEntry) {
     if (entry.kind === "link") {
@@ -1820,8 +1863,8 @@ export default function LinksNotasWebPage() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto px-5 py-5 pb-8">
-          <div className="grid gap-4">
+        <div className="flex-1 overflow-y-auto px-5 py-4 pb-8">
+          <div className="grid gap-3">
             {sections.map(({ section, index }) => {
               const sectionId = asString(section.id, `structured-section-${index}`);
               const sectionTitle = asString(section.title, `Assunto ${index + 1}`);
@@ -1832,20 +1875,20 @@ export default function LinksNotasWebPage() {
                   key={sectionId}
                   type="button"
                   onClick={() => setStructuredSectionId(sectionId)}
-                  className="rounded-[24px] border-[2px] p-5 text-left shadow-sm active:opacity-75"
+                  className="rounded-[20px] border-[2px] px-4 py-3 text-left shadow-sm active:opacity-75"
                   style={{
                     backgroundColor: "#E0F2FE",
                     borderColor: COLORS.purple,
                   }}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <span className="text-[18px] text-slate-950">▸</span>
 
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[22px] font-black leading-tight text-slate-950">
                         {sectionTitle}
                       </p>
-                      <p className="mt-1 text-[17px] text-slate-500">
+                      <p className="mt-0.5 text-[17px] text-slate-500">
                         {items.length} pergunta(s)
                       </p>
                     </div>
@@ -1899,8 +1942,8 @@ export default function LinksNotasWebPage() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto px-5 py-5 pb-8">
-          <div className="grid gap-4">
+        <div className="flex-1 overflow-y-auto px-5 py-4 pb-8">
+          <div className="grid gap-3">
             {items.map((rawItem, itemIndex) => {
               const item = asRecord(rawItem);
               const references = Array.isArray(item.biblicalReferences)
@@ -1912,7 +1955,7 @@ export default function LinksNotasWebPage() {
               return (
                 <article
                   key={asString(item.id, `structured-item-${sectionIndex}-${itemIndex}`)}
-                  className="rounded-[22px] border-[2px] bg-white p-4"
+                  className="rounded-[20px] border-[2px] bg-white p-3"
                   style={{ borderColor: COLORS.purple }}
                 >
                   <p className="text-[21px] font-black leading-7 text-slate-950">
@@ -1920,7 +1963,7 @@ export default function LinksNotasWebPage() {
                   </p>
 
                   {references.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-3">
+                    <div className="mt-3 flex flex-wrap gap-2">
                       {references.map((rawReference, referenceIndex) => {
                         const reference = asRecord(rawReference);
                         const referenceText = asString(
@@ -1941,7 +1984,7 @@ export default function LinksNotasWebPage() {
                             key={`${referenceKey || referenceText}-${referenceIndex}`}
                             type="button"
                             onClick={() => openBiblicalText(referenceText, referenceKey)}
-                            className="rounded-full border-[2px] px-4 py-2.5 text-[17px] font-black active:opacity-75"
+                            className="rounded-full border-[2px] px-3 py-2 text-[17px] font-black active:opacity-75"
                             style={{
                               backgroundColor: "#E0F2FE",
                               borderColor: COLORS.purple,
@@ -2940,7 +2983,7 @@ function FabMenu({
           <button
             type="button"
             onClick={onCreateItem}
-            className="mb-2 flex w-full items-center gap-2 rounded-xl px-4 py-3 text-left text-sm font-extrabold text-white shadow-sm active:opacity-80"
+            className="mb-2 flex w-full cursor-pointer items-center gap-2 rounded-xl px-4 py-3 text-left text-sm font-extrabold text-white shadow-sm active:opacity-80"
             style={{ backgroundColor: itemColor }}
           >
             <span className="text-lg">{itemIcon}</span>
@@ -2951,7 +2994,7 @@ function FabMenu({
             <button
               type="button"
               onClick={onCreateFolder}
-              className="flex w-full items-center gap-2 rounded-xl border border-[#38BDF8] bg-[#E0F2FE] px-4 py-3 text-left text-sm font-extrabold text-slate-900 active:opacity-80"
+              className="flex w-full cursor-pointer items-center gap-2 rounded-xl border border-[#38BDF8] bg-[#E0F2FE] px-4 py-3 text-left text-sm font-extrabold text-slate-900 active:opacity-80"
             >
               <span className="text-lg">📁</span>
               <span>+ Pasta</span>

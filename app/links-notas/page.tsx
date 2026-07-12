@@ -177,6 +177,26 @@ function asString(value: unknown, fallback = "") {
   return text.trim() ? text : fallback;
 }
 
+function normalizeComparableText(value: unknown) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toUpperCase();
+}
+
+function isPreachingStructuredNote(note: StructuredNote) {
+  const title = normalizeComparableText(note.title);
+  const type = normalizeComparableText(note.type);
+  const source = normalizeComparableText(note.source);
+
+  return (
+    title.includes("ASSUNTOS PARA PREGACAO") ||
+    type.includes("PREACHING") ||
+    source.includes("PREACHING")
+  );
+}
+
 function normalizeFolderId(value: unknown) {
   if (value === null || value === undefined) {
     return null;
@@ -460,6 +480,7 @@ export default function LinksNotasWebPage() {
   const [target, setTarget] = useState<Target | null>(null);
   const [fabOpen, setFabOpen] = useState(false);
   const [backupOpen, setBackupOpen] = useState(false);
+  const [confirmClearHistoryOpen, setConfirmClearHistoryOpen] = useState(false);
   const [modal, setModal] = useState<ModalName>(null);
   const [structuredPreview, setStructuredPreview] = useState<StructuredNote | null>(null);
   const [structuredSectionId, setStructuredSectionId] = useState<string | null>(null);
@@ -545,7 +566,16 @@ export default function LinksNotasWebPage() {
     () =>
       data.structuredNotes
         .slice()
-        .sort((a, b) => getDateTime(b.updatedAt) - getDateTime(a.updatedAt)),
+        .sort((a, b) => {
+          const aIsPreaching = isPreachingStructuredNote(a);
+          const bIsPreaching = isPreachingStructuredNote(b);
+
+          if (aIsPreaching !== bIsPreaching) {
+            return aIsPreaching ? -1 : 1;
+          }
+
+          return getDateTime(b.updatedAt) - getDateTime(a.updatedAt);
+        }),
     [data.structuredNotes],
   );
 
@@ -706,6 +736,12 @@ export default function LinksNotasWebPage() {
   function closeModal() {
     setModal(null);
     setSelectedVerse(null);
+    setEditId(null);
+    setFieldOne("");
+    setFieldTwo("");
+    setSelectedFolderId(null);
+    setSelectedIcon("📁");
+    setFabOpen(false);
   }
 
   function closeStructuredNote() {
@@ -751,6 +787,16 @@ export default function LinksNotasWebPage() {
     }
 
     goHome();
+  }
+
+  function requestClearHistory() {
+    closeSelection();
+    setConfirmClearHistoryOpen(true);
+  }
+
+  function clearHistory() {
+    setHistory([]);
+    setConfirmClearHistoryOpen(false);
   }
 
   function openBiblicalText(reference: string, referenceKey?: string | null) {
@@ -1981,9 +2027,7 @@ export default function LinksNotasWebPage() {
 
               <button
                 type="button"
-                onClick={() => {
-                  if (window.confirm("Deseja apagar todo o histórico?")) setHistory([]);
-                }}
+                onClick={requestClearHistory}
                 className="mt-4 w-full rounded-[14px] border p-[14px] text-center font-black text-red-600 active:opacity-75"
                 style={{ backgroundColor: COLORS.surface, borderColor: COLORS.border }}
               >
@@ -2178,6 +2222,28 @@ export default function LinksNotasWebPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 p-2 md:p-3">
+      <style jsx global>{`
+        button,
+        a,
+        select,
+        summary,
+        [role="button"],
+        input[type="button"],
+        input[type="submit"],
+        input[type="file"] {
+          cursor: pointer;
+        }
+
+        input,
+        textarea {
+          cursor: text;
+        }
+
+        button:disabled {
+          cursor: not-allowed;
+        }
+      `}</style>
+
       <div className="relative mx-auto flex h-[calc(100dvh-16px)] max-h-[760px] w-full max-w-[480px] flex-col overflow-hidden bg-[#F8FAFC] shadow-2xl md:h-[calc(100dvh-24px)] md:max-h-[760px] md:rounded-[32px] md:border md:border-slate-800">
         {area === "home" && renderHome()}
         {area === "links" && renderLinks()}
@@ -2201,6 +2267,18 @@ export default function LinksNotasWebPage() {
         )}
       </div>
 
+      {confirmClearHistoryOpen && (
+        <ConfirmModal
+          title="Limpar histórico?"
+          message="Esta ação vai apagar somente a lista de itens abertos recentemente."
+          details="Seus links, pastas, notas e backups não serão apagados. Para confirmar, clique em “Limpar histórico”."
+          confirmLabel="Limpar histórico"
+          onConfirm={clearHistory}
+          onClose={() => setConfirmClearHistoryOpen(false)}
+          danger
+        />
+      )}
+
       {modal === "link" && (
         <FormModal title={editId ? "Editar link" : "Novo link"} onSave={saveLink} onClose={closeModal}>
           <TextField label="Nome do link" value={fieldOne} onChange={setFieldOne} autoFocus={!editId} />
@@ -2221,16 +2299,16 @@ export default function LinksNotasWebPage() {
       )}
 
       {modal === "note" && (
-        <FormModal title={editId ? "Editar nota" : "Nova nota"} onSave={saveNote} onClose={closeModal}>
+        <FormModal title={editId ? "Editar nota" : "Nova nota"} onSave={saveNote} onClose={closeModal} tall>
           <TextField label="Título" value={fieldOne} onChange={setFieldOne} autoFocus={!editId} />
-          <label>
-            <span className="mb-1 block text-sm font-bold text-slate-700">Anotação</span>
+          <label className="flex min-h-0 flex-1 flex-col">
+            <span className="mb-1 block shrink-0 text-sm font-bold text-slate-700">Anotação</span>
             <textarea
               value={fieldTwo}
               onChange={(event) => setFieldTwo(event.currentTarget.value)}
               onInput={(event) => setFieldTwo(event.currentTarget.value)}
-              rows={8}
-              className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
+              rows={16}
+              className="min-h-[360px] w-full flex-1 resize-none rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
               style={{ color: "#0F172A", WebkitTextFillColor: "#0F172A", caretColor: "#2563EB", backgroundColor: "#FFFFFF" }}
             />
           </label>
@@ -2885,10 +2963,11 @@ function FabMenu({
       <button
         type="button"
         onClick={() => setOpen((previous) => !previous)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#2563EB] text-3xl font-light text-white shadow-xl active:opacity-75"
-        aria-label="Criar"
+        className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-[#2563EB] text-3xl font-light text-white shadow-xl active:opacity-75"
+        aria-label={open ? "Fechar criação" : "Criar"}
+        title={open ? "Fechar" : "Criar"}
       >
-        +
+        {open ? "×" : "+"}
       </button>
     </div>
   );
@@ -3083,27 +3162,91 @@ function IconPicker({ value, onChange }: { value: string; onChange: (value: stri
   );
 }
 
-function FormModal({
+function ConfirmModal({
   title,
-  children,
-  onSave,
+  message,
+  details,
+  confirmLabel,
+  onConfirm,
   onClose,
-  hideSave,
+  danger,
 }: {
   title: string;
-  children: ReactNode;
-  onSave?: () => void;
+  message: string;
+  details?: string;
+  confirmLabel: string;
+  onConfirm: () => void;
   onClose: () => void;
-  hideSave?: boolean;
+  danger?: boolean;
 }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4">
       <div className="w-full max-w-[440px] rounded-3xl bg-white p-4 shadow-2xl">
         <h2 className="text-xl font-black text-slate-950">{title}</h2>
 
-        <div className="mt-4 grid gap-3">{children}</div>
+        <p className="mt-3 text-[15px] font-semibold leading-6 text-slate-700">
+          {message}
+        </p>
+
+        {details && (
+          <p className="mt-3 rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm leading-6 text-slate-600">
+            {details}
+          </p>
+        )}
 
         <div className="mt-4 flex gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 rounded-2xl border border-[#94A3B8] bg-[#E5E7EB] px-4 py-3 text-sm font-extrabold text-slate-900"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="button"
+            onClick={onConfirm}
+            className={`flex-1 rounded-2xl px-4 py-3 text-sm font-extrabold text-white ${
+              danger ? "bg-red-600" : "bg-[#2563EB]"
+            }`}
+          >
+            {confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FormModal({
+  title,
+  children,
+  onSave,
+  onClose,
+  hideSave,
+  tall,
+}: {
+  title: string;
+  children: ReactNode;
+  onSave?: () => void;
+  onClose: () => void;
+  hideSave?: boolean;
+  tall?: boolean;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4">
+      <div
+        className={`w-full max-w-[440px] rounded-3xl bg-white p-4 shadow-2xl ${
+          tall ? "flex h-[calc(100dvh-16px)] max-h-[760px] flex-col" : ""
+        }`}
+      >
+        <h2 className="shrink-0 text-xl font-black text-slate-950">{title}</h2>
+
+        <div className={tall ? "mt-4 flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto" : "mt-4 grid gap-3"}>
+          {children}
+        </div>
+
+        <div className="mt-4 flex shrink-0 gap-2">
           <button type="button" onClick={onClose} className="flex-1 rounded-2xl border border-[#94A3B8] bg-[#E5E7EB] px-4 py-3 text-sm font-extrabold text-slate-900">
             Cancelar
           </button>

@@ -80,6 +80,14 @@ type SelectedVerse = {
   fullText: string;
 };
 
+type HelpTopic = {
+  id: string;
+  icon: string;
+  title: string;
+  summary: string;
+  details: string[];
+};
+
 
 type Target =
   | { kind: "link"; item: CustomLink }
@@ -149,6 +157,127 @@ const NOTE_COLORS = [
   { label: "Âmbar", value: "#92400e" },
   { label: "Roxo", value: "#581c87" },
   { label: "Cinza", value: "#374151" },
+];
+
+const HELP_TOPICS: HelpTopic[] = [
+  {
+    id: "inicio",
+    icon: "🏠",
+    title: "Tela inicial e cards",
+    summary: "Entenda os cards principais, a busca e o acesso rápido.",
+    details: [
+      "A tela inicial apresenta os cards principais do aplicativo: Meus Links e Anotações.",
+      "O card Meus Links leva ao espaço onde você salva sites, atalhos e páginas importantes.",
+      "O card Anotações leva ao bloco de notas, onde você cria notas comuns, pastas e acessa notas estruturadas.",
+      "A barra de busca encontra links, notas, pastas e notas estruturadas salvos no aplicativo.",
+      "Quando você abre um item pela busca, ele também pode aparecer no histórico de itens recentes.",
+    ],
+  },
+  {
+    id: "links",
+    icon: "🔗",
+    title: "Meus Links",
+    summary: "Salvar, abrir, editar, mover, enviar e excluir links.",
+    details: [
+      "Use + Link para cadastrar um novo endereço. Informe o nome do link e a URL.",
+      "Links podem ficar sem pasta ou dentro de uma pasta criada por você.",
+      "Toque ou clique no link para abrir o endereço em uma nova aba/janela.",
+      "Use o menu de opções do item para editar, mover, enviar ou excluir.",
+      "Editar altera o nome, o endereço e a pasta do link.",
+      "Mover troca o link de pasta ou o deixa sem pasta.",
+      "Enviar usa o compartilhamento do navegador quando disponível.",
+      "Excluir remove o link salvo localmente.",
+    ],
+  },
+  {
+    id: "pastas",
+    icon: "📁",
+    title: "Pastas",
+    summary: "Organize links e notas por assunto.",
+    details: [
+      "Use + Pasta para criar uma pasta em Meus Links ou em Anotações.",
+      "Pastas ajudam a separar conteúdos por tema, projeto ou finalidade.",
+      "Ao abrir uma pasta, a tela mostra apenas os itens guardados dentro dela.",
+      "Pastas podem ser editadas para alterar nome e ícone.",
+      "Excluir uma pasta não precisa apagar os itens: os itens podem voltar para a área sem pasta, conforme a ação configurada na tela.",
+      "No rodapé de opções, pastas exibem ações compatíveis, como editar, excluir e cancelar.",
+    ],
+  },
+  {
+    id: "notas",
+    icon: "📝",
+    title: "Notas comuns",
+    summary: "Crie notas livres, organize em pastas e altere cores.",
+    details: [
+      "Use + Nota para criar uma nova anotação.",
+      "A nota possui título, texto e opção de pasta.",
+      "Se o título ficar vazio, o aplicativo tenta usar o começo do texto como título.",
+      "Notas podem ser editadas a qualquer momento.",
+      "Você pode mover uma nota para outra pasta ou deixá-la sem pasta.",
+      "A opção Cor altera a cor do card da nota, facilitando a organização visual.",
+      "A opção Enviar compartilha o conteúdo da nota quando o navegador oferece suporte.",
+      "A opção Excluir remove a nota salva neste navegador.",
+    ],
+  },
+  {
+    id: "estruturadas",
+    icon: "📖",
+    title: "Notas estruturadas",
+    summary: "Use Assuntos para Pregação e textos bíblicos clicáveis.",
+    details: [
+      "Notas estruturadas são notas especiais organizadas por assuntos e perguntas.",
+      "Assuntos para Pregação fica sempre no topo da lista de notas.",
+      "Ao abrir Assuntos para Pregação, você vê submenus como Deus, Família, Futuro e outros.",
+      "Cada submenu abre uma tela própria com perguntas e textos bíblicos relacionados.",
+      "Os textos bíblicos aparecem como botões clicáveis.",
+      "Ao clicar em um texto bíblico, uma janela mostra o conteúdo local do versículo.",
+      "Essa nota especial faz parte da lista de notas, mas não é editada como uma nota comum.",
+    ],
+  },
+  {
+    id: "rodape-opcoes",
+    icon: "⋯",
+    title: "Opções e rodapé",
+    summary: "Ações exibidas ao selecionar itens.",
+    details: [
+      "Ao selecionar um item, o rodapé mostra as ações disponíveis para aquele tipo de conteúdo.",
+      "Editar altera os dados do item selecionado.",
+      "Mover aparece para links e notas, permitindo trocar de pasta.",
+      "Cor aparece para notas, permitindo alterar a cor do card.",
+      "Enviar compartilha links ou notas quando o navegador permite.",
+      "Excluir remove o item selecionado.",
+      "Cancelar fecha o rodapé de opções e volta à tela normal.",
+      "O botão + abre as ações de criação. Quando aberto, ele vira X; ao cancelar, volta ao estado normal.",
+      "A tecla Esc fecha o menu de criação, janelas abertas e ações temporárias.",
+    ],
+  },
+  {
+    id: "backup",
+    icon: "💾",
+    title: "Backup e dados locais",
+    summary: "Entenda onde os dados ficam salvos e como preservar informações.",
+    details: [
+      "Os dados da versão web ficam salvos localmente no navegador, usando armazenamento local.",
+      "Isso significa que seus dados não migram automaticamente para a versão mobile.",
+      "Use Backup para exportar seus links, pastas, notas e notas estruturadas em um arquivo .lu.",
+      "Use Restaurar/Importar para trazer dados de um backup salvo anteriormente.",
+      "Se você limpar dados do navegador, trocar de computador ou usar aba anônima, os dados podem não aparecer.",
+      "Faça backup periodicamente, principalmente antes de formatar o computador ou trocar de navegador.",
+    ],
+  },
+  {
+    id: "historico-configuracoes",
+    icon: "🕘",
+    title: "Histórico, Sobre e Configurações",
+    summary: "Veja itens recentes, informações do app e ajustes.",
+    details: [
+      "O Histórico mostra itens abertos recentemente para facilitar o retorno rápido.",
+      "Limpar histórico apaga apenas a lista de recentes; não apaga links, notas ou pastas.",
+      "A aba Sobre mostra informações do aplicativo, desenvolvedor e canais de contato.",
+      "A aba Configurações reúne resumo dos dados locais e opções de backup/restauração.",
+      "O botão Fale conosco abre a página de contato do Laboratório de IA.",
+    ],
+  },
 ];
 
 function makeId(prefix: string) {
@@ -481,6 +610,8 @@ export default function LinksNotasWebPage() {
   const [fabOpen, setFabOpen] = useState(false);
   const [backupOpen, setBackupOpen] = useState(false);
   const [confirmClearHistoryOpen, setConfirmClearHistoryOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [activeHelpTopicId, setActiveHelpTopicId] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalName>(null);
   const [structuredPreview, setStructuredPreview] = useState<StructuredNote | null>(null);
   const [structuredSectionId, setStructuredSectionId] = useState<string | null>(null);
@@ -551,6 +682,18 @@ export default function LinksNotasWebPage() {
         return;
       }
 
+      if (activeHelpTopicId) {
+        event.preventDefault();
+        setActiveHelpTopicId(null);
+        return;
+      }
+
+      if (helpOpen) {
+        event.preventDefault();
+        setHelpOpen(false);
+        return;
+      }
+
       if (confirmClearHistoryOpen) {
         event.preventDefault();
         setConfirmClearHistoryOpen(false);
@@ -572,7 +715,7 @@ export default function LinksNotasWebPage() {
     window.addEventListener("keydown", handleEscapeKey);
 
     return () => window.removeEventListener("keydown", handleEscapeKey);
-  }, [confirmClearHistoryOpen, fabOpen, modal, selectedVerse]);
+  }, [activeHelpTopicId, confirmClearHistoryOpen, fabOpen, helpOpen, modal, selectedVerse]);
 
   const linkFolders = useMemo(
     () => data.customFolders.slice().sort((a, b) => a.title.localeCompare(b.title)),
@@ -1411,7 +1554,18 @@ export default function LinksNotasWebPage() {
           paddingBottom: 20,
         }}
       >
-        <h1 className="text-center text-[28px] font-black text-slate-950">{title}</h1>
+        <div className="flex items-center justify-center gap-2">
+          <h1 className="text-center text-[28px] font-black text-slate-950">{title}</h1>
+          <button
+            type="button"
+            onClick={() => setHelpOpen(true)}
+            className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#7C3AED] bg-white text-[18px] font-black text-[#7C3AED] shadow-sm active:opacity-75"
+            aria-label="Ajuda"
+            title="Ajuda"
+          >
+            ?
+          </button>
+        </div>
         {subtitle && (
           <p className="mt-2 text-center text-[15px] font-medium leading-6 text-slate-500">
             {subtitle}
@@ -2310,6 +2464,28 @@ export default function LinksNotasWebPage() {
         )}
       </div>
 
+      {helpOpen && (
+        <HelpIndexModal
+          topics={HELP_TOPICS}
+          onSelect={setActiveHelpTopicId}
+          onClose={() => {
+            setHelpOpen(false);
+            setActiveHelpTopicId(null);
+          }}
+        />
+      )}
+
+      {activeHelpTopicId && (
+        <HelpTopicModal
+          topic={HELP_TOPICS.find((topic) => topic.id === activeHelpTopicId) ?? HELP_TOPICS[0]}
+          onBack={() => setActiveHelpTopicId(null)}
+          onClose={() => {
+            setActiveHelpTopicId(null);
+            setHelpOpen(false);
+          }}
+        />
+      )}
+
       {confirmClearHistoryOpen && (
         <ConfirmModal
           title="Limpar histórico?"
@@ -3076,6 +3252,117 @@ function ActionIconButton({
       <span className="block text-[19px] leading-none">{icon}</span>
       <span className="mt-1 block truncate text-[10px] font-extrabold">{label}</span>
     </button>
+  );
+}
+
+function HelpIndexModal({
+  topics,
+  onSelect,
+  onClose,
+}: {
+  topics: HelpTopic[];
+  onSelect: (id: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/45 px-4">
+      <div className="flex h-[calc(100dvh-24px)] max-h-[760px] w-full max-w-[440px] flex-col rounded-3xl bg-white p-4 shadow-2xl">
+        <div className="flex shrink-0 items-center justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-black text-slate-950">Ajuda do Links & Notas</h2>
+            <p className="mt-1 text-sm leading-5 text-slate-500">
+              Escolha um tópico para ver instruções detalhadas.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-xl font-black text-slate-700 active:opacity-75"
+            aria-label="Fechar ajuda"
+            title="Fechar"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="mt-4 grid min-h-0 flex-1 gap-3 overflow-y-auto pr-1">
+          {topics.map((topic) => (
+            <button
+              key={topic.id}
+              type="button"
+              onClick={() => onSelect(topic.id)}
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-left active:opacity-75"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{topic.icon}</span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[15px] font-black text-slate-950">{topic.title}</p>
+                  <p className="mt-1 text-sm leading-5 text-slate-500">{topic.summary}</p>
+                </div>
+                <span className="text-xl text-slate-400">→</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HelpTopicModal({
+  topic,
+  onBack,
+  onClose,
+}: {
+  topic: HelpTopic;
+  onBack: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/55 px-4">
+      <div className="flex h-[calc(100dvh-24px)] max-h-[760px] w-full max-w-[440px] flex-col rounded-3xl bg-white p-4 shadow-2xl">
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            onClick={onBack}
+            className="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-black text-slate-700 active:opacity-75"
+          >
+            ← Tópicos
+          </button>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="ml-auto flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-xl font-black text-slate-700 active:opacity-75"
+            aria-label="Fechar ajuda"
+            title="Fechar"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
+          <div className="rounded-2xl border border-[#7C3AED] bg-[#F5F3FF] p-4">
+            <p className="text-3xl">{topic.icon}</p>
+            <h2 className="mt-2 text-2xl font-black leading-tight text-slate-950">
+              {topic.title}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{topic.summary}</p>
+          </div>
+
+          <div className="mt-4 grid gap-3">
+            {topic.details.map((detail, index) => (
+              <div key={`${topic.id}-${index}`} className="rounded-2xl border border-slate-200 bg-white p-3">
+                <p className="text-sm font-semibold leading-6 text-slate-700">
+                  <span className="font-black text-[#7C3AED]">{index + 1}.</span> {detail}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -75,12 +75,15 @@ export default function AplicativosPage() {
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
   const [webNoticeApp, setWebNoticeApp] = useState<string | null>(null);
   const [windowsNoticeApp, setWindowsNoticeApp] = useState<string | null>(null);
+  const [linksNotasWindowsNoticeApp, setLinksNotasWindowsNoticeApp] =
+    useState<string | null>(null);
   const [controleAvesWebNoticeApp, setControleAvesWebNoticeApp] =
     useState<string | null>(null);
 
   function abrirVersaoWeb() {
     setWebNoticeApp(null);
     setWindowsNoticeApp(null);
+    setLinksNotasWindowsNoticeApp(null);
     setControleAvesWebNoticeApp(null);
     router.push("/links-notas");
   }
@@ -90,6 +93,7 @@ export default function AplicativosPage() {
     setNoticeApp(null);
     setWebNoticeApp(null);
     setWindowsNoticeApp(null);
+    setLinksNotasWindowsNoticeApp(null);
     window.location.assign(CONTROLE_AVES_WEB_URL);
   }
 
@@ -149,6 +153,7 @@ export default function AplicativosPage() {
                   onClick={() => {
                     setWebNoticeApp(null);
                     setWindowsNoticeApp(null);
+                    setLinksNotasWindowsNoticeApp(null);
                     setControleAvesWebNoticeApp(null);
                     setNoticeApp(app.slug);
                   }}
@@ -163,6 +168,7 @@ export default function AplicativosPage() {
                     onClick={() => {
                       setNoticeApp(null);
                       setWebNoticeApp(null);
+                      setLinksNotasWindowsNoticeApp(null);
                       setControleAvesWebNoticeApp(null);
                       setWindowsNoticeApp(app.slug);
                     }}
@@ -178,12 +184,29 @@ export default function AplicativosPage() {
                     onClick={() => {
                       setNoticeApp(null);
                       setWindowsNoticeApp(null);
+                      setLinksNotasWindowsNoticeApp(null);
                       setControleAvesWebNoticeApp(null);
                       setWebNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
                   >
                     🌐 Usar Versão Web
+                  </button>
+                )}
+
+                {app.slug === "links-uteis" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNoticeApp(null);
+                      setWebNoticeApp(null);
+                      setWindowsNoticeApp(null);
+                      setControleAvesWebNoticeApp(null);
+                      setLinksNotasWindowsNoticeApp(app.slug);
+                    }}
+                    className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
+                  >
+                    💻 Baixar versão Windows
                   </button>
                 )}
 
@@ -194,6 +217,7 @@ export default function AplicativosPage() {
                       setNoticeApp(null);
                       setWebNoticeApp(null);
                       setWindowsNoticeApp(null);
+                      setLinksNotasWindowsNoticeApp(null);
                       setControleAvesWebNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
@@ -232,6 +256,71 @@ export default function AplicativosPage() {
                     >
                       OK
                     </button>
+                  </div>
+                )}
+
+                {linksNotasWindowsNoticeApp === app.slug && (
+                  <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-slate-50 shadow-sky-950/80`}>
+                    <button
+                      type="button"
+                      onClick={() => setLinksNotasWindowsNoticeApp(null)}
+                      className={`${botaoFecharMensagem} text-sky-200`}
+                      aria-label="Fechar aviso da versão Windows do Links & Notas"
+                    >
+                      ×
+                    </button>
+
+                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">
+                      Baixar versão Windows
+                    </h3>
+
+                    <p className="mb-4 leading-relaxed">
+                      Escolha a versão compatível com o seu computador:
+                    </p>
+
+                    <div className="mb-4 rounded-xl border border-yellow-400/70 bg-yellow-950/40 p-4 text-yellow-50">
+                      <h4 className="mb-2 text-sm font-black text-yellow-200">
+                        ⚠️ Aviso de instalação no Windows
+                      </h4>
+
+                      <p className="mb-3 leading-relaxed">
+                        Como o Links & Notas é um aplicativo novo e independente,
+                        o Windows pode exibir a mensagem <strong>“O Windows protegeu o computador”</strong>.
+                      </p>
+
+                      <p className="mb-2 font-bold">Para instalar:</p>
+
+                      <ol className="mb-3 list-decimal space-y-1 pl-5">
+                        <li>Clique em <strong>“Mais informações”</strong>.</li>
+                        <li>Clique em <strong>“Executar assim mesmo”</strong>.</li>
+                      </ol>
+
+                      <p className="text-sm leading-relaxed text-yellow-100/90">
+                        O aplicativo funciona localmente no computador. Faça backups periódicos dos seus dados.
+                      </p>
+                    </div>
+
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <a
+                        href="/downloads/Links-e-Notas-Setup-1.0.0-x64.exe"
+                        download
+                        className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500"
+                      >
+                        💻 Baixar versão 64 bits
+                      </a>
+
+                      <a
+                        href="/downloads/Links-e-Notas-Setup-1.0.0-ia32.exe"
+                        download
+                        className="inline-flex w-full items-center justify-center rounded-md border border-sky-400/70 bg-slate-900 px-3 py-2 text-sm font-bold text-sky-100 transition hover:bg-sky-950"
+                      >
+                        💻 Baixar versão 32 bits
+                      </a>
+                    </div>
+
+                    <p className="mt-4 text-xs leading-relaxed text-slate-400">
+                      Na maioria dos computadores atuais, a versão recomendada é a de 64 bits.
+                    </p>
                   </div>
                 )}
 

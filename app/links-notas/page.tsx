@@ -1554,18 +1554,7 @@ export default function LinksNotasWebPage() {
           paddingBottom: 20,
         }}
       >
-        <div className="flex items-center justify-center gap-2">
-          <h1 className="text-center text-[28px] font-black text-slate-950">{title}</h1>
-          <button
-            type="button"
-            onClick={() => setHelpOpen(true)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#7C3AED] bg-white text-[18px] font-black text-[#7C3AED] shadow-sm active:opacity-75"
-            aria-label="Ajuda"
-            title="Ajuda"
-          >
-            ?
-          </button>
-        </div>
+        <h1 className="text-center text-[28px] font-black text-slate-950">{title}</h1>
         {subtitle && (
           <p className="mt-2 text-center text-[15px] font-medium leading-6 text-slate-500">
             {subtitle}
@@ -2449,7 +2438,9 @@ export default function LinksNotasWebPage() {
         {area === "about" && renderAbout()}
         {area === "settings" && renderSettings()}
 
-        {!structuredPreview && <FooterNav active={area} onChange={openFooterArea} />}
+        {!structuredPreview && (
+          <FooterNav active={area} onChange={openFooterArea} onHelp={() => setHelpOpen(true)} />
+        )}
 
         {target && !structuredPreview && (
           <ActionBar
@@ -2664,9 +2655,11 @@ export default function LinksNotasWebPage() {
 function FooterNav({
   active,
   onChange,
+  onHelp,
 }: {
   active: Area;
   onChange: (area: Area) => void;
+  onHelp: () => void;
 }) {
   const items: { area: Area; label: string; icon: string }[] = [
     { area: "home", label: "Home", icon: "⌂" },
@@ -2677,16 +2670,16 @@ function FooterNav({
 
   return (
     <nav
-      className="absolute inset-x-0 bottom-0 z-10 border-t px-2"
+      className="absolute inset-x-0 bottom-0 z-10 border-t px-3"
       style={{
         backgroundColor: COLORS.background,
         borderTopColor: COLORS.border,
         paddingTop: 8,
-        paddingBottom: 12,
+        paddingBottom: 10,
         height: 68,
       }}
     >
-      <div className="grid grid-cols-4 gap-1">
+      <div className="grid grid-cols-5 items-center gap-2">
         {items.map((item) => {
           const selected = active === item.area;
 
@@ -2695,14 +2688,32 @@ function FooterNav({
               key={item.area}
               type="button"
               onClick={() => onChange(item.area)}
-              className="rounded-xl px-1 py-1 text-center"
-              style={{ color: selected ? COLORS.primary : COLORS.muted }}
+              className="flex h-11 items-center justify-center rounded-2xl text-center active:opacity-75"
+              style={{
+                color: selected ? COLORS.primary : COLORS.muted,
+                backgroundColor: selected ? "#DBEAFE" : "transparent",
+              }}
+              aria-label={item.label}
+              title={item.label}
             >
-              <span className="block text-[22px] leading-none">{item.icon}</span>
-              <span className="mt-1 block truncate text-[11px] font-bold">{item.label}</span>
+              <span className="block text-[24px] leading-none">{item.icon}</span>
             </button>
           );
         })}
+
+        <button
+          type="button"
+          onClick={onHelp}
+          className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border-2 bg-white text-[22px] font-black shadow-sm active:opacity-75"
+          style={{
+            borderColor: COLORS.purple,
+            color: COLORS.purple,
+          }}
+          aria-label="Ajuda"
+          title="Ajuda"
+        >
+          ?
+        </button>
       </div>
     </nav>
   );

@@ -2110,17 +2110,7 @@ export default function LinksNotasWebPage() {
               <>
                 <span className="font-medium text-[#2563EB]">Pericles Silva Reis</span>
                 <br />
-                periclesreis@bol.com.br
-              </>
-            </AboutCard>
-
-            <AboutCard title="Categorias">
-              <>
-                • Utilitários: Ferramentas práticas do dia a dia
-                <br />
-                • JW.ORG - Estudos Bíblicos: Recursos de aprendizado
-                <br />
-                • JW.ORG - Vida Cristã: Orientações e inspiração
+                labdeapp@gmail.com
               </>
             </AboutCard>
 
@@ -2128,7 +2118,7 @@ export default function LinksNotasWebPage() {
               <p className="text-sm font-semibold text-slate-950">Contato</p>
               <div className="mt-4 grid gap-3">
                 <a
-                  href="mailto:periclesreis@bol.com.br"
+                  href="mailto:labdeapp@gmail.com"
                   className="rounded-lg px-4 py-3 text-center font-medium text-white"
                   style={{ backgroundColor: COLORS.primary }}
                 >

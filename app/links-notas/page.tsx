@@ -2088,12 +2088,12 @@ export default function LinksNotasWebPage() {
       <>
         <div className="flex-1 overflow-y-auto px-4 py-8 pb-32">
           <div className="flex flex-col items-center">
-            <div
-              className="flex h-24 w-24 items-center justify-center rounded-full border-2 text-5xl"
-              style={{ backgroundColor: COLORS.surface, borderColor: COLORS.border }}
-            >
-              ❤️
-            </div>
+            <img
+              src="/icones/links-uteis-sobre.png"
+              alt="Links & Notas"
+              className="h-24 w-24 rounded-[24px] border-2 object-cover shadow-lg"
+              style={{ borderColor: COLORS.border }}
+            />
           </div>
 
           <div className="mt-6 flex flex-col items-center gap-2">
@@ -2140,6 +2140,16 @@ export default function LinksNotasWebPage() {
                   style={{ backgroundColor: COLORS.primary }}
                 >
                   📱 Ligar (77) 98812-2104
+                </a>
+
+                <a
+                  href="https://www.laboratoriodeia.dev/contato"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-lg px-4 py-3 text-center font-medium text-white"
+                  style={{ backgroundColor: "#7C3AED" }}
+                >
+                  💬 Fale conosco
                 </a>
               </div>
             </div>

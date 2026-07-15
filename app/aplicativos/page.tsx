@@ -70,6 +70,9 @@ const botaoFecharMensagem =
  // D:\DEV\site\public\controle-aves-web\index.html
 const CONTROLE_AVES_WEB_URL = "/controle-aves-web/index.html";
 
+const LINKS_NOTAS_PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details?id=com.periclesreis.linksnotasdev";
+
 export default function AplicativosPage() {
   const router = useRouter();
   const [noticeApp, setNoticeApp] = useState<string | null>(null);
@@ -148,19 +151,30 @@ export default function AplicativosPage() {
               </p>
 
               <div className="mt-auto flex flex-col items-center gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setWebNoticeApp(null);
-                    setWindowsNoticeApp(null);
-                    setLinksNotasWindowsNoticeApp(null);
-                    setControleAvesWebNoticeApp(null);
-                    setNoticeApp(app.slug);
-                  }}
-                  className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
-                >
-                  ▶️ Download na Play Store
-                </button>
+                {app.slug === "links-uteis" ? (
+                  <a
+                    href={LINKS_NOTAS_PLAY_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
+                  >
+                    ▶️ Download na Play Store
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setWebNoticeApp(null);
+                      setWindowsNoticeApp(null);
+                      setLinksNotasWindowsNoticeApp(null);
+                      setControleAvesWebNoticeApp(null);
+                      setNoticeApp(app.slug);
+                    }}
+                    className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
+                  >
+                    ▶️ Download na Play Store
+                  </button>
+                )}
 
                 {app.slug === "cronometro-flutuante" && (
                   <button

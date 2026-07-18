@@ -46,7 +46,7 @@ export default async function Home() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 md:py-32">
+      <section className="relative overflow-hidden pt-16 pb-10 md:pt-24 md:pb-14">
         {/* Background gradient */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl opacity-20" />
@@ -77,7 +77,7 @@ export default async function Home() {
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
               Tutoriais práticos, projetos reais e experiências com Inteligência
               Artificial para acelerar seu desenvolvimento.
             </p>
@@ -86,7 +86,7 @@ export default async function Home() {
       </section>
 
       {/* Áreas de Conhecimento */}
-      <section className="py-20 md:py-28 border-t border-white/10">
+      <section className="pt-12 pb-20 md:pt-16 md:pb-28 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">

@@ -1,6 +1,48 @@
 import Link from "next/link";
 
-export default function Home() {
+import { getAllNews } from "@/lib/db";
+
+type NewsItem = {
+  id: number;
+  title: string;
+  description: string;
+  date?: string;
+};
+
+function criarSlug(texto: string) {
+  return (
+    texto
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/&/g, "e")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 120) || "noticia"
+  );
+}
+
+function formatDate(date?: string) {
+  if (!date) {
+    return "";
+  }
+
+  try {
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      timeZone: "America/Sao_Paulo",
+    }).format(new Date(date));
+  } catch {
+    return date;
+  }
+}
+
+export default async function Home() {
+  const todasNoticias = (await getAllNews()) as NewsItem[];
+  const ultimasNoticias = todasNoticias.slice(0, 5);
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -40,6 +82,77 @@ export default function Home() {
               Artificial para acelerar seu desenvolvimento.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Novidades */}
+      <section className="py-20 md:py-28 border-t border-white/10">
+        <div className="container mx-auto px-4">
+          <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-300">
+                <span>✨</span>
+                <span>Novidades</span>
+              </div>
+
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Últimas notícias do Laboratório
+              </h2>
+
+              <p className="text-slate-400 text-lg leading-relaxed">
+                Acompanhe as publicações mais recentes sobre Inteligência
+                Artificial, programação, aplicativos e tecnologia.
+              </p>
+            </div>
+
+            <Link
+              href="/noticias"
+              className="inline-flex w-fit items-center justify-center rounded-lg border border-blue-400/40 bg-blue-500/10 px-5 py-3 font-semibold text-blue-300 transition-all hover:bg-blue-500/20 hover:text-blue-200"
+            >
+              Ver todas
+              <span className="ml-2">→</span>
+            </Link>
+          </div>
+
+          {ultimasNoticias.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {ultimasNoticias.map((noticia) => (
+                <Link
+                  key={noticia.id}
+                  href={`/noticias/${noticia.id}/${criarSlug(noticia.title)}`}
+                  className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all hover:-translate-y-1 hover:border-blue-400/50 hover:bg-white/[0.06] hover:shadow-lg hover:shadow-blue-500/10"
+                >
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/20 text-2xl transition-colors group-hover:bg-blue-500/30">
+                    📰
+                  </div>
+
+                  {noticia.date && (
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-emerald-300">
+                      {formatDate(noticia.date)}
+                    </p>
+                  )}
+
+                  <h3 className="mb-3 line-clamp-3 text-xl font-bold leading-snug text-white">
+                    {noticia.title}
+                  </h3>
+
+                  <p className="line-clamp-4 flex-1 text-sm leading-relaxed text-slate-400">
+                    {noticia.description}
+                  </p>
+
+                  <div className="mt-5 flex items-center text-sm font-medium text-blue-400 transition-transform group-hover:translate-x-1">
+                    Ler notícia <span className="ml-2">→</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 text-center">
+              <p className="text-slate-400">
+                Nenhuma notícia publicada no momento.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

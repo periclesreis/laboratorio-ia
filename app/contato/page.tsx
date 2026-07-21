@@ -104,18 +104,25 @@ export default function ContatoPage() {
                   </div>
                 </div>
 
-                {/* Telefone */}
+                {/* Grupo de WhatsApp */}
                 <div className="card-hover card-ia">
                   <div className="flex items-start gap-4">
-                    <div className="text-3xl">📱</div>
+                    <div className="text-3xl">💬</div>
                     <div>
-                      <h3 className="font-bold text-white mb-2">Telefone</h3>
+                      <h3 className="font-bold text-white mb-2">
+                        Grupo de WhatsApp
+                      </h3>
                       <a
-                        href="tel:+5577988122104"
+                        href="https://chat.whatsapp.com/CaqVNBa1t7fAO5EKsxUfag?s=cl&p=a&ilr=4&amv=1"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-purple-400 hover:text-purple-300 transition-colors"
                       >
-                        (77) 98812-2104
+                        Entrar no grupo sobre IA e Programação
                       </a>
+                      <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+                        Participe da comunidade para trocar ideias, dúvidas e novidades sobre Inteligência Artificial, programação e aplicativos.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -252,7 +259,7 @@ export default function ContatoPage() {
                   <span className="transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <p className="text-slate-400 mt-4 text-sm leading-relaxed">
-                  Geralmente respondemos em até 24 horas. Para assuntos urgentes, entre em contato pelo telefone.
+                  Geralmente respondemos em até 24 horas. Você também pode participar do nosso grupo de WhatsApp para acompanhar novidades e trocar ideias com a comunidade.
                 </p>
               </details>
 

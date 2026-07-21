@@ -218,6 +218,42 @@ export default async function Home() {
         </div>
       </section>
 
+
+      {/* Chamada para o grupo de WhatsApp */}
+      <section className="py-16 md:py-20 border-t border-white/10">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl rounded-3xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/10 via-slate-900 to-purple-500/10 p-8 text-center shadow-2xl shadow-emerald-950/20 md:p-10">
+            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-emerald-400/40 bg-emerald-500/20 text-4xl shadow-lg shadow-emerald-950/30">
+              💬
+            </div>
+
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-emerald-300">
+              Grupo oficial
+            </p>
+
+            <h2 className="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">
+              Entre no grupo de IA e Programação
+            </h2>
+
+            <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-slate-300 md:text-lg">
+              Participe da comunidade do Laboratório de IA no WhatsApp para
+              acompanhar novidades, tirar dúvidas e conversar sobre
+              Inteligência Artificial, programação e aplicativos.
+            </p>
+
+            <a
+              href="https://chat.whatsapp.com/CaqVNBa1t7fAO5EKsxUfag?s=cl&p=a&ilr=4&amv=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 rounded-2xl border border-emerald-300/60 bg-emerald-500 px-7 py-4 text-base font-black text-slate-950 shadow-lg shadow-emerald-950/40 transition-all hover:-translate-y-1 hover:bg-emerald-400 hover:shadow-emerald-500/20"
+            >
+              <span className="text-2xl">🟢</span>
+              <span>Entrar no grupo do WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Novidades */}
       <section className="py-20 md:py-28 border-t border-white/10">
         <div className="container mx-auto px-4">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
-import SiteHeader from "@/components/SiteHeader";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -42,10 +42,180 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col bg-slate-950 text-slate-50 selection:bg-purple-500/30`}
       >
-        <SiteHeader />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-82CEQVFXNY"
+          strategy="afterInteractive"
+        />
 
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-82CEQVFXNY');
+          `}
+        </Script>
+
+        {/* Header Global */}
+        <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur-md">
+          <div className="container mx-auto px-4 py-3 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            {/* Topo mobile e logo desktop */}
+            <div className="flex items-center justify-between gap-3">
+              <Link
+                href="/"
+                className="flex items-center gap-2 font-bold text-2xl md:text-xl tracking-tight"
+              >
+                <span className="text-purple-500">Início</span>
+              </Link>
+
+              <Link
+                href="/admin/login"
+                className="md:hidden inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-bold"
+              >
+                <span>🔐</span>
+                <span>Área Logada</span>
+              </Link>
+            </div>
+
+            {/* Menu desktop */}
+            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+              <Link
+                href="/ia"
+                className="hover:text-purple-400 transition-colors"
+              >
+                IA
+              </Link>
+
+              <Link
+                href="/programacao"
+                className="hover:text-blue-400 transition-colors"
+              >
+                Programação
+              </Link>
+
+              <Link
+                href="/aplicativos"
+                className="hover:text-emerald-400 transition-colors"
+              >
+                Aplicativos
+              </Link>
+
+              <Link
+                href="/projetos-codigos"
+                className="hover:text-pink-400 transition-colors"
+              >
+                Projetos & Códigos
+              </Link>
+
+              <Link
+                href="/comunidade"
+                className="hover:text-purple-400 transition-colors"
+              >
+                Comunidade
+              </Link>
+
+              <Link
+                href="/noticias"
+                className="hover:text-white transition-colors"
+              >
+                Notícias
+              </Link>
+
+              <Link href="/about" className="hover:text-white transition-colors">
+                Sobre
+              </Link>
+            </nav>
+
+            {/* Botões desktop */}
+            <div className="hidden md:flex items-center gap-4">
+              <Link
+                href="/contato"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-white/10 text-white hover:bg-white/20 h-9 px-4 py-2"
+              >
+                Contato
+              </Link>
+
+              <Link
+                href="/admin/login"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-medium"
+              >
+                <span>🔐</span>
+                <span>Área Logada</span>
+              </Link>
+            </div>
+
+            {/* Menu mobile */}
+            <details className="md:hidden group">
+              <summary className="flex cursor-pointer list-none items-center justify-center rounded-lg bg-purple-950/50 px-4 py-3 text-base font-bold text-purple-300 shadow-lg shadow-purple-500/10">
+                ☰ Menu
+              </summary>
+
+              <nav className="mt-3 grid gap-2 rounded-lg bg-slate-900/95 p-3 shadow-xl shadow-black/40">
+                <Link
+                  href="/ia"
+                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
+                >
+                  IA
+                </Link>
+
+                <Link
+                  href="/programacao"
+                  className="rounded-md px-4 py-3 text-blue-300 hover:bg-blue-500/10"
+                >
+                  Programação
+                </Link>
+
+                <Link
+                  href="/aplicativos"
+                  className="rounded-md px-4 py-3 text-emerald-300 hover:bg-emerald-500/10"
+                >
+                  Aplicativos
+                </Link>
+
+                <Link
+                  href="/projetos-codigos"
+                  className="rounded-md px-4 py-3 text-pink-300 hover:bg-pink-500/10"
+                >
+                  Projetos & Códigos
+                </Link>
+
+                <Link
+                  href="/comunidade"
+                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
+                >
+                  Comunidade
+                </Link>
+
+                <Link
+                  href="/noticias"
+                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
+                >
+                  Notícias
+                </Link>
+
+                <Link
+                  href="/about"
+                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
+                >
+                  Sobre
+                </Link>
+
+                <Link
+                  href="/contato"
+                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
+                >
+                  Contato
+                </Link>
+              </nav>
+            </details>
+          </div>
+        </header>
+
+        {/* Conteúdo Principal */}
         <main className="flex-1">{children}</main>
 
+        {/* Footer Global */}
         <footer className="border-t border-white/10 bg-slate-950 py-12 mt-20">
           <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">

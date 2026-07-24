@@ -55,17 +55,6 @@ export default async function Home() {
 
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Logomarca oficial */}
-            <div className="mb-7 flex justify-center">
-              <div className="relative rounded-[2rem] border border-purple-400/40 bg-purple-950/20 p-2 shadow-2xl shadow-purple-500/25">
-                <img
-                  src="/images/logomarca-laboratorio-ia.png"
-                  alt="Logomarca oficial do Laboratório de IA"
-                  className="h-24 w-24 rounded-[1.5rem] object-cover md:h-32 md:w-32"
-                />
-              </div>
-            </div>
-
             {/* Badge */}
             <div className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 mb-8 backdrop-blur-sm">
               <span className="relative flex h-2 w-2">

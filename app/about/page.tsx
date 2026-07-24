@@ -1,204 +1,103 @@
+import Image from "next/image";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Sobre",
+  description:
+    "Conheça o Laboratório de IA, um projeto dedicado ao aprendizado prático de Inteligência Artificial, Programação e Aplicativos.",
+};
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100">
-      {/* Hero */}
-      <section className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/30 py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition mb-6"
-          >
-            <span>←</span>
-            <span>Voltar</span>
-          </Link>
+    <div className="w-full">
+      <section className="relative overflow-hidden py-16 md:py-24 border-b border-white/10">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-purple-500/20 opacity-20 blur-3xl" />
+          <div className="absolute right-1/4 top-1/3 h-96 w-96 rounded-full bg-blue-500/20 opacity-20 blur-3xl" />
+        </div>
 
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-            Sobre o Laboratório de IA
-          </h1>
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-8 flex justify-center">
+              <Image
+                src="/images/logomarca-laboratorio-ia.png"
+                alt="Logomarca oficial do Laboratório de IA"
+                width={170}
+                height={170}
+                priority
+                className="h-[170px] w-[170px] rounded-[2rem] object-cover shadow-2xl shadow-purple-500/30 ring-2 ring-purple-400/40"
+              />
+            </div>
 
-          <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
-            Conheça a missão e os objetivos do nosso projeto educacional.
-          </p>
+            <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
+              Sobre o{" "}
+              <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-emerald-400 bg-clip-text text-transparent">
+                Laboratório de IA
+              </span>
+            </h1>
+
+            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-400 md:text-xl">
+              Um espaço criado para ensinar, demonstrar e construir soluções com
+              Inteligência Artificial, Programação e Aplicativos de forma
+              prática, acessível e voltada para problemas reais.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Conteúdo */}
-      <section className="max-w-6xl mx-auto px-4 py-14">
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Missão */}
-          <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-6 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-400 mb-4">
-              Nossa Missão
-            </h2>
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+            <div className="card-hover card-ia">
+              <div className="mb-4 text-3xl">🧠</div>
+              <h2 className="mb-3 text-xl font-bold text-white">Inteligência Artificial</h2>
+              <p className="text-sm leading-relaxed text-slate-400">
+                Conteúdos, exemplos e demonstrações para mostrar como a IA pode
+                ajudar nos estudos, no trabalho, na criação de ideias e na
+                solução de problemas.
+              </p>
+            </div>
 
-            <p className="text-slate-300 leading-relaxed">
-              O Laboratório de IA é um espaço dedicado ao aprendizado prático e
-              acessível de Inteligência Artificial, Programação e
-              Desenvolvimento de Aplicativos. Acreditamos que a tecnologia deve
-              ser democratizada e que qualquer pessoa, independentemente de seu
-              nível de experiência, pode aprender a criar soluções inovadoras.
-            </p>
-          </div>
+            <div className="card-hover card-dev">
+              <div className="mb-4 text-3xl">💻</div>
+              <h2 className="mb-3 text-xl font-bold text-white">Programação</h2>
+              <p className="text-sm leading-relaxed text-slate-400">
+                Projetos práticos com tecnologias modernas, explicados de forma
+                simples para quem quer aprender criando.
+              </p>
+            </div>
 
-          {/* Visão */}
-          <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-6 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-400 mb-4">
-              Nossa Visão
-            </h2>
-
-            <p className="text-slate-300 leading-relaxed">
-              Queremos ser uma referência em educação tecnológica, oferecendo
-              conteúdo de qualidade, ferramentas práticas e uma comunidade
-              engajada. Nosso objetivo é capacitar pessoas a entender e utilizar
-              IA no dia a dia, criando aplicativos e soluções que resolvem
-              problemas reais.
-            </p>
-          </div>
-
-          {/* Valores */}
-          <div>
-            <h2 className="text-2xl font-bold text-purple-400 mb-6">
-              Nossos Valores
-            </h2>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-5 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-                <h3 className="font-bold text-purple-300 mb-2">
-                  Acessibilidade
-                </h3>
-
-                <p className="text-slate-300 text-sm">
-                  Conteúdo gratuito e fácil de entender para todos.
-                </p>
-              </div>
-
-              <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-5 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-                <h3 className="font-bold text-purple-300 mb-2">
-                  Praticidade
-                </h3>
-
-                <p className="text-slate-300 text-sm">
-                  Aprendizado baseado em projetos reais e aplicáveis.
-                </p>
-              </div>
-
-              <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-5 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-                <h3 className="font-bold text-purple-300 mb-2">
-                  Inovação
-                </h3>
-
-                <p className="text-slate-300 text-sm">
-                  Sempre atualizados com as tecnologias mais modernas.
-                </p>
-              </div>
-
-              <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-5 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-                <h3 className="font-bold text-purple-300 mb-2">
-                  Comunidade
-                </h3>
-
-                <p className="text-slate-300 text-sm">
-                  Espaço colaborativo para aprender e crescer junto.
-                </p>
-              </div>
+            <div className="card-hover card-apps">
+              <div className="mb-4 text-3xl">📱</div>
+              <h2 className="mb-3 text-xl font-bold text-white">Aplicativos</h2>
+              <p className="text-sm leading-relaxed text-slate-400">
+                Desenvolvimento de ferramentas, aplicativos e experiências
+                digitais com foco em utilidade, educação e produtividade.
+              </p>
             </div>
           </div>
 
-          {/* O que oferecemos */}
-          <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-6 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-400 mb-6">
-              O que Oferecemos
-            </h2>
-
-            <div className="space-y-5">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 text-2xl">📚</div>
-
-                <div>
-                  <h3 className="font-bold text-purple-300 mb-1">
-                    Tutoriais e Artigos
-                  </h3>
-
-                  <p className="text-slate-300 text-sm">
-                    Conteúdo educacional sobre IA, programação e
-                    desenvolvimento.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 text-2xl">🛠️</div>
-
-                <div>
-                  <h3 className="font-bold text-purple-300 mb-1">
-                    Aplicativos Práticos
-                  </h3>
-
-                  <p className="text-slate-300 text-sm">
-                    Ferramentas desenvolvidas no laboratório que você pode usar
-                    e aprender.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 text-2xl">💡</div>
-
-                <div>
-                  <h3 className="font-bold text-purple-300 mb-1">
-                    Projetos Reais
-                  </h3>
-
-                  <p className="text-slate-300 text-sm">
-                    Exemplos e projetos que demonstram como aplicar os conceitos
-                    aprendidos.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 text-2xl">🚀</div>
-
-                <div>
-                  <h3 className="font-bold text-purple-300 mb-1">
-                    Recursos Atualizados
-                  </h3>
-
-                  <p className="text-slate-300 text-sm">
-                    Conteúdo sempre atualizado com as tendências e ferramentas
-                    mais recentes.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA mantido, mas padronizado */}
-          <div className="bg-slate-800 border-2 border-purple-500 rounded-lg p-6 text-center hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-400 mb-4">
-              Comece sua jornada agora
-            </h2>
-
-            <p className="text-slate-300 mb-6 leading-relaxed">
-              Explore nossos conteúdos e comece a aprender IA e programação hoje
-              mesmo.
+          <div className="mx-auto mt-12 max-w-4xl rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+            <h2 className="mb-4 text-2xl font-bold text-white">Missão</h2>
+            <p className="text-slate-400 leading-relaxed">
+              Tornar o conhecimento sobre IA e tecnologia mais próximo das
+              pessoas, especialmente estudantes, professores, criadores,
+              empreendedores e todos que desejam se preparar para o futuro.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/ia"
-                className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-2 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50"
+                className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-3 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/50"
               >
-                Explorar IA
+                Explorar conteúdos de IA
               </Link>
 
               <Link
-                href="/programacao"
-                className="inline-flex items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/10 px-6 py-2 font-semibold text-purple-300 transition-all hover:bg-purple-500/20"
+                href="/contato"
+                className="inline-flex items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/10 px-6 py-3 font-semibold text-purple-300 transition-all hover:bg-purple-500/20"
               >
-                Aprender Programação
+                Fale conosco
               </Link>
             </div>
           </div>

@@ -1,41 +1,19 @@
-'use client';
-
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { getAllNews } from "@/lib/db";
 
-interface News {
+export const metadata = {
+  title: "Notícias",
+  description:
+    "Notícias, artigos, tutoriais e atualizações do Laboratório de IA.",
+};
+
+type NewsItem = {
   id: number;
   title: string;
   description: string;
-  link?: string;
-  content?: string;
-  image?: string;
-  date: string;
-  published: boolean;
-}
-
-function formatDate(dateString: string) {
-  if (!dateString) return "";
-
-  const isoMatch = dateString.match(/^(\d{4})-(\d{2})-(\d{2})/);
-
-  if (isoMatch) {
-    const [, year, month, day] = isoMatch;
-    return `${day}-${month}-${year}`;
-  }
-
-  const date = new Date(dateString);
-
-  if (Number.isNaN(date.getTime())) {
-    return dateString;
-  }
-
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-
-  return `${day}-${month}-${year}`;
-}
+  date?: string;
+};
 
 function criarSlug(texto: string) {
   return (
@@ -50,123 +28,134 @@ function criarSlug(texto: string) {
   );
 }
 
-export default function NoticiasPage() {
-  const [noticias, setNoticias] = useState<News[]>([]);
-  const [loading, setLoading] = useState(true);
+function formatDate(date?: string) {
+  if (!date) {
+    return "";
+  }
 
-  useEffect(() => {
-    const fetchNoticias = async () => {
-      try {
-        const response = await fetch("/api/news");
-        const data = await response.json();
-        setNoticias(data);
-      } catch (error) {
-        console.error("Erro ao carregar notícias:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  try {
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      timeZone: "America/Sao_Paulo",
+    }).format(new Date(date));
+  } catch {
+    return date;
+  }
+}
 
-    fetchNoticias();
-  }, []);
+export default async function NoticiasPage() {
+  const noticias = (await getAllNews()) as NewsItem[];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <section className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/30 py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition mb-6"
-          >
-            <span>←</span>
-            <span>Voltar</span>
-          </Link>
+    <div className="w-full">
+      <section className="relative overflow-hidden py-16 md:py-24 border-b border-white/10">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-blue-500/20 opacity-20 blur-3xl" />
+          <div className="absolute right-1/4 top-1/3 h-96 w-96 rounded-full bg-purple-500/20 opacity-20 blur-3xl" />
+        </div>
 
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-[1.15] pb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-            Notícias
-          </h1>
+        <Image
+          src="/images/logomarca-laboratorio-ia.png"
+          alt=""
+          width={240}
+          height={240}
+          className="pointer-events-none absolute right-6 top-8 hidden opacity-[0.08] blur-[0.2px] md:block"
+          priority
+        />
 
-          <p className="text-lg text-slate-400">
-            Fique atualizado com as últimas novidades sobre IA, programação e
-            tecnologia
-          </p>
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-6 flex justify-center">
+              <Image
+                src="/images/logomarca-laboratorio-ia.png"
+                alt="Logomarca do Laboratório de IA"
+                width={76}
+                height={76}
+                priority
+                className="h-[76px] w-[76px] rounded-2xl object-cover shadow-xl shadow-purple-500/25 ring-1 ring-purple-400/40"
+              />
+            </div>
+
+            <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
+              Notícias do{" "}
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
+                Laboratório
+              </span>
+            </h1>
+
+            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-400 md:text-xl">
+              Atualizações, tutoriais, experiências e conteúdos sobre
+              Inteligência Artificial, Programação, Aplicativos e Tecnologia.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        {loading ? (
-          <div className="text-center text-purple-400 text-xl">
-            Carregando notícias...
-          </div>
-        ) : noticias.length === 0 ? (
-          <div className="text-center text-slate-400 text-lg">
-            Nenhuma notícia disponível no momento.
-          </div>
-        ) : (
-          <div className="grid gap-2">
-            {noticias.map((noticia) => {
-              const hasInternalContent = Boolean(
-                noticia.content && noticia.content.trim().length > 0
-              );
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          {noticias.length === 0 ? (
+            <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-white/[0.03] p-8 text-center">
+              <div className="mb-4 text-4xl">📰</div>
+              <h2 className="mb-2 text-2xl font-bold text-white">
+                Nenhuma notícia publicada ainda
+              </h2>
+              <p className="text-slate-400">
+                Em breve teremos novidades publicadas por aqui.
+              </p>
+            </div>
+          ) : (
+            <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {noticias.map((item) => {
+                const slug = criarSlug(item.title);
 
-              const cardContent = (
-                <div className="bg-slate-800 border-2 border-purple-500 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300 h-full">
-                  <div className="flex flex-col md:flex-row">
-                    {noticia.image && (
-                      <div className="md:w-40 md:shrink-0">
-                        <img
-                          src={noticia.image}
-                          alt={noticia.title}
-                          className="w-full h-20 md:h-full object-cover"
-                        />
+                return (
+                  <Link
+                    key={item.id}
+                    href={`/noticias/${item.id}/${slug}`}
+                    className="group card-hover card-dev relative overflow-hidden"
+                  >
+                    <Image
+                      src="/images/logomarca-laboratorio-ia.png"
+                      alt=""
+                      width={90}
+                      height={90}
+                      className="pointer-events-none absolute -right-5 -top-5 opacity-[0.05]"
+                    />
+
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/20 text-2xl">
+                        📰
                       </div>
+                      <div className="text-xs font-medium uppercase tracking-[0.2em] text-blue-300">
+                        Notícias
+                      </div>
+                    </div>
+
+                    <h2 className="mb-3 text-xl font-bold text-white transition-colors group-hover:text-blue-300">
+                      {item.title}
+                    </h2>
+
+                    {item.date && (
+                      <p className="mb-3 text-xs text-slate-500">
+                        {formatDate(item.date)}
+                      </p>
                     )}
 
-                    <div className="px-3 py-1 flex flex-col justify-start w-full">
-                      <div className="mb-0">
-                        <span className="text-[12px] leading-none text-purple-400 font-semibold">
-                          📅 {formatDate(noticia.date)}
-                        </span>
-                      </div>
+                    <p className="text-sm leading-relaxed text-slate-400">
+                      {item.description}
+                    </p>
 
-                      <h2 className="text-lg font-bold text-purple-400 mb-0 leading-[1.05] line-clamp-1">
-                        {noticia.title}
-                      </h2>
-
-                      <p className="text-slate-300 text-[13px] leading-[1.05] line-clamp-2">
-                        {noticia.description}
-                      </p>
+                    <div className="mt-5 flex items-center text-sm font-medium text-blue-400 transition-transform group-hover:translate-x-1">
+                      Ler notícia <span className="ml-2">→</span>
                     </div>
-                  </div>
-                </div>
-              );
-
-              if (noticia.link && !hasInternalContent) {
-                return (
-                  <a
-                    key={noticia.id}
-                    href={noticia.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block cursor-pointer"
-                  >
-                    {cardContent}
-                  </a>
+                  </Link>
                 );
-              }
-
-              return (
-                <Link
-                  key={noticia.id}
-                  href={`/noticias/${noticia.id}/${criarSlug(noticia.title)}`}
-                  className="block cursor-pointer"
-                >
-                  {cardContent}
-                </Link>
-              );
-            })}
-          </div>
-        )}
+              })}
+            </div>
+          )}
+        </div>
       </section>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
@@ -69,6 +70,17 @@ export default function ContatoPage() {
 
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
+            <div className="mb-8 flex justify-center">
+              <Image
+                src="/images/logomarca-laboratorio-ia.png"
+                alt="Logomarca do Laboratório de IA"
+                width={150}
+                height={150}
+                priority
+                className="h-[150px] w-[150px] rounded-3xl object-cover shadow-2xl shadow-purple-500/30 ring-2 ring-purple-400/40"
+              />
+            </div>
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Entre em <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Contato</span>
             </h1>

@@ -1,0 +1,38 @@
+IMPLEMENTAÇÃO DA LOGOMARCA OFICIAL — LABORATÓRIO DE IA
+
+Copie as pastas "app" e "public" deste pacote para:
+
+D:\DEV\site
+
+Arquivos incluídos:
+- app/layout.tsx
+  Cabeçalho com logo pequena, favicon/metadados/Open Graph e Google Analytics preservado.
+- app/page.tsx
+  Home com logo grande e botão do grupo de WhatsApp.
+- app/contato/page.tsx
+  Contato com logo média no topo e grupo de WhatsApp nas informações de contato.
+- app/about/page.tsx
+  Página Sobre com logo média institucional.
+- app/noticias/page.tsx
+  Página Notícias com logo pequena no topo e marca d'água discreta.
+- app/icon.png
+  Ícone do navegador para Next.js.
+- app/apple-icon.png
+  Ícone para dispositivos Apple.
+- public/favicon.ico
+  Favicon clássico.
+- public/images/logomarca-laboratorio-ia.png
+  Logomarca oficial otimizada.
+- public/images/og-laboratorio-ia.png
+  Imagem Open Graph para WhatsApp/redes sociais.
+
+Depois rode:
+
+cd /d D:\DEV\site
+npm run build
+
+Se passar:
+
+git add .
+git commit -m "Implementar logomarca oficial no site"
+git push

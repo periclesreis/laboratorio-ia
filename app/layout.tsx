@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -14,23 +15,65 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://www.laboratoriodeapp.com";
+const logoUrl = "/images/logomarca-laboratorio-ia.png";
+const ogImageUrl = "/images/og-laboratorio-ia.png";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.laboratoriodeapp.com"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Laboratório de IA",
     template: "%s | Laboratório de IA",
   },
   description:
     "Aprenda Inteligência Artificial, Programação e Desenvolvimento de Aplicativos do zero.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
+  },
   openGraph: {
+    title: "Laboratório de IA",
+    description:
+      "Aprenda Inteligência Artificial, Programação e Desenvolvimento de Aplicativos do zero.",
+    url: siteUrl,
     siteName: "Laboratório de IA",
     type: "website",
     locale: "pt_BR",
+    images: [
+      {
+        url: ogImageUrl,
+        width: 1200,
+        height: 630,
+        alt: "Logomarca oficial do Laboratório de IA",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    title: "Laboratório de IA",
+    description:
+      "Aprenda Inteligência Artificial, Programação e Desenvolvimento de Aplicativos do zero.",
+    images: [ogImageUrl],
   },
 };
+
+function BrandMark({ size = "small" }: { size?: "small" | "footer" }) {
+  const dimension = size === "footer" ? 42 : 34;
+
+  return (
+    <Image
+      src={logoUrl}
+      alt="Logomarca do Laboratório de IA"
+      width={dimension}
+      height={dimension}
+      priority
+      className="rounded-xl object-cover shadow-lg shadow-purple-500/20 ring-1 ring-purple-400/30"
+    />
+  );
+}
 
 export default function RootLayout({
   children,
@@ -66,6 +109,7 @@ export default function RootLayout({
                 href="/"
                 className="flex items-center gap-2 font-bold text-2xl md:text-xl tracking-tight"
               >
+                <BrandMark />
                 <span className="text-purple-500">Início</span>
               </Link>
 
@@ -80,45 +124,27 @@ export default function RootLayout({
 
             {/* Menu desktop */}
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-              <Link
-                href="/ia"
-                className="hover:text-purple-400 transition-colors"
-              >
+              <Link href="/ia" className="hover:text-purple-400 transition-colors">
                 IA
               </Link>
 
-              <Link
-                href="/programacao"
-                className="hover:text-blue-400 transition-colors"
-              >
+              <Link href="/programacao" className="hover:text-blue-400 transition-colors">
                 Programação
               </Link>
 
-              <Link
-                href="/aplicativos"
-                className="hover:text-emerald-400 transition-colors"
-              >
+              <Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">
                 Aplicativos
               </Link>
 
-              <Link
-                href="/projetos-codigos"
-                className="hover:text-pink-400 transition-colors"
-              >
+              <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">
                 Projetos & Códigos
               </Link>
 
-              <Link
-                href="/comunidade"
-                className="hover:text-purple-400 transition-colors"
-              >
+              <Link href="/comunidade" className="hover:text-purple-400 transition-colors">
                 Comunidade
               </Link>
 
-              <Link
-                href="/noticias"
-                className="hover:text-white transition-colors"
-              >
+              <Link href="/noticias" className="hover:text-white transition-colors">
                 Notícias
               </Link>
 
@@ -152,59 +178,35 @@ export default function RootLayout({
               </summary>
 
               <nav className="mt-3 grid gap-2 rounded-lg bg-slate-900/95 p-3 shadow-xl shadow-black/40">
-                <Link
-                  href="/ia"
-                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
-                >
+                <Link href="/ia" className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10">
                   IA
                 </Link>
 
-                <Link
-                  href="/programacao"
-                  className="rounded-md px-4 py-3 text-blue-300 hover:bg-blue-500/10"
-                >
+                <Link href="/programacao" className="rounded-md px-4 py-3 text-blue-300 hover:bg-blue-500/10">
                   Programação
                 </Link>
 
-                <Link
-                  href="/aplicativos"
-                  className="rounded-md px-4 py-3 text-emerald-300 hover:bg-emerald-500/10"
-                >
+                <Link href="/aplicativos" className="rounded-md px-4 py-3 text-emerald-300 hover:bg-emerald-500/10">
                   Aplicativos
                 </Link>
 
-                <Link
-                  href="/projetos-codigos"
-                  className="rounded-md px-4 py-3 text-pink-300 hover:bg-pink-500/10"
-                >
+                <Link href="/projetos-codigos" className="rounded-md px-4 py-3 text-pink-300 hover:bg-pink-500/10">
                   Projetos & Códigos
                 </Link>
 
-                <Link
-                  href="/comunidade"
-                  className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10"
-                >
+                <Link href="/comunidade" className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10">
                   Comunidade
                 </Link>
 
-                <Link
-                  href="/noticias"
-                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
-                >
+                <Link href="/noticias" className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10">
                   Notícias
                 </Link>
 
-                <Link
-                  href="/about"
-                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
-                >
+                <Link href="/about" className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10">
                   Sobre
                 </Link>
 
-                <Link
-                  href="/contato"
-                  className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10"
-                >
+                <Link href="/contato" className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10">
                   Contato
                 </Link>
               </nav>
@@ -221,9 +223,10 @@ export default function RootLayout({
             <div className="col-span-1 md:col-span-2">
               <Link
                 href="/"
-                className="flex items-center gap-2 font-bold text-xl tracking-tight mb-4"
+                className="flex items-center gap-3 font-bold text-xl tracking-tight mb-4"
               >
-                <span className="text-purple-500">Início</span>
+                <BrandMark size="footer" />
+                <span className="text-purple-500">Laboratório de IA</span>
               </Link>
 
               <p className="text-slate-400 max-w-xs text-sm leading-relaxed">
@@ -237,55 +240,37 @@ export default function RootLayout({
 
               <ul className="space-y-2 text-sm text-slate-400">
                 <li>
-                  <Link
-                    href="/ia"
-                    className="hover:text-purple-400 transition-colors"
-                  >
+                  <Link href="/ia" className="hover:text-purple-400 transition-colors">
                     Inteligência Artificial
                   </Link>
                 </li>
 
                 <li>
-                  <Link
-                    href="/programacao"
-                    className="hover:text-blue-400 transition-colors"
-                  >
+                  <Link href="/programacao" className="hover:text-blue-400 transition-colors">
                     Programação
                   </Link>
                 </li>
 
                 <li>
-                  <Link
-                    href="/aplicativos"
-                    className="hover:text-emerald-400 transition-colors"
-                  >
+                  <Link href="/aplicativos" className="hover:text-emerald-400 transition-colors">
                     Aplicativos
                   </Link>
                 </li>
 
                 <li>
-                  <Link
-                    href="/projetos-codigos"
-                    className="hover:text-pink-400 transition-colors"
-                  >
+                  <Link href="/projetos-codigos" className="hover:text-pink-400 transition-colors">
                     Projetos & Códigos
                   </Link>
                 </li>
 
                 <li>
-                  <Link
-                    href="/comunidade"
-                    className="hover:text-purple-400 transition-colors"
-                  >
+                  <Link href="/comunidade" className="hover:text-purple-400 transition-colors">
                     Comunidade
                   </Link>
                 </li>
 
                 <li>
-                  <Link
-                    href="/noticias"
-                    className="hover:text-white transition-colors"
-                  >
+                  <Link href="/noticias" className="hover:text-white transition-colors">
                     Notícias
                   </Link>
                 </li>
@@ -297,28 +282,19 @@ export default function RootLayout({
 
               <ul className="space-y-2 text-sm text-slate-400">
                 <li>
-                  <Link
-                    href="/about"
-                    className="hover:text-white transition-colors"
-                  >
+                  <Link href="/about" className="hover:text-white transition-colors">
                     Sobre o Projeto
                   </Link>
                 </li>
 
                 <li>
-                  <Link
-                    href="/contato"
-                    className="hover:text-white transition-colors"
-                  >
+                  <Link href="/contato" className="hover:text-white transition-colors">
                     Contato
                   </Link>
                 </li>
 
                 <li>
-                  <Link
-                    href="/politicas/site"
-                    className="hover:text-white transition-colors"
-                  >
+                  <Link href="/politicas/site" className="hover:text-white transition-colors">
                     Política de Privacidade
                   </Link>
                 </li>

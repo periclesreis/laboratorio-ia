@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import MobileMenu from "./components/MobileMenu";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -102,7 +103,7 @@ export default function RootLayout({
 
         {/* Header Global */}
         <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur-md">
-          <div className="container mx-auto px-4 py-3 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div className="container relative mx-auto px-4 py-3 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             {/* Topo mobile e logo desktop */}
             <div className="flex items-center justify-between gap-3">
               <Link
@@ -113,13 +114,17 @@ export default function RootLayout({
                 <span className="text-purple-500">Início</span>
               </Link>
 
-              <Link
-                href="/admin/login"
-                className="md:hidden inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-bold"
-              >
-                <span>🔐</span>
-                <span>Área Logada</span>
-              </Link>
+              <div className="flex items-center gap-2 md:hidden">
+                <MobileMenu />
+
+                <Link
+                  href="/admin/login"
+                  className="inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-bold"
+                >
+                  <span>🔐</span>
+                  <span className="hidden min-[420px]:inline">Área Logada</span>
+                </Link>
+              </div>
             </div>
 
             {/* Menu desktop */}
@@ -171,46 +176,7 @@ export default function RootLayout({
               </Link>
             </div>
 
-            {/* Menu mobile */}
-            <details className="md:hidden group">
-              <summary className="flex cursor-pointer list-none items-center justify-center rounded-lg bg-purple-950/50 px-4 py-3 text-base font-bold text-purple-300 shadow-lg shadow-purple-500/10">
-                ☰ Menu
-              </summary>
 
-              <nav className="mt-3 grid gap-2 rounded-lg bg-slate-900/95 p-3 shadow-xl shadow-black/40">
-                <Link href="/ia" className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10">
-                  IA
-                </Link>
-
-                <Link href="/programacao" className="rounded-md px-4 py-3 text-blue-300 hover:bg-blue-500/10">
-                  Programação
-                </Link>
-
-                <Link href="/aplicativos" className="rounded-md px-4 py-3 text-emerald-300 hover:bg-emerald-500/10">
-                  Aplicativos
-                </Link>
-
-                <Link href="/projetos-codigos" className="rounded-md px-4 py-3 text-pink-300 hover:bg-pink-500/10">
-                  Projetos & Códigos
-                </Link>
-
-                <Link href="/comunidade" className="rounded-md px-4 py-3 text-purple-300 hover:bg-purple-500/10">
-                  Comunidade
-                </Link>
-
-                <Link href="/noticias" className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10">
-                  Notícias
-                </Link>
-
-                <Link href="/about" className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10">
-                  Sobre
-                </Link>
-
-                <Link href="/contato" className="rounded-md px-4 py-3 text-slate-200 hover:bg-white/10">
-                  Contato
-                </Link>
-              </nav>
-            </details>
           </div>
         </header>
 

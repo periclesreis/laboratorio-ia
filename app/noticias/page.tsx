@@ -106,7 +106,7 @@ export default async function NoticiasPage() {
               </p>
             </div>
           ) : (
-            <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mx-auto flex max-w-6xl flex-col gap-5">
               {noticias.map((item) => {
                 const slug = criarSlug(item.title);
 
@@ -114,17 +114,17 @@ export default async function NoticiasPage() {
                   <Link
                     key={item.id}
                     href={`/noticias/${item.id}/${slug}`}
-                    className="group card-hover card-dev relative overflow-hidden"
+                    className="group card-hover card-dev relative overflow-hidden md:flex md:items-center md:gap-6"
                   >
                     <Image
                       src="/images/logomarca-laboratorio-ia.png"
                       alt=""
-                      width={90}
-                      height={90}
+                      width={100}
+                      height={100}
                       className="pointer-events-none absolute -right-5 -top-5 opacity-[0.05]"
                     />
 
-                    <div className="mb-4 flex items-center gap-3">
+                    <div className="mb-4 flex items-center gap-3 md:mb-0 md:w-36 md:flex-shrink-0 md:flex-col md:items-start md:justify-center">
                       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/20 text-2xl">
                         📰
                       </div>
@@ -133,21 +133,23 @@ export default async function NoticiasPage() {
                       </div>
                     </div>
 
-                    <h2 className="mb-3 text-xl font-bold text-white transition-colors group-hover:text-blue-300">
-                      {item.title}
-                    </h2>
+                    <div className="relative z-10 min-w-0 flex-1">
+                      <h2 className="mb-2 text-xl font-bold text-white transition-colors group-hover:text-blue-300 md:text-2xl">
+                        {item.title}
+                      </h2>
 
-                    {item.date && (
-                      <p className="mb-3 text-xs text-slate-500">
-                        {formatDate(item.date)}
+                      {item.date && (
+                        <p className="mb-3 text-xs text-slate-500">
+                          {formatDate(item.date)}
+                        </p>
+                      )}
+
+                      <p className="line-clamp-4 text-sm leading-relaxed text-slate-400 md:text-base">
+                        {item.description}
                       </p>
-                    )}
+                    </div>
 
-                    <p className="text-sm leading-relaxed text-slate-400">
-                      {item.description}
-                    </p>
-
-                    <div className="mt-5 flex items-center text-sm font-medium text-blue-400 transition-transform group-hover:translate-x-1">
+                    <div className="relative z-10 mt-5 flex items-center text-sm font-medium text-blue-400 transition-transform group-hover:translate-x-1 md:mt-0 md:w-32 md:flex-shrink-0 md:justify-end">
                       Ler notícia <span className="ml-2">→</span>
                     </div>
                   </Link>

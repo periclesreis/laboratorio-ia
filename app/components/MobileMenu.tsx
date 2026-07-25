@@ -17,6 +17,10 @@ const mobileLinks = [
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
 
+  function closeMenu() {
+    setOpen(false);
+  }
+
   return (
     <div className="md:hidden">
       <button
@@ -24,9 +28,9 @@ export default function MobileMenu() {
         onClick={() => setOpen((current) => !current)}
         aria-expanded={open}
         aria-controls="mobile-menu"
-        className="inline-flex items-center justify-center rounded-lg bg-purple-950/50 px-4 py-2.5 text-sm font-bold text-purple-300 shadow-lg shadow-purple-500/10 transition-colors hover:bg-purple-900/60"
+        className="inline-flex min-w-[118px] items-center justify-center rounded-xl bg-purple-950/70 px-5 py-3 text-base font-bold text-purple-200 shadow-lg shadow-purple-500/10 ring-1 ring-purple-500/40 transition-colors hover:bg-purple-900/70"
       >
-        <span className="mr-2">{open ? "✕" : "☰"}</span>
+        <span className="mr-2 text-lg">{open ? "✕" : "☰"}</span>
         Menu
       </button>
 
@@ -39,12 +43,23 @@ export default function MobileMenu() {
             <Link
               key={item.href}
               href={item.href}
-              onClick={() => setOpen(false)}
+              onClick={closeMenu}
               className={`rounded-md px-4 py-3 font-medium transition-colors ${item.className}`}
             >
               {item.label}
             </Link>
           ))}
+
+          <div className="my-1 h-px bg-white/10" />
+
+          <Link
+            href="/admin/login"
+            onClick={closeMenu}
+            className="flex items-center justify-center gap-2 rounded-lg border border-purple-500/50 bg-purple-600/20 px-4 py-3 font-bold text-purple-300 transition-all hover:border-purple-500 hover:bg-purple-600/30 hover:text-purple-200"
+          >
+            <span>🔐</span>
+            <span>Área Logada</span>
+          </Link>
         </nav>
       )}
     </div>

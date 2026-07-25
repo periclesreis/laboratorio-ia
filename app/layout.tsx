@@ -114,16 +114,8 @@ export default function RootLayout({
                 <span className="text-purple-500">Início</span>
               </Link>
 
-              <div className="flex items-center gap-2 md:hidden">
+              <div className="ml-auto flex items-center justify-end md:hidden">
                 <MobileMenu />
-
-                <Link
-                  href="/admin/login"
-                  className="inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-purple-600/20 border border-purple-500/50 hover:border-purple-500 text-purple-400 hover:text-purple-300 transition-all text-sm font-bold"
-                >
-                  <span>🔐</span>
-                  <span className="hidden min-[420px]:inline">Área Logada</span>
-                </Link>
               </div>
             </div>
 

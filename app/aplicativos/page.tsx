@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -53,6 +53,15 @@ const aplicativos: Aplicativo[] = [
     politicaHref: "/politicas/controle-genealogico-aves",
     exclusaoHref: "/exclusao-de-conta/controle-genealogico-aves",
   },
+  {
+    slug: "antes-de-clicar",
+    nome: "Antes de Clicar",
+    descricao:
+      "Ajuda a avaliar mensagens, links, imagens e documentos antes de clicar, pagar, fornecer dados ou tomar decisões no ambiente digital.",
+    categoria: "ia",
+    iconSrc: "/icones/antes-de-clicar.png",
+    politicaHref: "/politicas/antes-de-clicar",
+  },
 ];
 
 const botaoCard =
@@ -64,12 +73,7 @@ const janelaMensagem =
 const botaoFecharMensagem =
   "absolute right-3 top-2 text-2xl font-black transition hover:text-white";
 
-// Coloque a versão compilada do projeto D:\DEV\aves-web em:
- // D:\DEV\site\public\controle-aves-web\
- // Assim, o arquivo final ficará em:
- // D:\DEV\site\public\controle-aves-web\index.html
 const CONTROLE_AVES_WEB_URL = "/controle-aves-web/index.html";
-
 const LINKS_NOTAS_PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.periclesreis.linksnotasdev";
 
@@ -82,21 +86,28 @@ export default function AplicativosPage() {
     useState<string | null>(null);
   const [controleAvesWebNoticeApp, setControleAvesWebNoticeApp] =
     useState<string | null>(null);
+  const [antesDeClicarMobileNoticeApp, setAntesDeClicarMobileNoticeApp] =
+    useState<string | null>(null);
+  const [antesDeClicarWindowsNoticeApp, setAntesDeClicarWindowsNoticeApp] =
+    useState<string | null>(null);
 
-  function abrirVersaoWeb() {
-    setWebNoticeApp(null);
-    setWindowsNoticeApp(null);
-    setLinksNotasWindowsNoticeApp(null);
-    setControleAvesWebNoticeApp(null);
-    router.push("/links-notas");
-  }
-
-  function abrirControleAvesWeb() {
-    setControleAvesWebNoticeApp(null);
+  function fecharAvisos() {
     setNoticeApp(null);
     setWebNoticeApp(null);
     setWindowsNoticeApp(null);
     setLinksNotasWindowsNoticeApp(null);
+    setControleAvesWebNoticeApp(null);
+    setAntesDeClicarMobileNoticeApp(null);
+    setAntesDeClicarWindowsNoticeApp(null);
+  }
+
+  function abrirVersaoWeb() {
+    fecharAvisos();
+    router.push("/links-notas");
+  }
+
+  function abrirControleAvesWeb() {
+    fecharAvisos();
     window.location.assign(CONTROLE_AVES_WEB_URL);
   }
 
@@ -125,8 +136,8 @@ export default function AplicativosPage() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-[720px] px-4 py-12">
-        <div className="grid justify-items-center gap-6 md:grid-cols-2">
+      <main className="mx-auto max-w-[1080px] px-4 py-12">
+        <div className="grid justify-items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
           {aplicativos.map((app) => (
             <div
               key={app.slug}
@@ -151,7 +162,18 @@ export default function AplicativosPage() {
               </p>
 
               <div className="mt-auto flex flex-col items-center gap-3 pt-4">
-                {app.slug === "links-uteis" ? (
+                {app.slug === "antes-de-clicar" ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      fecharAvisos();
+                      setAntesDeClicarMobileNoticeApp(app.slug);
+                    }}
+                    className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
+                  >
+                    📱 Versão Mobile (a publicar)
+                  </button>
+                ) : app.slug === "links-uteis" ? (
                   <a
                     href={LINKS_NOTAS_PLAY_STORE_URL}
                     target="_blank"
@@ -164,10 +186,7 @@ export default function AplicativosPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setWebNoticeApp(null);
-                      setWindowsNoticeApp(null);
-                      setLinksNotasWindowsNoticeApp(null);
-                      setControleAvesWebNoticeApp(null);
+                      fecharAvisos();
                       setNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-green-500 bg-green-600 text-white hover:bg-green-500`}
@@ -176,14 +195,90 @@ export default function AplicativosPage() {
                   </button>
                 )}
 
+                {app.slug === "antes-de-clicar" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      fecharAvisos();
+                      setAntesDeClicarWindowsNoticeApp(app.slug);
+                    }}
+                    className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
+                  >
+                    💻 Versão Windows (a publicar)
+                  </button>
+                )}
+
+                {antesDeClicarMobileNoticeApp === app.slug && (
+                  <div className={`${janelaMensagem} border-green-300 bg-slate-950/95 text-center text-slate-50 shadow-green-950/80`}>
+                    <button
+                      type="button"
+                      onClick={() => setAntesDeClicarMobileNoticeApp(null)}
+                      className={`${botaoFecharMensagem} text-green-200`}
+                      aria-label="Fechar aviso da versão mobile do Antes de Clicar"
+                    >
+                      ×
+                    </button>
+
+                    <h3 className="mb-4 pr-8 text-xl font-black text-green-100">
+                      Versão Mobile em preparação
+                    </h3>
+
+                    <p className="mx-auto mb-4 max-w-[520px] text-base leading-relaxed text-slate-100">
+                      O aplicativo <strong>Antes de Clicar</strong> está em fase de publicação para dispositivos móveis.
+                    </p>
+
+                    <p className="mx-auto mb-6 max-w-[520px] text-base leading-relaxed text-slate-100">
+                      Em breve você poderá usá-lo para avaliar mensagens, links, imagens e documentos antes de clicar, pagar ou fornecer dados.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => setAntesDeClicarMobileNoticeApp(null)}
+                      className="mx-auto inline-flex min-w-[180px] items-center justify-center rounded-lg bg-green-600 px-8 py-3 text-sm font-black text-white transition hover:bg-green-500"
+                    >
+                      OK
+                    </button>
+                  </div>
+                )}
+
+                {antesDeClicarWindowsNoticeApp === app.slug && (
+                  <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-center text-slate-50 shadow-sky-950/80`}>
+                    <button
+                      type="button"
+                      onClick={() => setAntesDeClicarWindowsNoticeApp(null)}
+                      className={`${botaoFecharMensagem} text-sky-200`}
+                      aria-label="Fechar aviso da versão Windows do Antes de Clicar"
+                    >
+                      ×
+                    </button>
+
+                    <h3 className="mb-4 pr-8 text-xl font-black text-sky-100">
+                      Versão Windows em preparação
+                    </h3>
+
+                    <p className="mx-auto mb-4 max-w-[520px] text-base leading-relaxed text-slate-100">
+                      A versão Windows do <strong>Antes de Clicar</strong> será disponibilizada futuramente.
+                    </p>
+
+                    <p className="mx-auto mb-6 max-w-[520px] text-base leading-relaxed text-slate-100">
+                      Quando publicada, ela aparecerá aqui com o botão de download correspondente.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => setAntesDeClicarWindowsNoticeApp(null)}
+                      className="mx-auto inline-flex min-w-[180px] items-center justify-center rounded-lg bg-sky-600 px-8 py-3 text-sm font-black text-white transition hover:bg-sky-500"
+                    >
+                      OK
+                    </button>
+                  </div>
+                )}
+
                 {app.slug === "cronometro-flutuante" && (
                   <button
                     type="button"
                     onClick={() => {
-                      setNoticeApp(null);
-                      setWebNoticeApp(null);
-                      setLinksNotasWindowsNoticeApp(null);
-                      setControleAvesWebNoticeApp(null);
+                      fecharAvisos();
                       setWindowsNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
@@ -196,10 +291,7 @@ export default function AplicativosPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setNoticeApp(null);
-                      setWindowsNoticeApp(null);
-                      setLinksNotasWindowsNoticeApp(null);
-                      setControleAvesWebNoticeApp(null);
+                      fecharAvisos();
                       setWebNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
@@ -212,10 +304,7 @@ export default function AplicativosPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setNoticeApp(null);
-                      setWebNoticeApp(null);
-                      setWindowsNoticeApp(null);
-                      setControleAvesWebNoticeApp(null);
+                      fecharAvisos();
                       setLinksNotasWindowsNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
@@ -228,10 +317,7 @@ export default function AplicativosPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setNoticeApp(null);
-                      setWebNoticeApp(null);
-                      setWindowsNoticeApp(null);
-                      setLinksNotasWindowsNoticeApp(null);
+                      fecharAvisos();
                       setControleAvesWebNoticeApp(app.slug);
                     }}
                     className={`${botaoCard} border-2 border-sky-500 bg-sky-600 text-white hover:bg-sky-500`}
@@ -242,246 +328,74 @@ export default function AplicativosPage() {
 
                 {controleAvesWebNoticeApp === app.slug && (
                   <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-center text-slate-50 shadow-sky-950/80`}>
-                    <button
-                      type="button"
-                      onClick={() => setControleAvesWebNoticeApp(null)}
-                      className={`${botaoFecharMensagem} text-sky-200`}
-                      aria-label="Fechar aviso da versão web do Controle Genealógico de Aves"
-                    >
-                      ×
-                    </button>
-
-                    <h3 className="mb-4 pr-8 text-xl font-black text-sky-100">
-                      Aviso importante da versão Web
-                    </h3>
-
-                    <p className="mx-auto mb-4 max-w-[520px] text-base leading-relaxed text-slate-100">
-                      Cadastros e alterações feitos na versão Web ficam salvos neste navegador e não aparecem automaticamente no aplicativo mobile.
-                    </p>
-
-                    <p className="mx-auto mb-6 max-w-[520px] text-base leading-relaxed text-slate-100">
-                      Para visualizar no mobile ou em outro dispositivo, envie ao Cadastro Nacional online ou gere/restaure um backup compatível em <strong>Configurações &gt; Backup dos dados locais</strong>.
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={abrirControleAvesWeb}
-                      className="mx-auto inline-flex min-w-[180px] items-center justify-center rounded-lg bg-sky-600 px-8 py-3 text-sm font-black text-white transition hover:bg-sky-500"
-                    >
-                      OK
-                    </button>
+                    <button type="button" onClick={() => setControleAvesWebNoticeApp(null)} className={`${botaoFecharMensagem} text-sky-200`} aria-label="Fechar aviso da versão web do Controle Genealógico de Aves">×</button>
+                    <h3 className="mb-4 pr-8 text-xl font-black text-sky-100">Aviso importante da versão Web</h3>
+                    <p className="mx-auto mb-4 max-w-[520px] text-base leading-relaxed text-slate-100">Cadastros e alterações feitos na versão Web ficam salvos neste navegador e não aparecem automaticamente no aplicativo mobile.</p>
+                    <p className="mx-auto mb-6 max-w-[520px] text-base leading-relaxed text-slate-100">Para visualizar no mobile ou em outro dispositivo, envie ao Cadastro Nacional online ou gere/restaure um backup compatível em <strong>Configurações &gt; Backup dos dados locais</strong>.</p>
+                    <button type="button" onClick={abrirControleAvesWeb} className="mx-auto inline-flex min-w-[180px] items-center justify-center rounded-lg bg-sky-600 px-8 py-3 text-sm font-black text-white transition hover:bg-sky-500">OK</button>
                   </div>
                 )}
 
                 {linksNotasWindowsNoticeApp === app.slug && (
                   <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-slate-50 shadow-sky-950/80`}>
-                    <button
-                      type="button"
-                      onClick={() => setLinksNotasWindowsNoticeApp(null)}
-                      className={`${botaoFecharMensagem} text-sky-200`}
-                      aria-label="Fechar aviso da versão Windows do Links & Notas"
-                    >
-                      ×
-                    </button>
-
-                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">
-                      Baixar versão Windows
-                    </h3>
-
-                    <p className="mb-4 leading-relaxed">
-                      Escolha a versão compatível com o seu computador:
-                    </p>
-
+                    <button type="button" onClick={() => setLinksNotasWindowsNoticeApp(null)} className={`${botaoFecharMensagem} text-sky-200`} aria-label="Fechar aviso da versão Windows do Links & Notas">×</button>
+                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">Baixar versão Windows</h3>
+                    <p className="mb-4 leading-relaxed">Escolha a versão compatível com o seu computador:</p>
                     <div className="mb-4 rounded-xl border border-yellow-400/70 bg-yellow-950/40 p-4 text-yellow-50">
-                      <h4 className="mb-2 text-sm font-black text-yellow-200">
-                        ⚠️ Aviso de instalação no Windows
-                      </h4>
-
-                      <p className="mb-3 leading-relaxed">
-                        Como o Links & Notas é um aplicativo novo e independente,
-                        o Windows pode exibir a mensagem <strong>“O Windows protegeu o computador”</strong>.
-                      </p>
-
+                      <h4 className="mb-2 text-sm font-black text-yellow-200">⚠️ Aviso de instalação no Windows</h4>
+                      <p className="mb-3 leading-relaxed">Como o Links & Notas é um aplicativo novo e independente, o Windows pode exibir a mensagem <strong>“O Windows protegeu o computador”</strong>.</p>
                       <p className="mb-2 font-bold">Para instalar:</p>
-
-                      <ol className="mb-3 list-decimal space-y-1 pl-5">
-                        <li>Clique em <strong>“Mais informações”</strong>.</li>
-                        <li>Clique em <strong>“Executar assim mesmo”</strong>.</li>
-                      </ol>
-
-                      <p className="text-sm leading-relaxed text-yellow-100/90">
-                        O aplicativo funciona localmente no computador. Faça backups periódicos dos seus dados.
-                      </p>
+                      <ol className="mb-3 list-decimal space-y-1 pl-5"><li>Clique em <strong>“Mais informações”</strong>.</li><li>Clique em <strong>“Executar assim mesmo”</strong>.</li></ol>
+                      <p className="text-sm leading-relaxed text-yellow-100/90">O aplicativo funciona localmente no computador. Faça backups periódicos dos seus dados.</p>
                     </div>
-
                     <div className="grid gap-3 sm:grid-cols-2">
-                      <a
-                        href="/downloads/Links-e-Notas-Setup-1.0.0-x64.exe"
-                        download
-                        className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500"
-                      >
-                        💻 Baixar versão 64 bits
-                      </a>
-
-                      <a
-                        href="/downloads/Links-e-Notas-Setup-1.0.0-ia32.exe"
-                        download
-                        className="inline-flex w-full items-center justify-center rounded-md border border-sky-400/70 bg-slate-900 px-3 py-2 text-sm font-bold text-sky-100 transition hover:bg-sky-950"
-                      >
-                        💻 Baixar versão 32 bits
-                      </a>
+                      <a href="/downloads/Links-e-Notas-Setup-1.0.0-x64.exe" download className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500">💻 Baixar versão 64 bits</a>
+                      <a href="/downloads/Links-e-Notas-Setup-1.0.0-ia32.exe" download className="inline-flex w-full items-center justify-center rounded-md border border-sky-400/70 bg-slate-900 px-3 py-2 text-sm font-bold text-sky-100 transition hover:bg-sky-950">💻 Baixar versão 32 bits</a>
                     </div>
-
-                    <p className="mt-4 text-xs leading-relaxed text-slate-400">
-                      Na maioria dos computadores atuais, a versão recomendada é a de 64 bits.
-                    </p>
+                    <p className="mt-4 text-xs leading-relaxed text-slate-400">Na maioria dos computadores atuais, a versão recomendada é a de 64 bits.</p>
                   </div>
                 )}
 
                 {noticeApp === app.slug && (
                   <div className={`${janelaMensagem} border-red-400 bg-red-950/95 text-red-50 shadow-red-950/80`}>
-                    <button
-                      type="button"
-                      onClick={() => setNoticeApp(null)}
-                      className={`${botaoFecharMensagem} text-red-200`}
-                      aria-label="Fechar aviso"
-                    >
-                      ×
-                    </button>
-
-                    <h3 className="mb-2 pr-8 text-base font-black text-red-100">
-                      Download na Play Store
-                    </h3>
-
-                    <p className="mb-4 pr-8 leading-relaxed">
-                      Por enquanto, este aplicativo está disponível apenas para
-                      testadores. Envie seu e-mail pelo formulário de contato e
-                      teremos o maior prazer em inscrever você no nosso seleto
-                      grupo de testadores.
-                    </p>
-
+                    <button type="button" onClick={() => setNoticeApp(null)} className={`${botaoFecharMensagem} text-red-200`} aria-label="Fechar aviso">×</button>
+                    <h3 className="mb-2 pr-8 text-base font-black text-red-100">Download na Play Store</h3>
+                    <p className="mb-4 pr-8 leading-relaxed">Por enquanto, este aplicativo está disponível apenas para testadores. Envie seu e-mail pelo formulário de contato e teremos o maior prazer em inscrever você no nosso seleto grupo de testadores.</p>
                     <div className="flex flex-col gap-3 sm:flex-row">
-                      <Link
-                        href="/contato"
-                        className="inline-flex flex-1 items-center justify-center rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-500"
-                      >
-                        Enviar e-mail
-                      </Link>
-
-                      <button
-                        type="button"
-                        onClick={() => setNoticeApp(null)}
-                        className="inline-flex flex-1 items-center justify-center rounded-lg border border-green-400/70 px-4 py-2 text-sm font-bold text-green-100 transition hover:bg-green-900/60"
-                      >
-                        OK, entendi
-                      </button>
+                      <Link href="/contato" className="inline-flex flex-1 items-center justify-center rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-500">Enviar e-mail</Link>
+                      <button type="button" onClick={() => setNoticeApp(null)} className="inline-flex flex-1 items-center justify-center rounded-lg border border-green-400/70 px-4 py-2 text-sm font-bold text-green-100 transition hover:bg-green-900/60">OK, entendi</button>
                     </div>
                   </div>
                 )}
 
                 {windowsNoticeApp === app.slug && (
                   <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-slate-50 shadow-sky-950/80`}>
-                    <button
-                      type="button"
-                      onClick={() => setWindowsNoticeApp(null)}
-                      className={`${botaoFecharMensagem} text-sky-200`}
-                      aria-label="Fechar aviso da versão Windows"
-                    >
-                      ×
-                    </button>
-
-                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">
-                      Baixar versão Windows
-                    </h3>
-
-                    <p className="mb-4 leading-relaxed">
-                      Escolha a versão compatível com o seu computador:
-                    </p>
-
+                    <button type="button" onClick={() => setWindowsNoticeApp(null)} className={`${botaoFecharMensagem} text-sky-200`} aria-label="Fechar aviso da versão Windows">×</button>
+                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">Baixar versão Windows</h3>
+                    <p className="mb-4 leading-relaxed">Escolha a versão compatível com o seu computador:</p>
                     <div className="mb-4 rounded-xl border border-yellow-400/70 bg-yellow-950/40 p-4 text-yellow-50">
-                      <h4 className="mb-2 text-sm font-black text-yellow-200">
-                        ⚠️ Aviso de instalação no Windows
-                      </h4>
-
-                      <p className="mb-3 leading-relaxed">
-                        Como o Cronômetro Flutuante é um aplicativo novo e independente,
-                        o Windows pode exibir a mensagem <strong>“O Windows protegeu o computador”</strong>.
-                      </p>
-
+                      <h4 className="mb-2 text-sm font-black text-yellow-200">⚠️ Aviso de instalação no Windows</h4>
+                      <p className="mb-3 leading-relaxed">Como o Cronômetro Flutuante é um aplicativo novo e independente, o Windows pode exibir a mensagem <strong>“O Windows protegeu o computador”</strong>.</p>
                       <p className="mb-2 font-bold">Para instalar:</p>
-
-                      <ol className="mb-3 list-decimal space-y-1 pl-5">
-                        <li>Clique em <strong>“Mais informações”</strong>.</li>
-                        <li>Clique em <strong>“Executar assim mesmo”</strong>.</li>
-                      </ol>
-
-                      <p className="text-sm leading-relaxed text-yellow-100/90">
-                        O aplicativo não coleta dados pessoais, não possui anúncios e funciona localmente no computador.
-                      </p>
+                      <ol className="mb-3 list-decimal space-y-1 pl-5"><li>Clique em <strong>“Mais informações”</strong>.</li><li>Clique em <strong>“Executar assim mesmo”</strong>.</li></ol>
+                      <p className="text-sm leading-relaxed text-yellow-100/90">O aplicativo não coleta dados pessoais, não possui anúncios e funciona localmente no computador.</p>
                     </div>
-
                     <div className="grid gap-3 sm:grid-cols-2">
-                      <a
-                        href="/downloads/Cronometro-Flutuante-Setup-x64.exe"
-                        download
-                        className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500"
-                      >
-                        💻 Baixar versão 64 bits
-                      </a>
-
-                      <a
-                        href="/downloads/Cronometro-Flutuante-Setup-x86.exe"
-                        download
-                        className="inline-flex w-full items-center justify-center rounded-md border border-sky-400/70 bg-slate-900 px-3 py-2 text-sm font-bold text-sky-100 transition hover:bg-sky-950"
-                      >
-                        💻 Baixar versão 32 bits
-                      </a>
+                      <a href="/downloads/Cronometro-Flutuante-Setup-x64.exe" download className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500">💻 Baixar versão 64 bits</a>
+                      <a href="/downloads/Cronometro-Flutuante-Setup-x86.exe" download className="inline-flex w-full items-center justify-center rounded-md border border-sky-400/70 bg-slate-900 px-3 py-2 text-sm font-bold text-sky-100 transition hover:bg-sky-950">💻 Baixar versão 32 bits</a>
                     </div>
-
-                    <p className="mt-4 text-xs leading-relaxed text-slate-400">
-                      Na maioria dos computadores atuais, a versão recomendada é a de 64 bits.
-                    </p>
+                    <p className="mt-4 text-xs leading-relaxed text-slate-400">Na maioria dos computadores atuais, a versão recomendada é a de 64 bits.</p>
                   </div>
                 )}
 
                 {webNoticeApp === app.slug && (
                   <div className={`${janelaMensagem} border-sky-300 bg-slate-950/95 text-slate-50 shadow-sky-950/80`}>
-                    <button
-                      type="button"
-                      onClick={() => setWebNoticeApp(null)}
-                      className={`${botaoFecharMensagem} text-sky-200`}
-                      aria-label="Fechar aviso da versão web"
-                    >
-                      ×
-                    </button>
-
-                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">
-                      Atenção sobre a Versão Web
-                    </h3>
-
-                    <p className="mb-3 leading-relaxed">
-                      Os dados salvos nesta versão ficam gravados localmente neste navegador e neste dispositivo.
-                      Eles não migram automaticamente para o aplicativo mobile.
-                    </p>
-
-                    <p className="mb-3 leading-relaxed">
-                      Para levar seus links, pastas e anotações para outro navegador, computador ou para a versão
-                      mobile, use a opção <strong>Backup</strong> dentro do aplicativo web e depois restaure o arquivo
-                      <strong> .lu</strong> no destino.
-                    </p>
-
-                    <p className="mb-4 leading-relaxed text-slate-300">
-                      Se você limpar os dados do navegador, trocar de aparelho ou usar uma aba anônima, os dados locais
-                      podem não estar disponíveis. Faça backup periodicamente.
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={abrirVersaoWeb}
-                      className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500"
-                    >
-                      OK, abrir Versão Web
-                    </button>
+                    <button type="button" onClick={() => setWebNoticeApp(null)} className={`${botaoFecharMensagem} text-sky-200`} aria-label="Fechar aviso da versão web">×</button>
+                    <h3 className="mb-2 pr-8 text-lg font-black text-sky-100">Atenção sobre a Versão Web</h3>
+                    <p className="mb-3 leading-relaxed">Os dados salvos nesta versão ficam gravados localmente neste navegador e neste dispositivo. Eles não migram automaticamente para o aplicativo mobile.</p>
+                    <p className="mb-3 leading-relaxed">Para levar seus links, pastas e anotações para outro navegador, computador ou para a versão mobile, use a opção <strong>Backup</strong> dentro do aplicativo web e depois restaure o arquivo <strong> .lu</strong> no destino.</p>
+                    <p className="mb-4 leading-relaxed text-slate-300">Se você limpar os dados do navegador, trocar de aparelho ou usar uma aba anônima, os dados locais podem não estar disponíveis. Faça backup periodicamente.</p>
+                    <button type="button" onClick={abrirVersaoWeb} className="inline-flex w-full items-center justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-500">OK, abrir Versão Web</button>
                   </div>
                 )}
 
